@@ -11,7 +11,8 @@ KusiKusi PHP has other related projects:
 
 #### Technical info
 KusiKusi PHP is based on [Lumen](https://lumen.laravel.com)
- ##### Requirements
+
+##### Requirements
  * [PHP 7+](https://www.php.net)
  * [MySQL 5.6](https://www.mysql.com/) or [MariaDB 10.0.5](https://mariadb.com/).
  * [Composer] https://getcomposer.org/download/
