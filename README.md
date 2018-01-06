@@ -46,10 +46,13 @@ Run the Artisan migrate command with seed:
 ```
 php artisan migrate --seed
 ```
-Create "personal access" and "password grant" clients which will be used to generate access tokens (you will find the corresponding records in the `oauth_clients` table):
+
+If you are debuging, you may need to reset the database **Warning! will erase all your data**:
 ```
-php artisan passport:install
+php artisan migrate:refresh --seed
 ```
+
+(The `--seed` parameter is used to populate the database with initial data.)
 
 
 ## Contributing
