@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Entity;
 use Illuminate\Http\Request;
 
 class EntityController extends Controller
@@ -14,7 +15,7 @@ class EntityController extends Controller
      */
     public function __construct()
     {
-        //
+        // parent::__construct();
     }
 
     /**
@@ -25,8 +26,36 @@ class EntityController extends Controller
      */
     public function index(Request $request)
     {
-        return [
-            ["_id"=>1]
-        ];
+        return Entity::all();
+    }
+
+    /**
+     * Display the specified entity.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public function show($id)
+    {
+        $entity = Entity::find($id);
+
+        if (!$entity instanceof Entity) {
+            return $this->sendNotFoundResponse("The entity with id {$id} doesn't exist");
+        }
+
+        return $entity;
+    }
+    /**
+     * Display entity's children.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public function children($id)
+    {
+        $children = Entity::where('parent', $id)
+            ->get();
+
+        return $children;
     }
 }
