@@ -3,7 +3,6 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entity;
-use Ramsey\Uuid\Uuid;
 
 class EntitiesTableSeeder extends Seeder
 {
@@ -14,33 +13,27 @@ class EntitiesTableSeeder extends Seeder
      */
     public function run()
     {
-        $home_id = Uuid::uuid4()->toString();
-        Entity::create([
-            '_id'   => $home_id,
+        $eHome = Entity::create([
             'model' => 'home',
             'created_by' => 'seeder',
             'updated_by' => 'seeder'
         ]);
-        $section_id = Uuid::uuid4()->toString();
-        Entity::create([
-            '_id'   => $section_id,
+
+        $eSection = Entity::create([
             'model' => 'section',
-            'parent' => $home_id,
-            'created_by' => 'seeder',
-            'updated_by' => 'seeder'
-        ]);
-        $page_id = Uuid::uuid4()->toString();
-        Entity::create([
-            '_id'   => $page_id,
-            'model' => 'section',
-            'parent' => $section_id,
+            'parent' => $eHome['_id'],
             'created_by' => 'seeder',
             'updated_by' => 'seeder'
         ]);
 
-        $media_id = Uuid::uuid4()->toString();
-        Entity::create([
-            '_id'   => $media_id,
+        $ePage = Entity::create([
+            'model' => 'section',
+            'parent' => $eSection['_id'],
+            'created_by' => 'seeder',
+            'updated_by' => 'seeder'
+        ]);
+
+        $eMedia = Entity::create([
             'model' => 'media',
             'created_by' => 'seeder',
             'updated_by' => 'seeder'

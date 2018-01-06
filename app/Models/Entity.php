@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class Entity extends Model
 {
@@ -40,4 +41,20 @@ class Entity extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    /**
+     * Events.
+     *
+     * @var bool
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function($model){
+            if (!isset($model['_id'])) {
+                $model['_id'] = Uuid::uuid4()->toString();
+            }
+        });
+    }
 }
