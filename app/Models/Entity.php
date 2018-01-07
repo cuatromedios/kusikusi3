@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use App\Models\Content;
 
 class Entity extends Model
 {
@@ -17,7 +18,7 @@ class Entity extends Model
     /**
      * The primary key
      */
-    protected $primaryKey = '_id';
+    protected $primaryKey = 'id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -43,6 +44,14 @@ class Entity extends Model
     public $timestamps = true;
 
     /**
+     * Get the contents of the Entity.
+     */
+    public function contents()
+    {
+        return $this->hasMany('App\Models\Content');
+    }
+
+    /**
      * Events.
      *
      * @var bool
@@ -51,10 +60,38 @@ class Entity extends Model
     {
         parent::boot();
 
-        self::creating(function($model){
-            if (!isset($model['_id'])) {
-                $model['_id'] = Uuid::uuid4()->toString();
+        self::creating(function($model) {
+
+            // Auto populate the _id field
+            if (!isset($model['id'])) {
+                $model['id'] = Uuid::uuid4()->toString();
             }
+
+            // Contents are sent to another table
+            if (isset($model['contents'])) {
+                $thisEntityContents = $model['contents'];
+                $defaultLang = '';
+                foreach ($thisEntityContents as $rowOrFieldKey => $rowOrFieldValue) {
+                    if (is_integer($rowOrFieldKey)) {
+                        // If is an array, then we assume fields come as in the content table
+                        Content::create([
+                            'entity_id'   =>  $model['id'],
+                            'field' =>  $rowOrFieldValue['field'],
+                            'lang'  =>  isset($rowOrFieldValue['lang']) ? $rowOrFieldValue['lang'] : $defaultLang ,
+                            'value' =>  $rowOrFieldValue['value']
+                        ]);
+                    } else {
+                        // If not, we are going to use the default language and the keys as field names
+                        Content::create([
+                            'entity_id'   =>  $model['id'],
+                            'field' =>  $rowOrFieldKey,
+                            'lang'  =>  $defaultLang,
+                            'value' =>  $rowOrFieldValue
+                        ]);
+                    }
+                };
+                unset($model['contents']);
+            };
         });
     }
 }

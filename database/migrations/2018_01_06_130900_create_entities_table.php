@@ -14,7 +14,7 @@ class CreateEntitiesTable extends Migration
     public function up()
     {
         Schema::create('entities', function (Blueprint $table) {
-            $table->string('_id', 36)->unique();
+            $table->string('id', 36)->unique();
             $table->string('parent', 36)->index()->default('');
             $table->string('model', 100)->index();
             $table->enum('active', ['active', 'inactive', 'draft', 'deleted'])->index()->default('active');

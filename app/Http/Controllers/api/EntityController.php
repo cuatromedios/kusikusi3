@@ -15,7 +15,7 @@ class EntityController extends Controller
      */
     public function __construct()
     {
-        parent::__construct();
+
     }
 
     /**
@@ -38,7 +38,8 @@ class EntityController extends Controller
     public function show($id)
     {
         $entity = Entity::find($id);
-
+        $contents = $entity->contents()->where('lang', 'es')->select('field', 'value')->get();
+        $entity['contents'] = $contents;
         if (!$entity instanceof Entity) {
             return $this->sendNotFoundResponse("The entity with id {$id} doesn't exist");
         }

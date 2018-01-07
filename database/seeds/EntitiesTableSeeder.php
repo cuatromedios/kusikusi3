@@ -16,19 +16,26 @@ class EntitiesTableSeeder extends Seeder
         $eHome = Entity::create([
             'model' => 'home',
             'created_by' => 'seeder',
-            'updated_by' => 'seeder'
+            'updated_by' => 'seeder',
+            'contents' => [
+                'title' => 'Website title',
+                'description' => 'The website description',
+                'url' => '/',
+                ['lang' => 'es', 'field' => 'summary', 'value' => 'El otro titulo'],
+                ['lang' => 'en', 'field' => 'summary', 'value' => 'The other title']
+            ]
         ]);
 
         $eSection = Entity::create([
             'model' => 'section',
-            'parent' => $eHome['_id'],
+            'parent' => $eHome['id'],
             'created_by' => 'seeder',
             'updated_by' => 'seeder'
         ]);
 
         $ePage = Entity::create([
             'model' => 'section',
-            'parent' => $eSection['_id'],
+            'parent' => $eSection['id'],
             'created_by' => 'seeder',
             'updated_by' => 'seeder'
         ]);
