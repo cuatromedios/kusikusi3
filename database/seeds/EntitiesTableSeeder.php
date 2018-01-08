@@ -35,10 +35,13 @@ class EntitiesTableSeeder extends Seeder
         ]);
 
         $ePage = Entity::create([
-            'model' => 'section',
+            'model' => 'page',
             'parent' => $eSection['id'],
             'created_by' => 'seeder',
-            'updated_by' => 'seeder'
+            'updated_by' => 'seeder',
+            'contents' => [
+                'title' => 'Page title'
+            ]
         ]);
 
         $eMedia = Entity::create([
@@ -60,5 +63,6 @@ class EntitiesTableSeeder extends Seeder
                 'size' => 0
                 ]
         ]);
+        $ePage->relations()->attach($eMedium['id'], ['kind' => 'medium']);
     }
 }

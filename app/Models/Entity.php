@@ -65,13 +65,24 @@ class Entity extends Model
     public function data()
     {
         $modelClass = ("App\\Models\\".(ucfirst($this['model'])));
-        if (count($modelClass::$dataFields) > 0) {
+        if ($modelClass && count($modelClass::$dataFields) > 0) {
             return $this->hasOne('App\\Models\\'.(ucfirst($this->model)));
         } else {
             return $this->hasOne('App\\Models\\Entity', 'id');
         }
     }
 
+    /**
+     * The roles that belong to the user.
+     */
+    public function relations()
+    {
+        return $this->belongsToMany('App\Models\Entity', 'relations', 'entity_caller_id', 'entity_called_id')
+            ->using('App\Models\Relation')
+            ->as('relations')
+            ->withPivot('kind', 'position', 'tags')
+            ->withTimestamps();
+    }
 
     /**
      * Events.
@@ -132,6 +143,18 @@ class Entity extends Model
                 }
                 $modelClass::create($dataToInsert);
                 unset($model['data']);
+            };
+        });
+
+        self::created(function($model) {
+            // Create the ancestors relations
+            if (isset($model['parent']) && $model['parent'] != '') {
+                $parentEntity = Entity::find($model['parent']);
+                $model->relations()->attach($parentEntity['id'], ['kind' => 'ancestor', 'position' => 1]);
+                $ancestors = ($parentEntity->relations()->where('kind', 'ancestor')->orderBy('position'))->get();
+                for ($a = 0; $a < count($ancestors); $a++) {
+                    $model->relations()->attach($ancestors[$a]['id'], ['kind' => 'ancestor', 'position' => ($a + 2)]);
+                }
             };
         });
     }

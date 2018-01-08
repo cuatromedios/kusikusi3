@@ -46,6 +46,7 @@ class EntityController extends Controller
             $entity->data = [];
         }
         $entity->contents;
+        $entity->relations;
         if (!$entity instanceof Entity) {
             return $this->sendNotFoundResponse("The entity with id {$id} doesn't exist");
         }
