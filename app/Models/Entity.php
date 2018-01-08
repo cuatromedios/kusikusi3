@@ -64,7 +64,7 @@ class Entity extends Model
      */
     public function data()
     {
-        $modelClass = ("App\\Models\\".(ucfirst($this['model'])));
+        $modelClass = ("App\\Models\\Data\\".(ucfirst($this['model'])));
         if ($modelClass && count($modelClass::$dataFields) > 0) {
             return $this->hasOne('App\\Models\\'.(ucfirst($this->model)));
         } else {
@@ -105,7 +105,7 @@ class Entity extends Model
                 $model['model'] = 'entity';
             }
 
-            $modelClass = ("App\\Models\\".(ucfirst($model['model'])));
+            $modelClass = ("App\\Models\\Data\\".(ucfirst($model['model'])));
 
             // Contents are sent to another table
             if (isset($model['contents'])) {

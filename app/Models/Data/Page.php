@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Data;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Home extends Model
+class Page extends Model
 {
     /**
      * The table associated with the model will be always Entity.

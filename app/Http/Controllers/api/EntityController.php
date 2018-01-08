@@ -39,7 +39,7 @@ class EntityController extends Controller
     {
         $entity = Entity::find($id);
         $model = $entity['model'];
-        $modelClass = ("App\\Models\\".(ucfirst($entity['model'])));
+        $modelClass = ("App\\Models\\Data\\".(ucfirst($entity['model'])));
         if (count($modelClass::$dataFields) > 0) {
             $entity->data;
         } else {
