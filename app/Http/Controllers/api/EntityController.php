@@ -38,8 +38,7 @@ class EntityController extends Controller
     public function show($id)
     {
         $entity = Entity::find($id);
-        $model = $entity['model'];
-        $modelClass = ("App\\Models\\Data\\".(ucfirst($entity['model'])));
+        $modelClass = Entity::getDataClass($entity['model']);
         if (count($modelClass::$dataFields) > 0) {
             $entity->data;
         } else {

@@ -64,9 +64,9 @@ class Entity extends Model
      */
     public function data()
     {
-        $modelClass = ("App\\Models\\Data\\".(ucfirst($this['model'])));
+        $modelClass = Entity::getDataClass($this['model']);
         if ($modelClass && count($modelClass::$dataFields) > 0) {
-            return $this->hasOne('App\\Models\\'.(ucfirst($this->model)));
+            return $this->hasOne($modelClass);
         } else {
             return $this->hasOne('App\\Models\\Entity', 'id');
         }
@@ -82,6 +82,18 @@ class Entity extends Model
             ->as('relations')
             ->withPivot('kind', 'position', 'tags')
             ->withTimestamps();
+    }
+
+    /*
+     *  Return a class from a string
+     */
+    public static function getDataClass($modelName) {
+        if ($modelName && $modelName != '') {
+            return ("App\\Models\\Data\\".(ucfirst($modelName)));
+        } else {
+            return NULL;
+        }
+
     }
 
     /**
@@ -105,7 +117,7 @@ class Entity extends Model
                 $model['model'] = 'entity';
             }
 
-            $modelClass = ("App\\Models\\Data\\".(ucfirst($model['model'])));
+            $modelClass =  Entity::getDataClass($model['model']);
 
             // Contents are sent to another table
             if (isset($model['contents'])) {
