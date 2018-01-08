@@ -52,7 +52,7 @@ If you are debuging, you may need to reset the database **Warning! will erase al
 php artisan migrate:refresh --seed
 ```
 
-(The `--seed` parameter is used to populate the database with initial data.)
+The `--seed` parameter is used to populate the database with initial data. You may need to use `composer dumpautoload` before if any migration files are added or changed.
 
 
 ## Contributing

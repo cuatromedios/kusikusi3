@@ -4,26 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Content extends Model
+class Medium extends Model
 {
     /**
-     * The table associated with the model.
+     * The table associated with the model will be always Entity.
      *
      * @var string
      */
-    protected $table = 'contents';
 
-    /**
-     * The primary key
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
+    public static $contentFields = ['title', 'description'];
+    public static $dataFields = ['format', 'size'];
 
     /**
      * Indicates  the model should be timestamped.
@@ -33,13 +23,12 @@ class Content extends Model
     public $timestamps = false;
 
     /**
-     * Get the Entity that owns the content.
+     * Get the Entity that owns the data.
      */
     public function entity()
     {
         return $this->belongsTo('App\Models\Entity');
     }
-
 
     /**
      * The attributes excluded from the model's JSON form.

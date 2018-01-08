@@ -38,8 +38,14 @@ class EntityController extends Controller
     public function show($id)
     {
         $entity = Entity::find($id);
-        $contents = $entity->contents()->where('lang', 'es')->select('field', 'value')->get();
-        $entity['contents'] = $contents;
+        $model = $entity['model'];
+        $modelClass = ("App\\Models\\".(ucfirst($entity['model'])));
+        if (count($modelClass::$dataFields) > 0) {
+            $entity->data;
+        } else {
+            $entity->data = [];
+        }
+        $entity->contents;
         if (!$entity instanceof Entity) {
             return $this->sendNotFoundResponse("The entity with id {$id} doesn't exist");
         }

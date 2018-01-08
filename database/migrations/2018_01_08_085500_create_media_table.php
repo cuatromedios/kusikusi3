@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContentsTable extends Migration
+class CreateMediaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contents', function (Blueprint $table) {
-            $table->char('entity_id', 36)->index();
-            $table->string('lang', 5)->index()->default('');
-            $table->string('field', 100)->index();
-            $table->mediumText('value', 100);
+        Schema::create('media', function (Blueprint $table) {
+            $table->char('entity_id', 36)->unique()->primary();
+            $table->string('format', 100)->index();
+            $table->bigInteger('size')->unsigned();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contents');
+        Schema::dropIfExists('media');
     }
 }

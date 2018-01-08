@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Ramsey\Uuid\Uuid;
 use App\Models\Content;
+use App\Models\Medium;
 
 class Entity extends Model
 {
+
+    public static $entityFields = ['id', 'parent', 'model', 'active', 'created_by', 'updated_by', 'publicated_at', 'unpublicated_at'];
+    public static $contentFields = [];
+    public static $dataFields = [];
+
     /**
      * The table associated with the model.
      *
@@ -48,8 +56,22 @@ class Entity extends Model
      */
     public function contents()
     {
-        return $this->hasMany('App\Models\Content');
+        return $this->hasMany('App\Models\Content', 'entity_id');
     }
+
+    /**
+     * Get the other models related.
+     */
+    public function data()
+    {
+        $modelClass = ("App\\Models\\".(ucfirst($this['model'])));
+        if (count($modelClass::$dataFields) > 0) {
+            return $this->hasOne('App\\Models\\'.(ucfirst($this->model)));
+        } else {
+            return $this->hasOne('App\\Models\\Entity', 'id');
+        }
+    }
+
 
     /**
      * Events.
@@ -66,6 +88,13 @@ class Entity extends Model
             if (!isset($model['id'])) {
                 $model['id'] = Uuid::uuid4()->toString();
             }
+
+            // Auto populate the model field
+            if (!isset($model['model'])) {
+                $model['model'] = 'entity';
+            }
+
+            $modelClass = ("App\\Models\\".(ucfirst($model['model'])));
 
             // Contents are sent to another table
             if (isset($model['contents'])) {
@@ -91,6 +120,18 @@ class Entity extends Model
                     }
                 };
                 unset($model['contents']);
+            };
+
+            // Data are sent to specific table
+            if (isset($model['data'])) {
+                $dataToInsert = ['entity_id' => $model['id']];
+                foreach ($modelClass::$dataFields as $field) {
+                    if (isset($model['data'][$field])) {
+                        $dataToInsert[$field] = $model['data'][$field];
+                    }
+                }
+                $modelClass::create($dataToInsert);
+                unset($model['data']);
             };
         });
     }

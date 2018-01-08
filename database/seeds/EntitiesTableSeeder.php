@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entity;
+use App\Models\Medium;
 
 class EntitiesTableSeeder extends Seeder
 {
@@ -44,6 +45,20 @@ class EntitiesTableSeeder extends Seeder
             'model' => 'media',
             'created_by' => 'seeder',
             'updated_by' => 'seeder'
+        ]);
+
+        $eMedium = Entity::create([
+            'model' => 'medium',
+            'parent' => $eMedia['id'],
+            'created_by' => 'seeder',
+            'updated_by' => 'seeder',
+            'contents' => [
+                'title' => 'Medium title'
+            ],
+            'data' => [
+                'format' => 'jpg',
+                'size' => 0
+                ]
         ]);
     }
 }
