@@ -24,7 +24,7 @@ class EntityController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function find(Request $request)
     {
         return Entity::all();
     }
@@ -35,7 +35,7 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function show(Request $request, $id, $lang = NULL)
+    public function findOne($id, $lang = NULL, Request $request)
     {
         if (!isset($lang)) {
             $lang = $request->input('lang', 'raw');
