@@ -35,8 +35,11 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function show($id)
+    public function show(Request $request, $id, $lang = NULL)
     {
+        if (!isset($lang)) {
+            $lang = $request->input('lang', 'raw');
+        }
         $entity = Entity::find($id);
         $modelClass = Entity::getDataClass($entity['model']);
         if (count($modelClass::$dataFields) > 0) {
@@ -44,7 +47,21 @@ class EntityController extends Controller
         } else {
             $entity->data = [];
         }
-        $entity->contents;
+        if ($lang === 'raw') {
+            $entity->contents;
+        } else if ($lang === 'grouped') {
+            $contents = [];
+            foreach ($entity->contents()->get() as $content) {
+                $contents[$content['lang']][$content['field']] = $content['value'];
+            }
+            $entity['contents'] = $contents;
+        } else {
+            $contents = [];
+            foreach ($entity->contents()->where('lang', $lang)->get() as $content) {
+                $contents[$content['field']] = $content['value'];
+            }
+            $entity['contents'] = $contents;
+        }
         $entity->relations;
         if (!$entity instanceof Entity) {
             return $this->sendNotFoundResponse("The entity with id {$id} doesn't exist");
