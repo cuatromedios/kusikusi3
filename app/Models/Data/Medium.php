@@ -35,8 +35,6 @@ class Medium extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'entity_id',
-    ];
+    protected $hidden = [];
 
 }

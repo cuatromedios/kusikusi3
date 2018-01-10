@@ -71,6 +71,24 @@ class Entity extends Model
             return $this->hasOne('App\\Models\\Entity', 'id');
         }
     }
+    /*
+     *  Return a class from a string
+     */
+    public static function getDataClass($modelName) {
+        if ($modelName && $modelName != '') {
+            return ("App\\Models\\Data\\".(ucfirst($modelName)));
+        } else {
+            return NULL;
+        }
+    }
+
+    /*
+     *  Return TRUE if the model has dataField
+     */
+    public static function hasDataFields($modelName) {
+        $modelClass = Entity::getDataClass($modelName);
+        return ($modelClass && count($modelClass::$dataFields) > 0);
+    }
 
     /**
      * The roles that belong to the user.
@@ -84,17 +102,6 @@ class Entity extends Model
             ->withTimestamps();
     }
 
-    /*
-     *  Return a class from a string
-     */
-    public static function getDataClass($modelName) {
-        if ($modelName && $modelName != '') {
-            return ("App\\Models\\Data\\".(ucfirst($modelName)));
-        } else {
-            return NULL;
-        }
-
-    }
 
     /**
      * Events.
