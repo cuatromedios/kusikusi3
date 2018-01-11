@@ -32,12 +32,15 @@ class EntityController extends Controller
         $fields = isset($fields) ? $fields : $request->input('fields', NULL);
         global $lang;
         $lang = isset($lang) ? $lang : $request->input('lang', Config::get('general.langs')[0]);
+
+        // Join tables based on requested files, both for contents and data models.
         if (isset($fields)) {
             // TODO: Check if the requested fields are valid for the model
             $fieldsForSelect = [];
             $fieldsArray = explode(',', $fields);
             global $contentIndex;
             $contentIndex = 0;
+            $alreadyJoinedDataTables = [];
             foreach ($fieldsArray as $field) {
                 global $fieldParts;
                 $fieldParts = explode('.', $field);
@@ -50,16 +53,31 @@ class EntityController extends Controller
                             case 'entity':
                             case 'entities':
                             case 'e':
+                                // Entity fields doesn't need to be joined, just the fiels to be selected
                                 $fieldsForSelect[] = 'entities.'.$fieldParts[1];
+                                break;
+                            case 'relations':
+                            case 'relation':
+                            case 'r':
+                                // Entity fields doesn't need to be joined, just the fiels to be selected
+                                $fieldsForSelect[] = 'ar.tags';
                                 break;
                             case 'content':
                             case 'contents':
                             case 'c':
+                                // Join contents table for every content field requested
                                 $fieldsForSelect[] = 'c'.$contentIndex.'.value as contents.'.$fieldParts[1];
                                 $query->leftJoin('contents as c'.$contentIndex, function ($join) { global $contentIndex, $fieldParts, $lang; $join->on('c'.$contentIndex.'.entity_id', '=', 'entities.id')->where('c'.$contentIndex.'.lang', '=', $lang)->where('c'.$contentIndex.'.field', '=', $fieldParts[1]);});
                                 $contentIndex++;
                                 break;
                             default:
+                                // Join data model
+                                //TODO: Restrict to data models and fields
+                                $fieldsForSelect[] = $fieldParts[0].'.'.$fieldParts[1].' as data.'.$fieldParts[1];
+                                if (!isset($alreadyJoinedDataTables[$fieldParts[0]])) {
+                                    $query->leftJoin($fieldParts[0], $fieldParts[0].'.entity_id', '=', 'entities.id');
+                                    $alreadyJoinedDataTables[$fieldParts[0]] = TRUE;
+                                }
                                 break;
                         }
                         break;
@@ -71,17 +89,15 @@ class EntityController extends Controller
                 $query->select($fieldsForSelect);
             }
         }
-
-            /* ->select(['c1.value as contents.title', 'c1.value as contents.summary', 'entities.id', 'media.format as data.format', 'media.size as data.size'])
-            ->leftJoin('media', 'media.entity_id', '=', 'entities.id')
-            ->leftJoin('contents as c1', function ($join) {$join->on('c1.entity_id', '=', 'entities.id')->where('c1.lang', '=', 'en')->where('c1.field', '=', 'title');})
-            ->leftJoin('contents as c2', function ($join) {$join->on('c2.entity_id', '=', 'entities.id')->where('c2.lang', '=', 'en')->where('c2.field', '=', 'summary');}) */
+        // print($query->toSql());
         $collection = $query->get();
         $exploded_collection = [];
         foreach ($collection as $entity) {
             $exploded_entity = [];
             foreach ($entity as $field => $value) {
-                if ($value !== null) {
+                if ($field === 'tags') {
+                    $exploded_entity['tags'] = explode(',', $value);
+                } else if ($value !== null) {
                     array_set($exploded_entity, $field, $value);
                 }
             }
@@ -96,11 +112,9 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function findOne($id, $lang = NULL, Request $request)
+    public function findOne($id, $fields = NULL, $lang = NULL, Request $request)
     {
-        if (!isset($lang)) {
-            $lang = $request->input('lang', 'raw');
-        }
+        $lang = isset($lang) ? $lang : $request->input('lang', Config::get('general.langs')[0]);
         $entity = Entity::find($id);
         $modelClass = Entity::getDataClass($entity['model']);
         if (count($modelClass::$dataFields) > 0) {
@@ -136,7 +150,7 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function all(Request $request)
+    public function all($fields = NULL, $lang = NULL, Request $request)
     {
         $query = DB::table('entities')->where('deleted_at', NULL);
         $model = isset($model) ? $model : $request->input('model', NULL);
@@ -153,11 +167,19 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function children($id, Request $request)
+    public function children($id, $fields = NULL, $lang = NULL, Request $request)
     {
-        $query =  DB::table('entities')->where('parent', $id)
-        ->where('deleted_at', NULL);
-
+        global $parentId;
+        $parentId = $id;
+        $query =  DB::table('entities')
+            ->join('relations as ar', function ($join) {
+                global $parentId;
+                $join->on('ar.entity_caller_id', '=', 'entities.id')
+                    ->where('ar.entity_called_id', '=', $parentId)
+                    ->where('ar.kind', '=', 'ancestor')
+                    ->where('ar.position', '=', 1);
+            })
+            ->where('deleted_at', NULL);
         return $this->find($query, NULL, NULL, $request);
     }
 
@@ -167,10 +189,10 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function parent($id, $lang = NULL, Request $request)
+    public function parent($id, $fields = NULL, $lang = NULL, Request $request)
     {
         $entity = Entity::find($id);
-        $parent = $this->findOne($entity->parent, $lang, $request);
+        $parent = $this->findOne($entity->parent, $fields = NULL, $lang, $request);
 
         return $parent;
     }
