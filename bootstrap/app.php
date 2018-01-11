@@ -8,6 +8,7 @@ try {
     //
 }
 
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -99,5 +100,7 @@ $app->router->group(['namespace' => 'App\Http\Controllers\api'], function ($rout
 $app->router->group(['namespace' => 'App\Http\Controllers\web'], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+$app->configure('general');
 
 return $app;
