@@ -30,7 +30,6 @@ class EntityController extends Controller
     {
         // TODO: look for a more efficient way to make this, We cannot make a 'with' to get the related data because every row may be a different model. Is there a way to make this Eloquent way?
         $fields = isset($fields) ? $fields : $request->input('fields', NULL);
-        global $lang;
         $lang = isset($lang) ? $lang : $request->input('lang', Config::get('general.langs')[0]);
 
         // Join tables based on requested files, both for contents and data models.
@@ -38,11 +37,9 @@ class EntityController extends Controller
             // TODO: Check if the requested fields are valid for the model
             $fieldsForSelect = [];
             $fieldsArray = explode(',', $fields);
-            global $contentIndex;
             $contentIndex = 0;
             $alreadyJoinedDataTables = [];
             foreach ($fieldsArray as $field) {
-                global $fieldParts;
                 $fieldParts = explode('.', $field);
                 switch (count($fieldParts)) {
                     case 1:
@@ -67,7 +64,7 @@ class EntityController extends Controller
                             case 'c':
                                 // Join contents table for every content field requested
                                 $fieldsForSelect[] = 'c'.$contentIndex.'.value as contents.'.$fieldParts[1];
-                                $query->leftJoin('contents as c'.$contentIndex, function ($join) { global $contentIndex, $fieldParts, $lang; $join->on('c'.$contentIndex.'.entity_id', '=', 'entities.id')->where('c'.$contentIndex.'.lang', '=', $lang)->where('c'.$contentIndex.'.field', '=', $fieldParts[1]);});
+                                $query->leftJoin('contents as c'.$contentIndex, function ($join) use ($contentIndex, $fieldParts, $lang) { $join->on('c'.$contentIndex.'.entity_id', '=', 'entities.id')->where('c'.$contentIndex.'.lang', '=', $lang)->where('c'.$contentIndex.'.field', '=', $fieldParts[1]);});
                                 $contentIndex++;
                                 break;
                             default:
@@ -167,16 +164,33 @@ class EntityController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
      */
-    public function children($id, $fields = NULL, $lang = NULL, Request $request)
+    public function relations($id, $fields = NULL, $lang = NULL, Request $request)
     {
-        global $parentId;
-        $parentId = $id;
         $query =  DB::table('entities')
-            ->join('relations as ar', function ($join) {
-                global $parentId;
+            ->join('relations as ar', function ($join) use ($id) {
                 $join->on('ar.entity_caller_id', '=', 'entities.id')
-                    ->where('ar.entity_called_id', '=', $parentId)
+                    ->where('ar.entity_called_id', '=', $id)
                     ->where('ar.kind', '=', 'ancestor')
+                    ->where('ar.position', '=', 1);
+            })
+            ->where('deleted_at', NULL);
+        return $this->find($query, NULL, NULL, $request);
+    }
+
+    /**
+     * Display entity's children.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public function children($id, $fields = NULL, $lang = NULL, $tags = NULL, Request $request)
+    {
+        $query =  DB::table('entities')
+            ->join('relations as ar', function ($join) use ($id) {
+                $join->on('ar.entity_caller_id', '=', 'entities.id')
+                    ->where('ar.entity_called_id', '=', $id)
+                    ->where('ar.kind', '=', 'ancestor')
+                    ->whereRaw('FIND_IN_SET("a",ar.tags)')
                     ->where('ar.position', '=', 1);
             })
             ->where('deleted_at', NULL);
