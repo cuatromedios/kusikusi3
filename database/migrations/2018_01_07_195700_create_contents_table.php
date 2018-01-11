@@ -18,6 +18,7 @@ class CreateContentsTable extends Migration
             $table->string('lang', 5)->index()->default('');
             $table->string('field', 100)->index();
             $table->mediumText('value', 100);
+            $table->primary(['entity_id', 'lang', 'field']);
         });
     }
 

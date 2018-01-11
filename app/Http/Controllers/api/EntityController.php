@@ -190,7 +190,7 @@ class EntityController extends Controller
                 $join->on('ar.entity_caller_id', '=', 'entities.id')
                     ->where('ar.entity_called_id', '=', $id)
                     ->where('ar.kind', '=', 'ancestor')
-                    ->whereRaw('FIND_IN_SET("a",ar.tags)')
+                    // ->whereRaw('FIND_IN_SET("a",ar.tags)')
                     ->where('ar.position', '=', 1);
             })
             ->where('deleted_at', NULL);
