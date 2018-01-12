@@ -11,4 +11,5 @@ $router->group(['prefix' => 'entity'], function () use ($router) {
     $router->get('/{id}',           ['uses' => 'EntityController@getOne']);
     $router->get('/{id}/parent',    ['uses' => 'EntityController@getParent']);
     $router->get('/{id}/children',  ['uses' => 'EntityController@getChildren']);
+    $router->get('/{id}/ancestors', ['uses' => 'EntityController@getAncestors']);
 });

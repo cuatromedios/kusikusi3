@@ -90,6 +90,23 @@ class EntityController extends Controller
     }
 
     /**
+     * Display entity's ancestors.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public function getAncestors($id, Request $request)
+    {
+        $fields = $request->input('fields', []);
+        $lang = $request->input('lang', Config::get('general.langs')[0]);
+
+        $collection = Entity::getAncestors($id, $fields, $lang);
+
+        return $collection;
+
+    }
+
+    /**
      * Display entity's children.
      *
      * @param $id

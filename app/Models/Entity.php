@@ -146,7 +146,7 @@ class Entity extends Model
         $modelClass = Entity::getDataClass($entity['model']);
 
         // DATA Fields
-        if (count($groupedFields['data']) > 0) {
+        if (count($groupedFields['data']) > 0 && count($modelClass::$dataFields) > 0) {
             $entity->data;
             // TODO: This is not the correct way to restrict the fields on the Data model, we are removing them if not needed, but should be better to never call them
             if (array_search('*', $groupedFields['data']) === FALSE) {
@@ -259,7 +259,14 @@ class Entity extends Model
                             case 'relation':
                             case 'r':
                                 // Entity fields doesn't need to be joined, just the fiels to be selected
-                                $fieldsForSelect[] = 'ar.'.$groupField.' as relation.'.$groupField;
+                                if ($groupField === '*') {
+                                    $relationFields = ['kind', 'position', 'tags'];
+                                    foreach ($relationFields as $relationField) {
+                                        $fieldsForSelect[] = 'ar.'.$relationField.' as relation.'.$relationField;
+                                    }
+                                } else {
+                                    $fieldsForSelect[] = 'ar.'.$groupField.' as relation.'.$groupField;
+                                }
                                 break;
                             case 'content':
                             case 'contents':
@@ -280,6 +287,8 @@ class Entity extends Model
                                 break;
                             default:
                                 // Join a data model
+                                // TODO: Do not try to join a data model that doesn't exist
+                                if ($groupName === 'd') {$groupName = 'data';}
                                 $modelClass =  Entity::getDataClass(str_singular($groupName));
                                 if ($groupName === 'data') {
                                     if ($groupField === '*') {
@@ -360,6 +369,25 @@ class Entity extends Model
                     ->where('ar.kind', '=', 'ancestor')
                     // ->whereRaw('FIND_IN_SET("a",ar.tags)')
                     ->where('ar.position', '=', 1);
+            });
+        return Entity::get($query, $fields, $lang);
+    }
+
+    /**
+     * Get a list of children.
+     *
+     * @param string $id The id of the entity whose parent need to be returned
+     * @param array $fields An array of strings representing a field like entities.model, contents.title or media.format
+     * @param string $lang The name of the language for content fields or null. If null, default language will be taken.
+     * @return Collection
+     */
+    public static function getAncestors($id, $fields = [],  $lang = NULL)
+    {
+        $query =  DB::table('entities')
+            ->join('relations as ar', function ($join) use ($id) {
+                $join->on('ar.entity_called_id', '=', 'entities.id')
+                    ->where('ar.entity_caller_id', '=', $id)
+                    ->where('ar.kind', '=', 'ancestor');
             });
         return Entity::get($query, $fields, $lang);
     }
