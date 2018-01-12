@@ -101,28 +101,98 @@ class Entity extends Model
     public static function getOne($id, $fields = [], $lang = NULL)
     {
         $lang = isset($lang) ? $lang : Config::get('general.langs')[0];
-        $entity = Entity::find($id);
+        if (count($fields) === 0) {
+            $fields = ['entities.*', 'data.*', 'contents.*'];
+        }
+        $fieldsArray = is_array($fields) ? $fields : explode(',', $fields);
+        $groupedFields = ['entities' => [], 'contents' => [], 'data' => []];
+        foreach ($fieldsArray as $field) {
+            $fieldParts = explode('.', $field);
+            $groupName = trim($fieldParts[0]);
+            $groupField = trim($fieldParts[1]);
+            switch ($groupName) {
+                case 'entity':
+                case 'entities':
+                case 'e':
+                    $groupedFields['entities'][] = $groupField;
+                    break;
+                case 'contents':
+                case 'content':
+                case 'c':
+                    $groupedFields['contents'][] = $groupField;
+                    break;
+                default:
+                    $groupedFields['data'][] = $groupField;
+                    break;
+            }
+        }
+
+        // Temporary add model and id field if not requested because they are needed, but removed at the final of the function
+        if (array_search('model', $groupedFields['entities']) === FALSE && array_search('*', $groupedFields['entities']) === FALSE) {
+            $removeModelField = TRUE;
+            $groupedFields['entities'][] = 'model';
+        } else {
+            $removeModelField = FALSE;
+        }
+        if (array_search('id', $groupedFields['entities']) === FALSE && array_search('*', $groupedFields['entities']) === FALSE) {
+            $removeIdField = TRUE;
+            $groupedFields['entities'][] = 'id';
+        } else {
+            $removeIdField = FALSE;
+        }
+
+        // ENTITY Fields
+        $entity = Entity::where('id',$id)->select($groupedFields['entities'])->firstOrFail();
         $modelClass = Entity::getDataClass($entity['model']);
-        if (count($modelClass::$dataFields) > 0) {
+
+        // DATA Fields
+        if (count($groupedFields['data']) > 0) {
             $entity->data;
-        } else {
-            $entity->data = [];
+            // TODO: This is not the correct way to restrict the fields on the Data model, we are removing them if not needed, but should be better to never call them
+            if (array_search('*', $groupedFields['data']) === FALSE) {
+                foreach ($entity->data->attributes as $dataFieldName => $dataFieldValue) {
+                    if (array_search($dataFieldName, $groupedFields['data']) === FALSE) {
+                        unset($entity->data[$dataFieldName]);
+                    }
+                }
+            }
         }
-        if ($lang === 'raw') {
-            $entity->contents;
-        } else if ($lang === 'grouped') {
+
+        // CONTENT Fields
+        if (count($groupedFields['contents']) > 0) {
+            $contentsQuery = $entity->contents();
+            if (array_search('*', $groupedFields['contents']) === FALSE) {
+                $contentsQuery->whereIn('field', $groupedFields['contents']);
+            }
+            if ($lang !== 'raw' && $lang !== 'grouped') {
+                $contentsQuery->where('lang', $lang);
+            }
+            $contentsList = $contentsQuery->get();
             $contents = [];
-            foreach ($entity->contents()->get() as $content) {
-                $contents[$content['lang']][$content['field']] = $content['value'];
+            if ($lang === 'raw') {
+                $contents = $contentsList;
+            } else if ($lang === 'grouped') {
+                foreach ($contentsList as $content) {
+                    $contents[$content['lang']][$content['field']] = $content['value'];
+                }
+                $entity['contents'] = $contentsList;
+            } else {
+                foreach ($contentsList as $content) {
+                    $contents[$content['field']] = $content['value'];
+                }
             }
             $entity['contents'] = $contents;
-        } else {
-            $contents = [];
-            foreach ($entity->contents()->where('lang', $lang)->get() as $content) {
-                $contents[$content['field']] = $content['value'];
-            }
-            $entity['contents'] = $contents;
         }
+
+
+        if ($removeModelField) {
+            array_forget($entity, 'model');
+        }
+        if ($removeIdField) {
+            array_forget($entity, 'id');
+        }
+
+
 
         return $entity;
     }
@@ -171,8 +241,8 @@ class Entity extends Model
             $alreadyJoinedDataTables = [];
             foreach ($fieldsArray as $field) {
                 $fieldParts = explode('.', $field);
-                $groupName = $fieldParts[0];
-                $groupField = $fieldParts[1];
+                $groupName = trim($fieldParts[0]);
+                $groupField = trim($fieldParts[1]);
                 switch (count($fieldParts)) {
                     case 1:
                         $fieldsForSelect[] = $field;
@@ -257,7 +327,6 @@ class Entity extends Model
         } else {
             $query->select('entities.*');
         }
-        // print($query->toSql());
         $collection = $query->get();
         $exploded_collection = new Collection();
         foreach ($collection as $entity) {
@@ -294,6 +363,8 @@ class Entity extends Model
             });
         return Entity::get($query, $fields, $lang);
     }
+
+
 
 
 
