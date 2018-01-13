@@ -82,11 +82,11 @@ class EntityController extends Controller
     {
         $fields = $request->input('fields', []);
         $lang = $request->input('lang', Config::get('general.langs')[0]);
+        $order = $request->input('order', NULL);
 
-        $collection = Entity::getChildren($id, $fields, $lang);
+        $collection = Entity::getChildren($id, $fields, $lang, $order);
 
         return $collection;
-
     }
 
     /**
@@ -99,11 +99,11 @@ class EntityController extends Controller
     {
         $fields = $request->input('fields', []);
         $lang = $request->input('lang', Config::get('general.langs')[0]);
+        $order = $request->input('order', NULL);
 
-        $collection = Entity::getAncestors($id, $fields, $lang);
+        $collection = Entity::getAncestors($id, $fields, $lang, $order);
 
         return $collection;
-
     }
 
     /**
