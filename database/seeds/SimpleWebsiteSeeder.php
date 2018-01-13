@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Entity;
 use App\Models\Medium;
 
-class EntitiesTableSeeder extends Seeder
+class SimpleWebsiteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,6 +18,7 @@ class EntitiesTableSeeder extends Seeder
             'model' => 'home',
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
+            'parent' => 'root',
             'contents' => [
                 'title' => 'Website title',
                 'description' => 'The website description',
@@ -49,6 +50,7 @@ class EntitiesTableSeeder extends Seeder
 
         $eMedia = Entity::create([
             'model' => 'container',
+            'parent' => 'root',
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
             'name' => 'Media Container'

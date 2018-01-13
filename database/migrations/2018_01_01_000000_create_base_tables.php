@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEntitiesTable extends Migration
+class CreateBaseTables extends Migration
 {
     /**
      * Run the migrations.
@@ -31,6 +31,23 @@ class CreateEntitiesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::create('contents', function (Blueprint $table) {
+            $table->char('entity_id', 36)->index();
+            $table->string('lang', 5)->index()->default('');
+            $table->string('field', 100)->index();
+            $table->mediumText('value', 100);
+            $table->primary(['entity_id', 'lang', 'field']);
+        });
+        Schema::create('relations', function (Blueprint $table) {
+            $table->char('entity_caller_id', 36)->index();
+            $table->char('entity_called_id', 36)->index();
+            $table->enum('kind', ['relation', 'ancestor', 'category', 'medium'])->index()->default('relation');
+            $table->integer('position')->default(0);
+            $table->integer('depth')->default(0);
+            $table->string('tags', 255);
+            $table->primary(['entity_caller_id', 'entity_called_id', 'kind']);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -41,5 +58,7 @@ class CreateEntitiesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('entities');
+        Schema::dropIfExists('contents');
+        Schema::dropIfExists('relations');
     }
 }

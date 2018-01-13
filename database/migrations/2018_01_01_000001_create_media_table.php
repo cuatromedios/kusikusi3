@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateMediaTable extends Migration
 {
     /**
-     * Run the migrations.
+     * This is a sample migration for a Data Model
      *
      * @return void
      */
