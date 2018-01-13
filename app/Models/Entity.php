@@ -502,6 +502,7 @@ class Entity extends Model
             $modelClass =  Entity::getDataClass($model['model']);
 
             // Contents are sent to another table
+            // TODO: Move to an external function to be used also with update ?
             if (isset($model['contents'])) {
                 $thisEntityContents = $model['contents'];
                 $defaultLang = '';
@@ -540,6 +541,7 @@ class Entity extends Model
             };
         });
 
+        // TODO: maybe saved to support bot create and update?
         self::created(function($model) {
             // Create the ancestors relations
             if (isset($model['parent']) && $model['parent'] != '') {
