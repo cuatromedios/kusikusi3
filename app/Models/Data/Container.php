@@ -4,8 +4,8 @@ namespace App\Models\Data;
 
 use App\Models\Data;
 
-class Media extends Data
+class Container extends Data
 {
-    public static $contentFields = ['title'];
+    public static $contentFields = [];
     public static $dataFields = [];
 }

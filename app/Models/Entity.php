@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use App\Models\Content;
 use App\Models\Medium;
+use Illuminate\Support\Facades\Config;
 
 class Entity extends Model
 {
@@ -43,7 +44,7 @@ class Entity extends Model
      * @var array
      */
     protected $guarded = [
-        'created_at', 'updated_at', 'deleted_at',
+        'created_at', 'updated_at', 'deleted_at', 'entity_version', 'tree_version', 'relations_version', 'full_version'
     ];
 
     /**
@@ -284,7 +285,7 @@ class Entity extends Model
                             case 'r':
                                 // Entity fields doesn't need to be joined, just the fiels to be selected
                                 if ($groupField === '*') {
-                                    $relationFields = ['kind', 'position', 'tags'];
+                                    $relationFields = ['kind', 'position', 'tags', 'depth'];
                                     foreach ($relationFields as $relationField) {
                                         $fieldsForSelect[] = 'ar.'.$relationField.' as relation.'.$relationField;
                                         if ( isset($collapsedOrders['relations.'.$relationField]) ) {
@@ -438,7 +439,7 @@ class Entity extends Model
                     ->where('ar.entity_called_id', '=', $id)
                     ->where('ar.kind', '=', 'ancestor')
                     // ->whereRaw('FIND_IN_SET("a",ar.tags)')
-                    ->where('ar.position', '=', 1);
+                    ->where('ar.depth', '=', 0);
             });
         return Entity::get($query, $fields, $lang, $order);
     }
@@ -446,7 +447,7 @@ class Entity extends Model
     /**
      * Get a list of children.
      *
-     * @param string $id The id of the entity whose parent need to be returned
+     * @param string $id The id of the entity whose ancestors need to be returned
      * @param array $fields An array of strings representing a field like entities.model, contents.title or media.format
      * @param string $lang The name of the language for content fields or null. If null, default language will be taken.
      * @return Collection
@@ -457,6 +458,26 @@ class Entity extends Model
             ->join('relations as ar', function ($join) use ($id) {
                 $join->on('ar.entity_called_id', '=', 'entities.id')
                     ->where('ar.entity_caller_id', '=', $id)
+                    ->where('ar.kind', '=', 'ancestor');
+            });
+        return Entity::get($query, $fields, $lang, $order);
+    }
+
+    /**
+     * Get a list of descendants.
+     *
+     * @param string $id The id of the entity whose descendants need to be returned
+     * @param array $fields An array of strings representing a field like entities.model, contents.title or media.format
+     * @param string $lang The name of the language for content fields or null. If null, default language will be taken.
+     * @param array $order The list of order sentences like ['contents.title:asc'].
+     * @return Collection
+     */
+    public static function getDescendants($id, $fields = [],  $lang = NULL, $order = ['relations.position'])
+    {
+        $query =  DB::table('entities')
+            ->join('relations as ar', function ($join) use ($id) {
+                $join->on('ar.entity_caller_id', '=', 'entities.id')
+                    ->where('ar.entity_called_id', '=', $id)
                     ->where('ar.kind', '=', 'ancestor');
             });
         return Entity::get($query, $fields, $lang, $order);
@@ -487,7 +508,7 @@ class Entity extends Model
     {
         parent::boot();
 
-        self::creating(function($model) {
+        self::saving(function($model) {
 
             // Auto populate the _id field
             if (!isset($model['id'])) {
@@ -499,30 +520,40 @@ class Entity extends Model
                 $model['model'] = 'entity';
             }
 
+            // Preprocess the model data if the data class has a method defined for that. This is made this way because
+            // the data models does not extend EntityClass
             $modelClass =  Entity::getDataClass($model['model']);
+            if (method_exists($modelClass, 'beforeSave')) {
+                $model = $modelClass::beforeSave($model);
+            }
 
             // Contents are sent to another table
             // TODO: Move to an external function to be used also with update ?
             if (isset($model['contents'])) {
                 $thisEntityContents = $model['contents'];
-                $defaultLang = '';
+                $defaultLang = Config::get('general.langs')[0];
                 foreach ($thisEntityContents as $rowOrFieldKey => $rowOrFieldValue) {
                     if (is_integer($rowOrFieldKey)) {
                         // If is an array, then we assume fields come as in the content table
-                        Content::create([
+                        $contentRow = [
                             'entity_id'   =>  $model['id'],
                             'field' =>  $rowOrFieldValue['field'],
                             'lang'  =>  isset($rowOrFieldValue['lang']) ? $rowOrFieldValue['lang'] : $defaultLang ,
                             'value' =>  $rowOrFieldValue['value']
-                        ]);
+                        ];
+                        Content::create($contentRow);
                     } else {
                         // If not, we are going to use the default language and the keys as field names
-                        Content::create([
+                        $contentRow = [
                             'entity_id'   =>  $model['id'],
                             'field' =>  $rowOrFieldKey,
                             'lang'  =>  $defaultLang,
                             'value' =>  $rowOrFieldValue
-                        ]);
+                        ];
+                        Content::create($contentRow);
+                    }
+                    if (!isset($model['name']) && $contentRow['field'] === 'title' && $contentRow['lang'] === $defaultLang) {
+                        $model['name'] = $contentRow['value'];
                     }
                 };
                 unset($model['contents']);
@@ -541,15 +572,15 @@ class Entity extends Model
             };
         });
 
-        // TODO: maybe saved to support bot create and update?
-        self::created(function($model) {
+        // TODO: maybe saved to support both create and update?
+        self::saved(function($model) {
             // Create the ancestors relations
             if (isset($model['parent']) && $model['parent'] != '') {
                 $parentEntity = Entity::find($model['parent']);
-                $model->relations()->attach($parentEntity['id'], ['kind' => 'ancestor', 'position' => 1]);
-                $ancestors = ($parentEntity->relations()->where('kind', 'ancestor')->orderBy('position'))->get();
+                $model->relations()->attach($parentEntity['id'], ['kind' => 'ancestor', 'depth' => 0]);
+                $ancestors = ($parentEntity->relations()->where('kind', 'ancestor')->orderBy('depth'))->get();
                 for ($a = 0; $a < count($ancestors); $a++) {
-                    $model->relations()->attach($ancestors[$a]['id'], ['kind' => 'ancestor', 'position' => ($a + 2)]);
+                    $model->relations()->attach($ancestors[$a]['id'], ['kind' => 'ancestor', 'depth' => ($a + 1)]);
                 }
             };
         });

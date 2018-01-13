@@ -31,7 +31,10 @@ class EntitiesTableSeeder extends Seeder
             'model' => 'section',
             'parent' => $eHome['id'],
             'created_by' => 'seeder',
-            'updated_by' => 'seeder'
+            'updated_by' => 'seeder',
+            'contents' => [
+                'title' => 'Section title'
+            ]
         ]);
 
         $ePage = Entity::create([
@@ -45,24 +48,29 @@ class EntitiesTableSeeder extends Seeder
         ]);
 
         $eMedia = Entity::create([
-            'model' => 'media',
-            'created_by' => 'seeder',
-            'updated_by' => 'seeder'
-        ]);
-
-        $eMedium = Entity::create([
-            'model' => 'medium',
-            'parent' => $eMedia['id'],
+            'model' => 'container',
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
-            'contents' => [
-                'title' => 'Medium title'
-            ],
-            'data' => [
-                'format' => 'jpg',
-                'size' => 0
-                ]
+            'name' => 'Media Container'
         ]);
-        $ePage->relations()->attach($eMedium['id'], ['kind' => 'medium']);
+        for ($i = 0; $i < 5; $i++) {
+            $eMedium = Entity::create([
+                'model' => 'medium',
+                'parent' => $eMedia['id'],
+                'position' => $i,
+                'created_by' => 'seeder',
+                'updated_by' => 'seeder',
+                'contents' => [
+                    'title' => 'Medium title '.$i
+                ],
+                'data' => [
+                    'format' => 'jpg',
+                    'size' => rand(0, 10000)
+                ]
+            ]);
+            $ePage->relations()->attach($eMedium['id'], ['kind' => 'medium', 'position' => $i]);
+        }
+
+
     }
 }
