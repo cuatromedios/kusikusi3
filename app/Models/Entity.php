@@ -508,6 +508,41 @@ class Entity extends Model
     {
         parent::boot();
 
+        self::updating(function($model) {
+            // TODO: Allow recreation of the tree when updating (now just disallow the change of the parent)
+            unset($model['parent']);
+            // For reference this is the code used in previous versions of kusikusi, please note we may not need
+            // to make a queue because we can now get the descendants ordered by depth:
+            /*
+             * $currentParent = $this->_properties['parent'];
+                    $entityQueue = array();
+                    array_push($entityQueue, $this);
+                    $index = 0;
+                    while (sizeof($entityQueue) > 0) {
+                        $currentEntity = $entityQueue[$index];
+                        //Solo al primer elemento se cambia su parent, para los demas solo se re-crea su arbol
+                        if ($index > 0) {
+                            $currentParent = $currentEntity->parent;
+                        }
+                        unset($entityQueue[$index]);
+                        $index++;
+                        //Se borran las antiguas relaciones con sus ancestros
+                        $ancestors = $currentEntity->getAncestors();
+                        foreach ($ancestors as $ancestor) {
+                            Relation::deleteRelation($currentEntity->id, $ancestor->id, 'ANCESTOR');
+                        }
+                        //Se agrega la relacion con su nuevo padre
+                        Relation::addRelation($currentEntity->id, $currentParent, 'ANCESTOR');
+
+                        //Se agregan los hijos al queue
+                        $children = $currentEntity->getChildren();
+                        foreach($children as $child) {
+                            array_push($entityQueue, $child);
+                        }
+                    }
+             */
+        });
+
         self::saving(function($model) {
 
             // Auto populate the _id field
