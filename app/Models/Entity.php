@@ -199,6 +199,34 @@ class Entity extends Model
     }
 
     /**
+     * Creates an entity.
+     *
+     * @param $information
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public static function post($information)
+    {
+        //TODO: Sanitize the $information
+        $entity = Entity::create($information);
+        return $entity['id'];
+    }
+
+    /**
+     * Updates an entity.
+     *
+     * @param $information
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public static function patch($id, $information)
+    {
+        //TODO: Sanitize the $information
+        $entity = Entity::where("id", $id)->firstOrFail();
+        $entity->update($information);
+        $entity->save();
+        return $entity['id'];
+    }
+
+    /**
      * Returns an entity's parent.
      *
      * @param $id
@@ -472,7 +500,7 @@ class Entity extends Model
      * @param array $order The list of order sentences like ['contents.title:asc'].
      * @return Collection
      */
-    public static function getDescendants($id, $fields = [],  $lang = NULL, $order = ['relations.position'])
+    public static function getDescendants($id, $fields = [],  $lang = NULL, $order = ['relations.depth:asc'])
     {
         $query =  DB::table('entities')
             ->join('relations as ar', function ($join) use ($id) {
@@ -482,9 +510,6 @@ class Entity extends Model
             });
         return Entity::get($query, $fields, $lang, $order);
     }
-
-
-
 
 
     /**
@@ -499,6 +524,7 @@ class Entity extends Model
             ->withTimestamps();
     }
 
+
     /**
      * Events.
      *
@@ -509,6 +535,21 @@ class Entity extends Model
         parent::boot();
 
         self::updating(function($model) {
+            // TODO: Dont allow to change the model?
+
+            // Preprocess the model data if the data class has a method defined for that. (Data models does not extend Entity)
+            $modelClass =  Entity::getDataClass($model['model']);
+            if (method_exists($modelClass, 'beforeSave')) {
+                $model = $modelClass::beforeSave($model);
+            }
+
+            // Contents are sent to another table
+            $model = Entity::replaceContent($model);
+            unset($model['contents']);
+
+            // Data are sent to specific table
+            $model = Entity::replaceData($model);
+
             // TODO: Allow recreation of the tree when updating (now just disallow the change of the parent)
             unset($model['parent']);
             // For reference this is the code used in previous versions of kusikusi, please note we may not need
@@ -541,9 +582,10 @@ class Entity extends Model
                         }
                     }
              */
+
         });
 
-        self::saving(function($model) {
+        self::creating(function(Entity $model) {
 
             // Auto populate the _id field
             if (!isset($model['id'])) {
@@ -552,63 +594,29 @@ class Entity extends Model
 
             // Auto populate the model field
             if (!isset($model['model'])) {
-                $model['model'] = 'entity';
+                throw new \Error('A model name is requiered');
             }
 
-            // Preprocess the model data if the data class has a method defined for that. This is made this way because
-            // the data models does not extend EntityClass
+            //TODO: Check if the parent allows this model as a children
+
+            // Preprocess the model data if the data class has a method defined for that. (Data models does not extend Entity)
             $modelClass =  Entity::getDataClass($model['model']);
             if (method_exists($modelClass, 'beforeSave')) {
                 $model = $modelClass::beforeSave($model);
             }
 
             // Contents are sent to another table
-            // TODO: Move to an external function to be used also with update ?
-            if (isset($model['contents'])) {
-                $thisEntityContents = $model['contents'];
-                $defaultLang = Config::get('general.langs')[0];
-                foreach ($thisEntityContents as $rowOrFieldKey => $rowOrFieldValue) {
-                    if (is_integer($rowOrFieldKey)) {
-                        // If is an array, then we assume fields come as in the content table
-                        $contentRow = [
-                            'entity_id'   =>  $model['id'],
-                            'field' =>  $rowOrFieldValue['field'],
-                            'lang'  =>  isset($rowOrFieldValue['lang']) ? $rowOrFieldValue['lang'] : $defaultLang ,
-                            'value' =>  $rowOrFieldValue['value']
-                        ];
-                        Content::create($contentRow);
-                    } else {
-                        // If not, we are going to use the default language and the keys as field names
-                        $contentRow = [
-                            'entity_id'   =>  $model['id'],
-                            'field' =>  $rowOrFieldKey,
-                            'lang'  =>  $defaultLang,
-                            'value' =>  $rowOrFieldValue
-                        ];
-                        Content::create($contentRow);
-                    }
-                    if (!isset($model['name']) && $contentRow['field'] === 'title' && $contentRow['lang'] === $defaultLang) {
-                        $model['name'] = $contentRow['value'];
-                    }
-                };
-                unset($model['contents']);
-            };
+            $model = Entity::replaceContent($model);
 
             // Data are sent to specific table
-            if (isset($model['data'])) {
-                $dataToInsert = ['entity_id' => $model['id']];
-                foreach ($modelClass::$dataFields as $field) {
-                    if (isset($model['data'][$field])) {
-                        $dataToInsert[$field] = $model['data'][$field];
-                    }
-                }
-                $modelClass::create($dataToInsert);
-                unset($model['data']);
-            };
+            $model = Entity::replaceData($model);
+
+            // Now, update the versions
         });
 
-        // TODO: maybe saved to support both create and update?
-        self::saved(function($model) {
+
+
+        self::saved(function(Entity $model) {
             // Create the ancestors relations
             if (isset($model['parent']) && $model['parent'] != '') {
                 $parentEntity = Entity::find($model['parent']);
@@ -619,5 +627,49 @@ class Entity extends Model
                 }
             };
         });
+    }
+
+    public static function replaceContent($model) {
+        if (isset($model['contents'])) {
+            $defaultLang = Config::get('general.langs')[0];
+            foreach ($model['contents'] as $rowOrFieldKey => $rowOrFieldValue) {
+                if (is_integer($rowOrFieldKey)) {
+                    // If is an array, then we assume fields come as in the content table
+                    $contentRowKeys = [
+                        'entity_id'   =>  $model['id'],
+                        'field' =>  $rowOrFieldValue['field'],
+                        'lang'  =>  isset($rowOrFieldValue['lang']) ? $rowOrFieldValue['lang'] : $defaultLang
+                    ];
+                    $contentRowValue = ['value' =>  $rowOrFieldValue['value']];
+                } else {
+                    // If not, we are going to use the default language and the keys as field names
+                    $contentRowKeys = [
+                        'entity_id'   =>  $model['id'],
+                        'field' =>  $rowOrFieldKey,
+                        'lang'  =>  $defaultLang,
+                    ];
+                    $contentRowValue = ['value' =>  $rowOrFieldValue];
+                }
+                if (!isset($model['name']) && $contentRowKeys['field'] === 'title' && $contentRowKeys['lang'] === $defaultLang) {
+                    $model['name'] = $contentRowValue['value'];
+                }
+            };
+        };
+        unset($model['contents']);
+        return $model;
+    }
+    public static function replaceData($model) {
+        $modelClass =  Entity::getDataClass($model['model']);
+        if (isset($model['data'])) {
+            $dataToInsert = ['entity_id' => $model['id']];
+            foreach ($modelClass::$dataFields as $field) {
+                if (isset($model['data'][$field])) {
+                    $dataToInsert[$field] = $model['data'][$field];
+                }
+            }
+            $modelClass::updateOrCreate(['entity_id' => $model['id']], $dataToInsert);
+        };
+        unset($model['data']);
+        return $model;
     }
 }

@@ -16,6 +16,12 @@ class Data extends Model
     public static $dataFields = [];
 
     /**
+     * The primary key
+     */
+    protected $primaryKey = 'entity_id';
+
+
+    /**
      * Indicates  the model should be timestamped.
      *
      * @var bool

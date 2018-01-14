@@ -21,7 +21,7 @@ class EntityController extends Controller
     }
 
     /**
-     * Display the specified entity.
+     * Return the specified entity.
      *
      * @param $id
      * @return \Illuminate\Http\JsonResponse|string
@@ -36,6 +36,32 @@ class EntityController extends Controller
             return $this->sendNotFoundResponse("The entity with id {$id} doesn't exist");
         }
         return $entity;
+    }
+
+    /**
+     * Create the specified entity.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public function post(Request $request)
+    {
+        // TODO: Filter the json to delete al not used data
+        $id = Entity::post($request->json()->all());
+        return ["data" => $id];
+    }
+
+    /**
+     * Update the specified entity.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     */
+    public function patch($id, Request $request)
+    {
+        // TODO: Filter the json to delete al not used data
+        $id = Entity::patch($id, $request->json()->all());
+        return ["data" => $id];
     }
 
     /**

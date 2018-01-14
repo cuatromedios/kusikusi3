@@ -16,7 +16,7 @@ class Content extends Model
     /**
      * The primary key
      */
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'entity_id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -39,6 +39,15 @@ class Content extends Model
     {
         return $this->belongsTo('App\Models\Entity');
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'entity_id', 'lang', 'field', 'value'
+    ];
 
 
     /**
