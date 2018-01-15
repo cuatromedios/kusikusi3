@@ -611,7 +611,6 @@ class Entity extends Model
             // Data are sent to specific table
             $model = Entity::replaceData($model);
 
-            // Now, update the versions
         });
 
 
@@ -626,6 +625,12 @@ class Entity extends Model
                     $model->relations()->attach($ancestors[$a]['id'], ['kind' => 'ancestor', 'depth' => ($a + 1)]);
                 }
             };
+
+            // Now, update the versions
+            // First the own entity version
+            DB::statement(sprintf('update entities set entity_version = entity_version + 1 where id = "%s"', $model['id']));
+            // Then the three veresion, using its ancestors
+
         });
     }
 
