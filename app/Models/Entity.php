@@ -222,7 +222,6 @@ class Entity extends Model
         //TODO: Sanitize the $information
         $entity = Entity::where("id", $id)->firstOrFail();
         $entity->update($information);
-        $entity->save();
         return $entity['id'];
     }
 
@@ -511,6 +510,54 @@ class Entity extends Model
         return Entity::get($query, $fields, $lang, $order);
     }
 
+    /**
+     * Get a list of relations the entity is calling (except ancestors).
+     *
+     * @param string $id The id of the entity whose descendants need to be returned
+     * @param array $fields An array of strings representing a field like entities.model, contents.title or media.format
+     * @param string $lang The name of the language for content fields or null. If null, default language will be taken.
+     * @param array $order The list of order sentences like ['contents.title:asc'].
+     * @return Collection
+     */
+    public static function getEntityRelations($id, $kind = NULL, $fields = [],  $lang = NULL, $order = ['relations.depth:asc'])
+    {
+        $query =  DB::table('relations as ar')
+            ->where('ar.entity_caller_id', '=', $id);
+        if (NULL != $kind) {
+            $query->where('ar.kind', '=', $kind);
+        } else {
+            $query->where('ar.kind', '<>', 'ancestor');
+        }
+        $query->leftJoin('entities', function ($join) use ($id) {
+                $join->on('ar.entity_called_id', '=', 'entities.id');
+            });
+        return Entity::get($query, $fields, $lang, $order);
+    }
+
+    /**
+     * Get a list of relations the entity is called.
+     *
+     * @param string $id The id of the entity whose descendants need to be returned
+     * @param array $fields An array of strings representing a field like entities.model, contents.title or media.format
+     * @param string $lang The name of the language for content fields or null. If null, default language will be taken.
+     * @param array $order The list of order sentences like ['contents.title:asc'].
+     * @return Collection
+     */
+    public static function getInverseEntityRelations($id, $kind = NULL, $fields = [],  $lang = NULL, $order = ['relations.depth:asc'])
+    {
+        $query =  DB::table('relations as ar')
+            ->where('ar.entity_called_id', '=', $id);
+        if (NULL != $kind) {
+            $query->where('ar.kind', '=', $kind);
+        } else {
+            $query->where('ar.kind', '<>', 'ancestor');
+        }
+        $query->leftJoin('entities', function ($join) use ($id) {
+            $join->on('ar.entity_caller_id', '=', 'entities.id');
+        });
+        return Entity::get($query, $fields, $lang, $order);
+    }
+
 
     /**
      * The roles that belong to the user.
@@ -627,9 +674,25 @@ class Entity extends Model
             };
 
             // Now, update the versions
-            // First the own entity version
-            DB::statement(sprintf('update entities set entity_version = entity_version + 1 where id = "%s"', $model['id']));
-            // Then the three veresion, using its ancestors
+            // First the own entity version and own full version
+            DB::statement(sprintf('update entities set entity_version = entity_version + 1, full_version = full_version + 1 where id = "%s"', $model['id']));
+            // Then the three version (and full version), using its ancestors
+            $ancestors = self::getAncestors($model['id'], ['e.id'])->flatten();
+            $ancestorsWithQuotes = [];
+            foreach ($ancestors as $ancestor) {$ancestorsWithQuotes[] = '"'. $ancestor.'"';}
+            DB::statement(sprintf('update entities set tree_version = tree_version + 1, full_version = full_version + 1 where id in (%s)', implode(',', $ancestorsWithQuotes)));
+            // Now the relation version, this is, will update relations_version of entitites calling this, and also the full_Version field of its ancestors
+            $relateds = self::getInverseEntityRelations($model['id'], NULL, ['e.id'])->flatten();
+            $relatedWithQuotes = [];
+            foreach ($relateds as $related) {
+                $relatedWithQuotes[] = '"'. $related.'"';
+                $ancestors = self::getAncestors($related, ['e.id'])->flatten();
+                $ancestorsWithQuotes = [];
+                foreach ($ancestors as $ancestor) {$ancestorsWithQuotes[] = '"'. $ancestor.'"';}
+                DB::statement(sprintf('update entities set tree_version = tree_version + 1, full_version = full_version + 1 where id in (%s)', implode(',', $ancestorsWithQuotes)));
+            }
+            DB::statement(sprintf('update entities set relations_version = relations_version + 1 where id in (%s)', implode(',', $relatedWithQuotes)));
+            // Last, update the full_version field of all ancestors of all related entities.
 
         });
     }

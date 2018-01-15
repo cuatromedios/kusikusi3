@@ -150,21 +150,35 @@ class EntityController extends Controller
     }
 
     /**
-     * Display entity's children.
+     * Display entity's relations.
      *
      * @param $id
-     * @return \Illuminate\Http\JsonResponse|string
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function relations($id, $fields = NULL, $lang = NULL, Request $request)
+    public function getRelations($id, $kind = NULL, Request $request)
     {
-        $query =  DB::table('entities')
-            ->join('relations as ar', function ($join) use ($id) {
-                $join->on('ar.entity_caller_id', '=', 'entities.id')
-                    ->where('ar.entity_called_id', '=', $id)
-                    ->where('ar.kind', '=', 'ancestor')
-                    ->where('ar.position', '=', 1);
-            })
-            ->where('deleted_at', NULL);
-        return $this->find($query, NULL, NULL, $request);
+        $fields = $request->input('fields', []);
+        $lang = $request->input('lang', Config::get('general.langs')[0]);
+        $order = $request->input('order', NULL);
+
+        $collection = Entity::getEntityRelations($id, $kind, $fields, $lang, $order);
+
+        return $collection;
+    }
+    /**
+     * Display entity's relations.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getInverseRelations($id, $kind = NULL, Request $request)
+    {
+        $fields = $request->input('fields', []);
+        $lang = $request->input('lang', Config::get('general.langs')[0]);
+        $order = $request->input('order', NULL);
+
+        $collection = Entity::getInverseEntityRelations($id, $kind, $fields, $lang, $order);
+
+        return $collection;
     }
 }
