@@ -680,7 +680,9 @@ class Entity extends Model
             $ancestors = self::getAncestors($model['id'], ['e.id'])->flatten();
             $ancestorsWithQuotes = [];
             foreach ($ancestors as $ancestor) {$ancestorsWithQuotes[] = '"'. $ancestor.'"';}
-            DB::statement(sprintf('update entities set tree_version = tree_version + 1, full_version = full_version + 1 where id in (%s)', implode(',', $ancestorsWithQuotes)));
+            if (!empty($ancestorsWithQuotes)) {
+                DB::statement(sprintf('update entities set tree_version = tree_version + 1, full_version = full_version + 1 where id in (%s)', implode(',', $ancestorsWithQuotes)));
+            }
             // Now the relation version, this is, will update relations_version of entitites calling this, and also the full_Version field of its ancestors
             $relateds = self::getInverseEntityRelations($model['id'], NULL, ['e.id'])->flatten();
             $relatedWithQuotes = [];
@@ -689,11 +691,13 @@ class Entity extends Model
                 $ancestors = self::getAncestors($related, ['e.id'])->flatten();
                 $ancestorsWithQuotes = [];
                 foreach ($ancestors as $ancestor) {$ancestorsWithQuotes[] = '"'. $ancestor.'"';}
-                DB::statement(sprintf('update entities set tree_version = tree_version + 1, full_version = full_version + 1 where id in (%s)', implode(',', $ancestorsWithQuotes)));
+                if (!empty($ancestorsWithQuotes)) {
+                    DB::statement(sprintf('update entities set tree_version = tree_version + 1, full_version = full_version + 1 where id in (%s)', implode(',', $ancestorsWithQuotes)));
+                }
             }
-            DB::statement(sprintf('update entities set relations_version = relations_version + 1 where id in (%s)', implode(',', $relatedWithQuotes)));
-            // Last, update the full_version field of all ancestors of all related entities.
-
+            if (!empty($relatedWithQuotes)) {
+                DB::statement(sprintf('update entities set relations_version = relations_version + 1 where id in (%s)', implode(',', $relatedWithQuotes)));
+            }
         });
     }
 

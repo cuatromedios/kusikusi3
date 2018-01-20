@@ -3,7 +3,9 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entity;
-use App\Models\Medium;
+use App\Models\Data\Medium;
+use App\Models\Data\User;
+use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
 class SimpleWebsiteSeeder extends Seeder
 {
@@ -55,6 +57,7 @@ class SimpleWebsiteSeeder extends Seeder
             'updated_by' => 'seeder',
             'name' => 'Media Container'
         ]);
+
         for ($i = 0; $i < 5; $i++) {
             $eMedium = Entity::create([
                 'model' => 'medium',
@@ -72,6 +75,45 @@ class SimpleWebsiteSeeder extends Seeder
             ]);
             $ePage->relations()->attach($eMedium['id'], ['kind' => 'medium', 'position' => $i]);
         }
+
+        $eUsers = Entity::create([
+            'model' => 'container',
+            'parent' => 'root',
+            'created_by' => 'seeder',
+            'updated_by' => 'seeder',
+            'name' => 'Users Container'
+        ]);
+
+        $generator = new RequirementPasswordGenerator();
+        $generator
+            ->setLength(12)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_UPPER_CASE, true)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_LOWER_CASE, true)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_NUMBERS, true)
+            ->setOptionValue(RequirementPasswordGenerator::OPTION_SYMBOLS, true)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_LOWER_CASE, 2)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_NUMBERS, 2)
+            ->setMinimumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 1)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_UPPER_CASE, 5)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_LOWER_CASE, 5)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_NUMBERS, 5)
+            ->setMaximumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 2)
+        ;
+        $adminPassword = $generator->generatePassword();
+        print ("Admin password: ".$adminPassword)."\n";
+        $eAdminUser = Entity::create([
+            'model' => 'user',
+            'parent' => $eUsers['id'],
+            'created_by' => 'seeder',
+            'updated_by' => 'seeder',
+            'data' => [
+                'name' => 'Admin ',
+                'email' => 'kusikusi',
+                'password' => $adminPassword,
+                'profile' => User::PROFILE_ADMIN
+            ]
+        ]);
+
 
 
     }
