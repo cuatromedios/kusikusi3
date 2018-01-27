@@ -28,6 +28,15 @@ class CreateUserTable extends Migration
             $table->char('updated_ip', 45);
             $table->timestamps();
         });
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->char('user_id', 255)->index();
+            $table->char('entity_id', 36)->index();
+            $table->boolean('get');
+            $table->boolean('post');
+            $table->boolean('patch');
+            $table->boolean('delete');
+            $table->primary(['user_id', 'entity_id']);
+        });
     }
 
     /**

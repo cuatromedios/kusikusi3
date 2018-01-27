@@ -74,6 +74,14 @@ class User extends Data implements AuthenticatableContract, AuthorizableContract
         return $this->hasMany('App\Models\Authtoken', 'entity_id');
     }
 
+    /**
+     * Get the permissions of the User
+     */
+    public function permissions()
+    {
+        return $this->hasMany('App\Models\Permission', 'user_id');
+    }
+
     public static function boot()
     {
         parent::boot();

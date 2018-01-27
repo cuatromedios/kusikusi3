@@ -4,20 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Authtoken extends Model
+class Permission extends Model
 {
-    const AUTHORIZATION_HEADER = 'Authorization';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'authtokens';
+    protected $table = 'permissions';
 
-    /**
-     * The primary key
-     */
-    protected $primaryKey = 'token';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -31,7 +27,7 @@ class Authtoken extends Model
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = false;
 
     /**
      * Get the Entity that owns the content.
@@ -47,7 +43,7 @@ class Authtoken extends Model
      * @var array
      */
     protected $fillable = [
-        'entity_id', 'token', 'created_ip', 'updated_ip'
+        'user_id', 'entity_id', 'get', 'post', 'patch', 'delete'
     ];
 
 

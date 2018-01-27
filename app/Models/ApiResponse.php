@@ -6,6 +6,14 @@ use Illuminate\Http\Response;
 
 class ApiResponse
 {
+
+    const TEXT_UNAUTHORIZED = 'Unauthorized';
+    const TEXT_UNAUTHENTICATED = 'Unauthenticated';
+    const TEXT_NOTFOUND = 'Not found';
+    const STATUS_UNAUTHORIZED = 403;
+    const STATUS_UNAUTHENTICATED = 401;
+    const STATUS_NOTFOUND = 404;
+
     private $_data;
     private $_success;
     private $_status;

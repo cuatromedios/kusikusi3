@@ -6,7 +6,7 @@ use App\Exceptions\ExceptionDetails;
 use App\Http\Controllers\Controller;
 use App\Models\Entity;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Config;
 use App\Models\ApiResponse;
 
@@ -31,13 +31,16 @@ class EntityController extends Controller
     public function getOne($id, Request $request)
     {
         try {
-            $lang = $request->input('lang', Config::get('general.langs')[0]);
-            $fields = $request->input('fields', []);
-            $entity = Entity::getOne($id, $fields, $lang);
-            return (new ApiResponse($entity, TRUE))->response();
+            if (Gate::allows('get-entity', $id)) {
+                $lang = $request->input('lang', Config::get('general.langs')[0]);
+                $fields = $request->input('fields', []);
+                $entity = Entity::getOne($id, $fields, $lang);
+                return (new ApiResponse($entity, TRUE))->response();
+            } else {
+                return (new ApiResponse(NULL, FALSE, ApiResponse::TEXT_UNAUTHORIZED, ApiResponse::STATUS_UNAUTHORIZED))->response();
+            }
         } catch (\Exception $e) {
-            $status = 404;
-            return (new ApiResponse(NULL, FALSE, ExceptionDetails::filter($e), $status))->response();
+            return (new ApiResponse(NULL, FALSE, ExceptionDetails::filter($e), ApiResponse::STATUS_NOTFOUND))->response();
         }
     }
 
@@ -111,7 +114,8 @@ class EntityController extends Controller
         try {
             $fields = $request->input('fields', []);
             $lang = $request->input('lang', Config::get('general.langs')[0]);
-            $collection = Entity::get(NULL, $fields, $lang);
+            $order = $request->input('order', NULL);
+            $collection = Entity::get(NULL, $fields, $lang, $order);
             return (new ApiResponse($collection, TRUE))->response();
         } catch (\Exception $e) {
             $status = 500;
@@ -128,11 +132,15 @@ class EntityController extends Controller
     public function getChildren($id, Request $request)
     {
         try {
-            $fields = $request->input('fields', []);
-            $lang = $request->input('lang', Config::get('general.langs')[0]);
-            $order = $request->input('order', NULL);
-            $collection = Entity::getChildren($id, $fields, $lang, $order);
-            return (new ApiResponse($collection, TRUE))->response();
+            if (Gate::allows('get-entity', $id)) {
+                $fields = $request->input('fields', []);
+                $lang = $request->input('lang', Config::get('general.langs')[0]);
+                $order = $request->input('order', NULL);
+                $collection = Entity::getChildren($id, $fields, $lang, $order);
+                return (new ApiResponse($collection, TRUE))->response();
+            } else {
+                return (new ApiResponse(NULL, FALSE, ApiResponse::TEXT_UNAUTHORIZED, ApiResponse::STATUS_UNAUTHORIZED))->response();
+            }
         } catch (\Exception $e) {
             $status = 500;
             return (new ApiResponse(NULL, FALSE, ExceptionDetails::filter($e), $status))->response();

@@ -37,7 +37,7 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            $response = new ApiResponse(NULL, NULL, "Unauthorized", 401);
+            $response = new ApiResponse(NULL, NULL, ApiResponse::TEXT_UNAUTHENTICATED, ApiResponse::STATUS_UNAUTHENTICATED);
             return ($response)->response();
         }
 
