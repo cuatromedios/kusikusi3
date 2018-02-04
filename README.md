@@ -3,11 +3,20 @@
 ## Introduction
 KusiKusi _(spider in Quechuan)_ is a boilerplate for creating **API-first applications based on hierarchical data**, like the data found on most websites (home / section / page). KusiKusi can be used as the backend for web sites, web applications, mobile apps or platforms containing all of them.
 
+#### Objetive
+
+Kusikusi has three main objectives for three different user profiles:
+* **Developers:** An easy way to construct applications based on hierarchical data, where all models are based on similar field structure.
+* **UX Designers:** To have a CMS with A/B Testing in its core
+* Developers/Designers **Customers** To receive an content manager for his/her web or mobile application easy to understand and use
+
+#### Related projects
+
 KusiKusi PHP has other related projects:
 
-* **KusiKusi Front-End** (Generic UI to interact with the API. e.g CMS )
-* **KusiKusi JS** (A KusiKusi compatible backend using Node and Mongo)
-* **KusiKusi PHP** (This project)
+* **KusiKusi Front-End:** Generic UI to interact with the API. e.g CMS
+* **KusiKusi JS:** A KusiKusi compatible backend using Node and Mongo
+* **KusiKusi PHP:** This project
 
 #### Technical info
 KusiKusi PHP is based on [Lumen](https://lumen.laravel.com)
@@ -17,10 +26,6 @@ KusiKusi PHP is based on [Lumen](https://lumen.laravel.com)
  * [MySQL 5.6](https://www.mysql.com/) or [MariaDB 10.0.5](https://mariadb.com/).
  * [Composer] https://getcomposer.org/download/
 
-#### History
-KusiKusi (And before _Waakun_) is the name we in [Cuatromedios](http://www.cuatromedios.com/) used to reference the framework we developed internally for our own and our clients projects since 2008. About 50 web projects were developed using this framework.
-
-For this new version, starting 2018 (well, to be exactly in December 2017) we decided to use a well know framework, Laravel, specifically its subproject Lumen in order to let more developers to understand its code. Then we chose [REST API with Lumen](https://github.com/barayuda/rest-api-with-lumen) boilerplate because its generic features for a REST API as te starting point to implement the soul of KusiKusi: An easy way to construct applications based on hierarchical data, where all models are based on the same structure.
 
 ## The KusiKusi way
 
@@ -57,6 +62,11 @@ The `--seed` parameter is used to populate the database with initial data. You m
 
 ## Contributing
 Contributions, questions and comments are all welcome and encouraged. For code contributions submit a pull request.
+
+#### History
+KusiKusi is the name we in [Cuatromedios](http://www.cuatromedios.com/) used to reference the framework we developed internally for our own and our clients projects since 2008. About 50 web projects were developed using this framework.
+
+For this new version, starting 2018 we decided to use a well know framework, Laravel, and specifically its subproject Lumen in order to let more developers to understand its code.
 
 ## Credits
 **Current version**
