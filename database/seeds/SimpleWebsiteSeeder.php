@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Models\Entity;
-use App\Models\Data\Medium;
-use App\Models\Data\User;
+use Cuatromedios\Kusikusi\Models\Entity;
+use Cuatromedios\Kusikusi\Models\Permission;
+use App\Models\Entities\User;
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
 class SimpleWebsiteSeeder extends Seeder
@@ -100,7 +99,9 @@ class SimpleWebsiteSeeder extends Seeder
             ->setMaximumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 2)
         ;
         $adminPassword = $generator->generatePassword();
-        print ("Admin password: ".$adminPassword)."\n";
+        print ("***************** \n");
+        print ("* Admin password: ".$adminPassword)."\n";
+        print ("***************** \n");
         $eAdminUser = Entity::create([
             'model' => 'user',
             'parent' => $eUsers['id'],
@@ -113,6 +114,16 @@ class SimpleWebsiteSeeder extends Seeder
                 'profile' => User::PROFILE_ADMIN
             ]
         ]);
+
+        Permission::create([
+            'user_id'   => $eAdminUser['id'],
+            'entity_id' => 'root',
+            'get'       => 'any',
+            'post'      => 'any',
+            'patch'     => 'any',
+            'delete'    => 'any'
+        ]);
+
 
 
 

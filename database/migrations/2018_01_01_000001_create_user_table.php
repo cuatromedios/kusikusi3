@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Models\Data\User;
+use App\Models\Entities\User;
 
 class CreateUserTable extends Migration
 {
@@ -31,10 +31,10 @@ class CreateUserTable extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->char('user_id', 255)->index();
             $table->char('entity_id', 36)->index();
-            $table->boolean('get');
-            $table->boolean('post');
-            $table->boolean('patch');
-            $table->boolean('delete');
+            $table->enum('get',     ['none', 'own', 'any']);
+            $table->enum('post',    ['none', 'own', 'any']);
+            $table->enum('patch',   ['none', 'own', 'any']);
+            $table->enum('delete',  ['none', 'own', 'any']);
             $table->primary(['user_id', 'entity_id']);
         });
     }
@@ -48,5 +48,6 @@ class CreateUserTable extends Migration
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('authtokens');
+        Schema::dropIfExists('permissions');
     }
 }

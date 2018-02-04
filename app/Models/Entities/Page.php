@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Data;
+namespace App\Models\Entities;
 
-use App\Models\Data;
+use Cuatromedios\Kusikusi\Models\Data;
 
 class Page extends Data
 {

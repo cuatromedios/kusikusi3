@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.5.*",
         "vlucas/phpdotenv": "~2.2",
         "ramsey/uuid": "^3.7",
-        "hackzilla/password-generator": "^1.4"
+        "hackzilla/password-generator": "^1.4",
+        "cuatromedios/kusikusi-php-kernel": "^0.3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

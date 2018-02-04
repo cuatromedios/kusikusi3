@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Entity;
+use Cuatromedios\Kusikusi\Models\Entity;
 use App\Models\Medium;
 
 class RootSeeder extends Seeder
@@ -14,7 +14,7 @@ class RootSeeder extends Seeder
      */
     public function run()
     {
-        $eHome = Entity::create([
+        $eRoot = Entity::create([
             'id' => 'root',
             'model' => 'root',
             'name' => 'Root',

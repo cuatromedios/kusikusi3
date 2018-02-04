@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Models\Data;
+namespace App\Models\Entities;
 
-use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use App\Models\Data;
-use App\Models\Authtoken;
 use Illuminate\Support\Facades\Hash;
+use Cuatromedios\Kusikusi\Models\Data;
+use Cuatromedios\Kusikusi\Models\Authtoken;
 
 class User extends Data implements AuthenticatableContract, AuthorizableContract
 {
@@ -71,7 +70,7 @@ class User extends Data implements AuthenticatableContract, AuthorizableContract
      */
     public function authtokens()
     {
-        return $this->hasMany('App\Models\Authtoken', 'entity_id');
+        return $this->hasMany('Cuatromedios\Kusikusi\Models\Authtoken', 'entity_id');
     }
 
     /**
@@ -79,7 +78,7 @@ class User extends Data implements AuthenticatableContract, AuthorizableContract
      */
     public function permissions()
     {
-        return $this->hasMany('App\Models\Permission', 'user_id');
+        return $this->hasMany('Cuatromedios\Kusikusi\Models\Permission', 'user_id');
     }
 
     public static function boot()

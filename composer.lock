@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5e9500e448989a36068b57e2459f4e2",
+    "content-hash": "4a0695e329aa5e2aaa6a86aff4a776a1",
     "packages": [
+        {
+            "name": "cuatromedios/kusikusi-php-kernel",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cuatromedios/kusikusi-php-kernel.git",
+                "reference": "6b10cf7527850a44d366f219572da7279a937fdd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/6b10cf7527850a44d366f219572da7279a937fdd",
+                "reference": "6b10cf7527850a44d366f219572da7279a937fdd",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/lumen-framework": "5.5.*",
+                "php": ">=7.0",
+                "ramsey/uuid": "^3.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Cuatromedios\\Kusikusi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The KusiKusi PHP Kernel.",
+            "homepage": "https://github.com/cuatromedios/kusikusi-php-kernel",
+            "keywords": [
+                "cuatromedios",
+                "framework",
+                "kusikusi",
+                "laravel",
+                "lumen"
+            ],
+            "time": "2018-02-04T20:36:43+00:00"
+        },
         {
             "name": "doctrine/inflector",
             "version": "v1.2.0",

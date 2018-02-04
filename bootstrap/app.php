@@ -34,19 +34,19 @@ $app->withEloquent();
 |--------------------------------------------------------------------------
 |
 | Now we will register a few bindings in the service container. We will
-| register the exception handler and the console kernel. You may add
-| your own bindings here if you like or you can make another file.
+| register the exception handler and the console kernel from the KusiKusi
+| Kernel. You may add your own bindings here.
 |
 */
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    Cuatromedios\Kusikusi\Exceptions\Handler::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    Cuatromedios\Kusikusi\Console\Kernel::class
 );
 
 /*
@@ -57,15 +57,14 @@ $app->singleton(
 | Next, we will register the middleware with the application. These can
 | be global middleware that run before and after each request into a
 | route or middleware that'll be assigned to some specific routes.
+| By default the KusiKusi Kernel Middleware but you can add your own
+| in app/Http/Middleware and registing them here
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
 
  $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
+     'auth' => Cuatromedios\Kusikusi\Http\Middleware\Authenticate::class,
  ]);
 
 /*
@@ -74,14 +73,16 @@ $app->singleton(
 |--------------------------------------------------------------------------
 |
 | Here we will register all of the application's service providers which
-| are used to bind services into the container. Service providers are
-| totally optional, so you are not required to uncomment this line.
+| are used to bind services into the container. Default Service providers are
+| stored in the KusiKusi PHP Kernel library, but you are free to use your owns
+| in app/Providers and register them here.
 |
 */
 
-$app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(Cuatromedios\Kusikusi\Providers\AppServiceProvider::class);
+$app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
+// $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -92,14 +93,42 @@ $app->register(App\Providers\AuthServiceProvider::class);
 | the application. This will provide all of the URLs the application
 | can respond to, as well as the controllers that may handle them.
 |
+| By default api and website routes are binded to KusiKusi Kernel
+| default controllers, but you are free to create your own routes and controllers
+| for example if your App does not need the Entity endpoint exposed,
+| and call them here with appropiate paths like app/Http/Controllers:
+|
 */
 
-$app->router->group(['namespace' => 'App\Http\Controllers\api'], function ($router) {
+$app->router->group([
+    'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Api'
+], function ($router) {
     require __DIR__.'/../routes/api.php';
 });
-$app->router->group(['namespace' => 'App\Http\Controllers\web'], function ($router) {
+$app->router->group([
+    'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Web'
+], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+// Example App Router
+/*
+$app->router->group([
+    'namespace' => 'App\Http\Controllers',
+], function ($router) {
+    require __DIR__.'/../routes/web.php';
+});
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| Load The Application Configuration
+|--------------------------------------------------------------------------
+|
+| Located in /config/general.php
+|
+*/
 
 $app->configure('general');
 
