@@ -11,9 +11,11 @@
 |
 */
 
+use Cuatromedios\Kusikusi\Models\Http\ApiResponse;
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/', function () use ($router) {
-        return 'API';
+        return (new ApiResponse(NULL, TRUE, "KusiKusi API"))->response();
     });
 
     /*
@@ -49,6 +51,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
 
     $router->get('/{path:.*}', function () use ($router) {
-        return 'API endpoint not found';
+        return (new ApiResponse(NULL, FALSE, "Endpoint " . ApiResponse::TEXT_NOTFOUND, ApiResponse::STATUS_NOTFOUND))->response();
     });
 });
