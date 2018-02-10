@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a0695e329aa5e2aaa6a86aff4a776a1",
+    "content-hash": "14ac0738399a57208434124f682b9bf3",
     "packages": [
         {
             "name": "cuatromedios/kusikusi-php-kernel",
-            "version": "0.3.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cuatromedios/kusikusi-php-kernel.git",
-                "reference": "6b10cf7527850a44d366f219572da7279a937fdd"
+                "reference": "cb9c1ff48e500a06f8b5b86f125309cc0b9a4514"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/6b10cf7527850a44d366f219572da7279a937fdd",
-                "reference": "6b10cf7527850a44d366f219572da7279a937fdd",
+                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/cb9c1ff48e500a06f8b5b86f125309cc0b9a4514",
+                "reference": "cb9c1ff48e500a06f8b5b86f125309cc0b9a4514",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2018-02-04T20:36:43+00:00"
+            "time": "2018-02-05T03:41:12+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -2611,6 +2611,61 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "mnabialek/laravel-sql-logger",
+            "version": "v1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mnabialek/laravel-sql-logger.git",
+                "reference": "ffe44cf0cc5bd96864f19aa0c8db44d719ff6f09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mnabialek/laravel-sql-logger/zipball/ffe44cf0cc5bd96864f19aa0c8db44d719ff6f09",
+                "reference": "ffe44cf0cc5bd96864f19aa0c8db44d719ff6f09",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mnabialek\\LaravelSqlLogger\\Providers\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mnabialek\\LaravelSqlLogger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Nabiałek",
+                    "email": "dev@nabialek.org"
+                }
+            ],
+            "description": "Log SQL queries in Laravel/Lumen framework",
+            "keywords": [
+                "laravel",
+                "log",
+                "log sql queries",
+                "logger",
+                "lumen",
+                "sql",
+                "sql logger"
+            ],
+            "time": "2018-01-18T11:28:24+00:00"
         },
         {
             "name": "mockery/mockery",

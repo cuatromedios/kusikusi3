@@ -81,6 +81,7 @@ $app->singleton(
 
 $app->register(Cuatromedios\Kusikusi\Providers\AppServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
+$app->register(Mnabialek\LaravelSqlLogger\Providers\ServiceProvider::class);
 // $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
 
 

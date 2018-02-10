@@ -10,12 +10,13 @@
         "vlucas/phpdotenv": "~2.2",
         "ramsey/uuid": "^3.7",
         "hackzilla/password-generator": "^1.4",
-        "cuatromedios/kusikusi-php-kernel": "^0.3.0"
+        "cuatromedios/kusikusi-php-kernel": "^0.4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "~6.0",
+        "mnabialek/laravel-sql-logger": "^1.1"
     },
     "autoload": {
         "psr-4": {
