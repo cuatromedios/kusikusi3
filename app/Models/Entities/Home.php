@@ -8,16 +8,10 @@ class Home extends Data
 {
     public static $contentFields = ['title', 'description'];
     public static $dataFields = [];
-
-    /**
-     * Events.
-     *
-     * @var bool
-     */
     public static function beforeSave($model)
     {
-       $model['name'] = "Home";
+        // Home is always forced to name home
+        $model['name'] = "Home";
         return $model;
     }
-
 }
