@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\Entities;
+namespace App\Models;
 
+use Cuatromedios\Kusikusi\Models\Entity;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -53,12 +54,14 @@ class User extends Data implements AuthenticatableContract, AuthorizableContract
                 'token' => $apikey,
                 'created_ip' => $ip
             ]);
+            // TODO: If the user is inactive or deleted don't allow login
             $user->authtokens()->save($token);
+            $entity = Entity::getOne($user->entity_id, ['e.id', 'e.model', 'e.isActive', 'd.name', 'd.email', 'd.profile']);
+            $relations = Entity::getEntityRelations($user->entity_id, NULL, ['e.id', 'r.kind', 'r.position', 'r.tags', 'e.model']);
+            $entity['relations'] = $relations;
             return ([
                 "token" => $apikey,
-                "entity_id" => $user->entity_id,
-                "profile" => $user->profile,
-                "name" => $user->name
+                "entity" => $entity
             ]);
         } else {
             return FALSE;

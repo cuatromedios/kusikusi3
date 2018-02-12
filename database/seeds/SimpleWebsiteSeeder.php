@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Cuatromedios\Kusikusi\Models\Entity;
 use Cuatromedios\Kusikusi\Models\Permission;
-use App\Models\Entities\User;
+use App\Models\User;
 use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
 
 class SimpleWebsiteSeeder extends Seeder

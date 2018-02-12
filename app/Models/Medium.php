@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Entities;
+namespace App\Models;
 
 use Cuatromedios\Kusikusi\Models\Data;
 
