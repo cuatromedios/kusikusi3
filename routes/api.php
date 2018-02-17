@@ -13,7 +13,7 @@
 
 use Cuatromedios\Kusikusi\Models\Http\ApiResponse;
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+$router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($router) {
     $router->get('/', function () use ($router) {
         return (new ApiResponse(NULL, TRUE, "KusiKusi API"))->response();
     });
@@ -50,7 +50,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post   ('/login',  ['uses' => 'UserController@authenticate']);
     });
 
-
+    $router->options('/{path:.*}', function() use ($router) {
+        $response =  (new ApiResponse(NULL, TRUE))->response();
+        return $response;
+    });
 
     $router->get('/{path:.*}', function () use ($router) {
         return (new ApiResponse(NULL, FALSE, "Endpoint " . ApiResponse::TEXT_NOTFOUND, ApiResponse::STATUS_NOTFOUND))->response();

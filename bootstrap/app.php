@@ -57,7 +57,7 @@ $app->singleton(
 | Next, we will register the middleware with the application. These can
 | be global middleware that run before and after each request into a
 | route or middleware that'll be assigned to some specific routes.
-| By default the KusiKusi Kernel Middleware but you can add your own
+| By default the KusiKusi Kernel Middlewares but you can add your own
 | in app/Http/Middleware and registing them here
 |
 */
@@ -65,6 +65,7 @@ $app->singleton(
 
  $app->routeMiddleware([
      'auth' => Cuatromedios\Kusikusi\Http\Middleware\Authenticate::class,
+     'cors' => Cuatromedios\Kusikusi\Http\Middleware\CorsMiddleware::class,
  ]);
 
 /*
@@ -81,6 +82,7 @@ $app->singleton(
 
 $app->register(Cuatromedios\Kusikusi\Providers\AppServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
+$app->register(Cuatromedios\Kusikusi\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(Mnabialek\LaravelSqlLogger\Providers\ServiceProvider::class);
 // $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
 
