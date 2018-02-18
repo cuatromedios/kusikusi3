@@ -15,10 +15,10 @@ class CreateBaseTables extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->char('id', 36)->unique();
-            $table->char('parent', 36)->index()->default('');
-            $table->bigInteger('position')->default(0);
             $table->string('model', 100)->index();
             $table->string('name', 255);
+            $table->char('parent', 36)->index()->default('');
+            $table->bigInteger('position')->default(0);
             $table->boolean('isActive')->index()->default(true);
             $table->char('created_by', 36)->default('system');
             $table->char('updated_by', 36)->default('system');
