@@ -41,7 +41,7 @@ class CreateBaseTables extends Migration
         Schema::create('relations', function (Blueprint $table) {
             $table->char('entity_caller_id', 36)->index();
             $table->char('entity_called_id', 36)->index();
-            $table->enum('kind', ['relation', 'ancestor', 'category', 'medium'])->index()->default('relation');
+            $table->enum('kind', ['relation', 'ancestor', 'category', 'medium', 'home', 'favorite', 'like', 'follow'])->index()->default('relation');
             $table->integer('position')->default(0);
             $table->integer('depth')->default(0);
             $table->string('tags', 255);

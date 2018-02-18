@@ -124,8 +124,7 @@ class SimpleWebsiteSeeder extends Seeder
             'delete'    => 'any'
         ]);
 
-
-
+        $eAdminUser->relations()->attach($eHome['id'], ['kind' => 'home', 'position' => 0]);
 
     }
 }
