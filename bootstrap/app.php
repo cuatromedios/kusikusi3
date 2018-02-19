@@ -24,9 +24,27 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+/*
+|--------------------------------------------------------------------------
+| Load The Application Configuration
+|--------------------------------------------------------------------------
+|
+| Located in /config/general.php
+|
+*/
+$app->configure('filesystems');
+$app->configure('media');
+$app->configure('general');
+
+
 $app->withFacades();
+class_alias('Illuminate\Support\Facades\Storage', 'Storage');
+class_alias('Intervention\Image\ImageServiceProvider', 'Image');
+
 
 $app->withEloquent();
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +102,8 @@ $app->register(Cuatromedios\Kusikusi\Providers\AppServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(Mnabialek\LaravelSqlLogger\Providers\ServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProvider::class);
 // $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
 
 
@@ -109,30 +129,27 @@ $app->router->group([
     require __DIR__.'/../routes/api.php';
 });
 $app->router->group([
+    'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Media'
+], function ($router) {
+    require __DIR__.'/../routes/media.php';
+});
+$app->router->group([
     'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Web'
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
 
+
 // Example App Router
 /*
 $app->router->group([
-    'namespace' => 'App\Http\Controllers',
+    'namespace' => 'App\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
 */
 
 
-/*
-|--------------------------------------------------------------------------
-| Load The Application Configuration
-|--------------------------------------------------------------------------
-|
-| Located in /config/general.php
-|
-*/
 
-$app->configure('general');
 
 return $app;

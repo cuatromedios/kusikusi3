@@ -82,7 +82,7 @@ For this new version, starting 2018 we decided to use a well know framework, Lar
 
 **Projects this version is based on**
 * Previous versions of KusiKusi and Waakun
-* [REST API with Lumen 5.4](https://github.com/hasib32/rest-api-with-lumen)
+* [Intervention Image](http://image.intervention.io/)
 
 ## License
 [MIT License](LICENCE.txt)
