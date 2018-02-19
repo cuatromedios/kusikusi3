@@ -37,7 +37,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
         $router->get('/{id}/relations[/{kind}]', ['uses' => 'EntityController@getRelations']);
         $router->post('/{id}/relations', ['uses' => 'EntityController@postRelation']);
-        $router->delete('/{id}/relations', ['uses' => 'EntityController@deleteRelation']);
+        $router->delete('/{id}/relations/{called}/{kind}', ['uses' => 'EntityController@deleteRelation']);
         $router->get('/{id}/inverse-relations[/{kind}]', ['uses' => 'EntityController@getInverseRelations']);
     });
     /*
