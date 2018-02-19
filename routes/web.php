@@ -10,4 +10,4 @@
 |
 */
 
-$router->get('/{path:.*}', 'WebController@catch');
+$router->get('/{path:.*}', 'WebController@any');
