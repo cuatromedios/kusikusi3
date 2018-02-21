@@ -50,6 +50,11 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->post   ('/login',  ['uses' => 'UserController@authenticate']);
     });
 
+    $router->group(['prefix' => 'media'], function () use ($router) {
+        $router->post('/', ['uses' => 'MediaController@post']);
+        $router->post('/{id}/upload', ['uses' => 'MediaController@upload']);
+    });
+
     $router->options('/{path:.*}', function() use ($router) {
         $response =  (new ApiResponse(NULL, TRUE))->response();
         return $response;

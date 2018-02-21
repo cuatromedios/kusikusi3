@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -35,14 +36,14 @@ return [
     |
     */
     'disks' => [
-        'media' => [
+        'media_original' => [
             'driver' => 'local',
-            'root' => storage_path('/media'),
+            'root' => storage_path('/media/original'),
         ],
-        'public_media' => [
+        'media_processed' => [
             'driver' => 'local',
-            'root' => base_path('public/media'),
-            'url' => env('APP_URL').'/storage',
+            'root' => storage_path('/media/processed'),
+            'url' => env('APP_URL').'/media',
             'visibility' => 'public',
         ],
         /* 's3' => [
