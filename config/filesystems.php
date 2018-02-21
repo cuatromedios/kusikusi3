@@ -32,6 +32,9 @@ return [
     | may even configure multiple disks of the same driver. Defaults have
     | been setup for each driver as an example of the required options.
     |
+    | *** DO NOT change the name of media_original and media_processed disks
+    |     because they are named and used as is in The KusiKusi Kernel
+    |
     | Supported Drivers: "local", "ftp", "s3", "rackspace"
     |
     */
