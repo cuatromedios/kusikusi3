@@ -16,6 +16,7 @@ class SimpleWebsiteSeeder extends Seeder
     public function run()
     {
         $eHome = Entity::create([
+            'id' => 'home',
             'model' => 'home',
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
@@ -50,6 +51,7 @@ class SimpleWebsiteSeeder extends Seeder
         ]);
 
         $eMedia = Entity::create([
+            'id' => 'media',
             'model' => 'container',
             'parent' => 'root',
             'created_by' => 'seeder',
@@ -76,6 +78,7 @@ class SimpleWebsiteSeeder extends Seeder
         }
 
         $eUsers = Entity::create([
+            'id' => 'users',
             'model' => 'container',
             'parent' => 'root',
             'created_by' => 'seeder',
