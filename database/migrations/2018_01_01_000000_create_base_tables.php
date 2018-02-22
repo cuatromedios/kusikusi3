@@ -25,9 +25,9 @@ class CreateBaseTables extends Migration
             $table->dateTime('publicated_at')->nullable()->default(date("Y-m-d H:i:s"));
             $table->dateTime('unpublicated_at')->nullable()->default('9999-12-31 23:59;59');
             $table->integer('entity_version')->unsigned()->default(0);
-            $table->integer('tree_version')->unsigned()->default(1);
+            $table->integer('tree_version')->unsigned()->default(0);
             $table->integer('relations_version')->unsigned()->default(1);
-            $table->integer('full_version')->unsigned()->default(1);
+            $table->integer('full_version')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
