@@ -8,10 +8,10 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Support\Facades\Hash;
-use Cuatromedios\Kusikusi\Models\Data;
+use Cuatromedios\Kusikusi\Models\EntityData;
 use Cuatromedios\Kusikusi\Models\Authtoken;
 
-class User extends Data implements AuthenticatableContract, AuthorizableContract
+class User extends EntityData implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
