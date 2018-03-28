@@ -35,6 +35,7 @@ $app = new Laravel\Lumen\Application(
 $app->configure('filesystems');
 $app->configure('media');
 $app->configure('general');
+$app->configure('activity');
 
 
 $app->withFacades();

@@ -84,6 +84,14 @@ class User extends EntityData implements AuthenticatableContract, AuthorizableCo
         return $this->hasMany('Cuatromedios\Kusikusi\Models\Permission', 'user_id');
     }
 
+    /**
+     * Get the activity related to the User.
+     */
+    public function activity()
+    {
+        return $this->hasMany('Cuatromedios\Kusikusi\Models\Activity', 'user_id');
+    }
+
     public static function boot()
     {
         parent::boot();
