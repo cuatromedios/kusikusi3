@@ -112,7 +112,7 @@ class SimpleWebsiteSeeder extends Seeder
             'updated_by' => 'seeder',
             'data' => [
                 'name' => 'Admin ',
-                'email' => 'kusikusi',
+                'email' => 'admin',
                 'password' => $adminPassword,
                 'profile' => User::PROFILE_ADMIN
             ]
