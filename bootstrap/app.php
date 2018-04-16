@@ -39,8 +39,12 @@ $app->configure('activity');
 
 
 $app->withFacades();
-class_alias('Illuminate\Support\Facades\Storage', 'Storage');
-class_alias('Intervention\Image\ImageServiceProvider', 'Image');
+if(!class_exists('Storage')) {
+    class_alias('Illuminate\Support\Facades\Storage', 'Storage');
+}
+if(!class_exists('Image')) {
+    class_alias('Intervention\Image\ImageServiceProvider', 'Image');
+}
 
 
 $app->withEloquent();
