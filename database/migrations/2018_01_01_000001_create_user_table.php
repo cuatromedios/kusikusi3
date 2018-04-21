@@ -22,14 +22,14 @@ class CreateUserTable extends Migration
             $table->enum('profile', [User::PROFILE_ADMIN, User::PROFILE_EDITOR, User::PROFILE_USER])->index()->default(User::PROFILE_USER);
         });
         Schema::create('authtokens', function (Blueprint $table) {
-            $table->char('token', 255)->unique()->primary();
+            $table->char('token', 128)->unique()->primary();
             $table->char('entity_id', 36)->index();
             $table->char('created_ip', 45);
             $table->char('updated_ip', 45);
             $table->timestamps();
         });
         Schema::create('permissions', function (Blueprint $table) {
-            $table->char('user_id', 255)->index();
+            $table->char('user_id', 36)->index();
             $table->char('entity_id', 36)->index();
             $table->enum('get',     ['none', 'own', 'any']);
             $table->enum('post',    ['none', 'own', 'any']);

@@ -106,7 +106,9 @@ class SimpleWebsiteSeeder extends Seeder
             ->setMaximumCount(RequirementPasswordGenerator::OPTION_SYMBOLS, 2)
         ;
         $adminPassword = $generator->generatePassword();
+        $adminUsername = 'admin';
         print ("***************** \n");
+        print ("* Admin username: ".$adminUsername)."\n";
         print ("* Admin password: ".$adminPassword)."\n";
         print ("***************** \n");
         $eAdminUser = Entity::create([
@@ -116,7 +118,7 @@ class SimpleWebsiteSeeder extends Seeder
             'updated_by' => 'seeder',
             'data' => [
                 'name' => 'Admin ',
-                'email' => 'admin',
+                'email' => $adminUsername,
                 'password' => $adminPassword,
                 'profile' => User::PROFILE_ADMIN
             ]

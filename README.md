@@ -208,6 +208,12 @@ You get an array of entities.
 
 Full documentation coming soon!
 
+## Testings
+
+```
+./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ username password
+```
+
 ## Contributing
 Contributions, questions and comments are all welcome and encouraged. For code contributions submit a pull request.
 
