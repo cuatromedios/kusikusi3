@@ -10,4 +10,8 @@
 |
 */
 
-$router->get('/{path:.*}', 'WebController@any');
+$router->group(['namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Web'], function () use ($router) {
+
+    $router->get('/{path:.*}', 'WebController@any');
+
+});

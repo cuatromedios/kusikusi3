@@ -128,6 +128,13 @@ $app->register(Intervention\Image\ImageServiceProvider::class);
 |
 */
 
+$app->router->group([], function ($router) {
+  require __DIR__.'/../routes/api.php';
+  require __DIR__.'/../routes/media.php';
+  require __DIR__.'/../routes/web.php';
+});
+
+/*
 $app->router->group([
     'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Api'
 ], function ($router) {
@@ -143,18 +150,6 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
-
-// Example App Router
-/*
-$app->router->group([
-    'namespace' => 'App\Controllers',
-], function ($router) {
-    require __DIR__.'/../routes/web.php';
-});
 */
-
-
-
 
 return $app;

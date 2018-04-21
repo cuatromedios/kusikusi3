@@ -36,7 +36,9 @@ class SimpleWebsiteSeeder extends Seeder
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
             'contents' => [
-                'title' => 'Section title'
+                'title' => 'Section title',
+                'description' => 'Section description',
+                'url' => '/section',
             ]
         ]);
 
@@ -46,7 +48,9 @@ class SimpleWebsiteSeeder extends Seeder
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
             'contents' => [
-                'title' => 'Page title'
+                'title' => 'Page title',
+                'description' => 'Section description',
+                'url' => '/section/page',
             ]
         ]);
 
