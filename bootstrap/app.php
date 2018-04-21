@@ -134,22 +134,4 @@ $app->router->group([], function ($router) {
   require __DIR__.'/../routes/web.php';
 });
 
-/*
-$app->router->group([
-    'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Api'
-], function ($router) {
-    require __DIR__.'/../routes/api.php';
-});
-$app->router->group([
-    'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Media'
-], function ($router) {
-    require __DIR__.'/../routes/media.php';
-});
-$app->router->group([
-    'namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Web'
-], function ($router) {
-    require __DIR__.'/../routes/web.php';
-});
-*/
-
 return $app;
