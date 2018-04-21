@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d88cfbcf85f2ec8830e4950129d25984",
+    "content-hash": "884949a3a92c681488941e18b018aaa9",
     "packages": [
         {
             "name": "cuatromedios/kusikusi-php-kernel",
-            "version": "v0.11.0",
+            "version": "v0.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cuatromedios/kusikusi-php-kernel.git",
-                "reference": "2549b805e6cc8eac6c9fee72dfd51db61d252827"
+                "reference": "b3ac023d2b904fc9332427e06333391bee23bd57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/2549b805e6cc8eac6c9fee72dfd51db61d252827",
-                "reference": "2549b805e6cc8eac6c9fee72dfd51db61d252827",
+                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/b3ac023d2b904fc9332427e06333391bee23bd57",
+                "reference": "b3ac023d2b904fc9332427e06333391bee23bd57",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2018-04-21T02:04:01+00:00"
+            "time": "2018-04-21T18:51:06+00:00"
         },
         {
             "name": "doctrine/inflector",
