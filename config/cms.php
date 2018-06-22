@@ -16,6 +16,36 @@ return [
         'section' => [
             'allowedChildren' => ['page'],
             'sort' => 'e.position asc'
+        ],
+        'list' => [
+            [
+                'label' => 'Root',
+                'value' => 'root'
+            ],
+            [
+                'label' => 'Container',
+                'value' => 'container'
+            ],
+            [
+                'label' => 'Home',
+                'value' => 'home'
+            ],
+            [
+                'label' => 'Section',
+                'value' => 'section'
+            ],
+            [
+                'label' => 'User',
+                'value' => 'user'
+            ],
+            [
+                'label' => 'Page',
+                'value' => 'page'
+            ],
+            [
+                'label' => 'Medium',
+                'value' => 'medium'
+            ]
         ]
     ]
 ];
