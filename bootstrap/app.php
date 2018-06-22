@@ -36,6 +36,7 @@ $app->configure('filesystems');
 $app->configure('media');
 $app->configure('general');
 $app->configure('activity');
+$app->configure('cms');
 
 
 $app->withFacades();

@@ -11,6 +11,16 @@ return [
             'scale' => 'contain',
             'format' => 'jpg',
             'effects' => []
+        ],
+        'icon' => [
+            'quality' => 85,
+            'width' => 32,
+            'height' =>  32,
+            'background' => 'crop',
+            'alignment' => 'center',
+            'scale' => 'cover',
+            'format' => 'jpg',
+            'effects' => []
         ]
     ]
 ];
