@@ -63,6 +63,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         });
         $router->group(['prefix' => 'user'], function () use ($router) {
             $router->post   ('/login',  ['uses' => 'UserController@authenticate']);
+            $router->get    ('/permissions/{id}', ['uses' => 'UserController@getPermissions']);
+            $router->post   ('/permissions', ['uses' => 'UserController@postPermissions']);
+            $router->patch   ('/permissions/{id}', ['uses' => 'UserController@patchPermissions']);
         });
         $router->group(['prefix' => 'media'], function () use ($router) {
             $router->post('/', ['uses' => 'MediaController@post']);
