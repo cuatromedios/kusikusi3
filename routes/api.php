@@ -70,6 +70,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->group(['prefix' => 'media'], function () use ($router) {
             $router->post('/', ['uses' => 'MediaController@post']);
             $router->post('/{id}/upload', ['uses' => 'MediaController@upload']);
+            $router->delete('/{id}', ['uses' => 'MediaController@delete']);
         });
     });
 

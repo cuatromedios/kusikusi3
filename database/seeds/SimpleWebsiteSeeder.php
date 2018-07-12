@@ -113,11 +113,12 @@ class SimpleWebsiteSeeder extends Seeder
         print ("***************** \n");
         $eAdminUser = Entity::create([
             'model' => 'user',
+            'name' => 'Admin',
             'parent' => $eUsers['id'],
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
             'data' => [
-                'name' => 'Admin ',
+                'name' => 'Admin',
                 'email' => $adminUsername,
                 'password' => $adminPassword,
                 'profile' => User::PROFILE_ADMIN
