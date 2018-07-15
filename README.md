@@ -54,7 +54,7 @@ php artisan migrate --seed
 
 If you are debuging, you may need to reset the database **Warning! will erase all your data**:
 ```
-php artisan migrate:refresh --seed
+php artisan migrate:fresh --seed
 ```
 
 The `--seed` parameter is used to populate the database with initial data, incluiding the admin user. You may need to use `composer dumpautoload` before if any migration files are added or changed.
@@ -209,9 +209,9 @@ You get an array of entities.
 Full documentation coming soon!
 
 ## Testings
-Testings are an important part of developing any kind of project. To run the Kusikusi testings all you have to do is run the next command in your project directory:
+Testings are an important part of developing any kind of project. To run the Kusikusi testings all you have to do is run the next command in your project directory, please use quotes in login and password specially if using special characters:
 ```
-./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ username password
+./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'username' 'password'
 ```
 Where:
 * **username:** is the user "admin" that was given to you after running the artisan migrate command.
@@ -219,10 +219,10 @@ Where:
 
 Depending on your setup the command for running the test may change. If the past one doesn't work try one of these:
 ```
-vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ username password
+vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'username' 'password'
 ```
 ```
-vendor\bin\phpunit --bootstrap vendor/autoload.php tests/ username password
+vendor\bin\phpunit --bootstrap vendor/autoload.php tests/ 'username' 'password'
 ```
 ## Contributing
 Contributions, questions and comments are all welcome and encouraged. For code contributions submit a pull request.

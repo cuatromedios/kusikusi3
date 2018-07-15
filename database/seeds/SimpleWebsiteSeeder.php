@@ -128,10 +128,8 @@ class SimpleWebsiteSeeder extends Seeder
         Permission::create([
             'user_id'   => $eAdminUser['id'],
             'entity_id' => 'root',
-            'get'       => 'any',
-            'post'      => 'any',
-            'patch'     => 'any',
-            'delete'    => 'any'
+            'read'       => 'any',
+            'write'      => 'any'
         ]);
 
         $eAdminUser->relations()->attach($eHome['id'], ['kind' => 'home', 'position' => 0]);

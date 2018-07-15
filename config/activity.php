@@ -2,10 +2,10 @@
 
 return [
 'log' => [
-    'get-entity' => false,
-    'post-entity' => true,
-    'patch-entity' => true,
-    'delete-entity' => true,
-    'unauthorized' => false
+    'read-entity' => true,
+    'write-entity' => true,
+    'read-all' => true,
+    'login' => true,
+    'error' => true
     ]
 ];

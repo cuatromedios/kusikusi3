@@ -31,10 +31,8 @@ class CreateUserTable extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->char('user_id', 36)->index();
             $table->char('entity_id', 36)->index();
-            $table->enum('get',     ['none', 'own', 'any']);
-            $table->enum('post',    ['none', 'own', 'any']);
-            $table->enum('patch',   ['none', 'own', 'any']);
-            $table->enum('delete',  ['none', 'own', 'any']);
+            $table->enum('read',     ['none', 'own', 'any']);
+            $table->enum('write',    ['none', 'own', 'any']);
             $table->primary(['user_id', 'entity_id']);
         });
     }
