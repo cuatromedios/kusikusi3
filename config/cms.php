@@ -9,42 +9,188 @@
  */
 return [
     'models' => [
+        'root' => [
+            'children' => [
+                'allowed' => []
+            ],
+            'editor' => [
+                'content' => []
+            ]
+        ],
         'home' => [
-            'allowedChildren' => ['section', 'page'],
-            'sort' => 'e.position asc'
+            'children' => [
+                'allowed' => ['section', 'page'],
+                'order'  => 'e.position asc'
+            ],
+            'editor' => [
+                'content' => [],
+                'info' => [
+                    [
+                        'label' => 'Titulo:',
+                        'field' => 'contents.title',
+                        'component' => 'textInput',
+                    ],
+                    [
+                        'label' => 'Dirección de acceso:',
+                        'field' => 'contents.url',
+                        'component' => 'textInput',
+                        'params' => [
+                            'type' => 'url'
+                        ]
+                    ],
+                    [
+                        'label' => 'Reseña:',
+                        'field' => 'contents.summary',
+                        'component' => 'textInput',
+                        'params' => [
+                            'type' => 'textarea',
+                            'rows' => '3'
+                        ]
+                    ],
+                    [
+                        'label' => 'Descripción:',
+                        'field' => 'contents.description',
+                        'component' => 'wysiwyg'
+                    ]
+                ],
+                'publication' => [
+                    [
+                        'label' => 'Posición:',
+                        'field' => 'position',
+                        'component' => 'textInput',
+                        'params' => [
+                            'type' => 'number',
+                        ]
+                    ],
+                    [
+                        'label' => 'Publicado:',
+                        'field' => 'created_at',
+                        'component' => 'datetime',
+                    ],
+                    [
+                        'label' => 'Actualizado:',
+                        'field' => 'updated_at',
+                        'component' => 'datetime'
+                    ]
+                ],
+                'media' => []
+            ]
         ],
         'section' => [
-            'allowedChildren' => ['page'],
-            'sort' => 'e.position asc'
+            'children' => [
+                'allowed' => ['page'],
+                'order'  => 'e.position asc'
+            ],
+            'editor' => [
+                'content' => [],
+                'info' => [
+                    [
+                        'label' => 'Titulo:',
+                        'field' => 'contents.title',
+                        'component' => 'textInput',
+                    ],
+                    [
+                        'label' => 'Dirección de acceso:',
+                        'field' => 'contents.url',
+                        'component' => 'textInput',
+                        'params' => [
+                            'type' => 'url'
+                        ]
+                    ],
+                    [
+                        'label' => 'Reseña:',
+                        'field' => 'contents.summary',
+                        'component' => 'textInput',
+                        'params' => [
+                            'type' => 'textarea',
+                            'rows' => '3'
+                        ]
+                    ],
+                    [
+                        'label' => 'Descripción:',
+                        'field' => 'contents.description',
+                        'component' => 'wysiwyg'
+                    ]
+                ],
+                'publication' => [
+                    [
+                        'label' => 'Posición:',
+                        'field' => 'position',
+                        'component' => 'textInput',
+                        'params' => [
+                            'type' => 'number',
+                        ]
+                    ],
+                    [
+                        'label' => 'Publicado:',
+                        'field' => 'created_at',
+                        'component' => 'datetime',
+                    ],
+                    [
+                        'label' => 'Actualizado:',
+                        'field' => 'updated_at',
+                        'component' => 'datetime'
+                    ]
+                ],
+                'media' => []
+            ]
         ],
-        'list' => [
-            [
-                'label' => 'Root',
-                'value' => 'root'
+        'page' => [
+            'children' => [
+                'allowed' => [],
+                'order'  => 'e.position asc'
             ],
-            [
-                'label' => 'Container',
-                'value' => 'container'
+            'editor' => [
+                'info' => [
+                    [
+                    'label' => 'Titulo:',
+                    'field' => 'contents.title',
+                    'component' => 'textInput',
+                    ],
+                    [
+                    'label' => 'Dirección de acceso:',
+                    'field' => 'contents.url',
+                    'component' => 'textInput',
+                    'params' => [
+                        'type' => 'url'
+                    ]
+                    ],
+                    [
+                    'label' => 'Reseña:',
+                    'field' => 'contents.summary',
+                    'component' => 'textInput',
+                    'params' => [
+                        'type' => 'textarea',
+                        'rows' => '3'
+                    ]
+                ],
+                    [
+                    'label' => 'Descripción:',
+                    'field' => 'contents.description',
+                    'component' => 'wysiwyg'
+                    ]
+                ],
+                'publication' => [
+                [
+                    'label' => 'Posición:',
+                    'field' => 'position',
+                    'component' => 'textInput',
+                    'params' => [
+                        'type' => 'number',
+                    ]
+                ],
+                [
+                    'label' => 'Publicado:',
+                    'field' => 'created_at',
+                    'component' => 'datetime',
+                ],
+                [
+                    'label' => 'Actualizado:',
+                    'field' => 'updated_at',
+                    'component' => 'datetime'
+                ]
             ],
-            [
-                'label' => 'Home',
-                'value' => 'home'
-            ],
-            [
-                'label' => 'Section',
-                'value' => 'section'
-            ],
-            [
-                'label' => 'User',
-                'value' => 'user'
-            ],
-            [
-                'label' => 'Page',
-                'value' => 'page'
-            ],
-            [
-                'label' => 'Medium',
-                'value' => 'medium'
+            'media' => []
             ]
         ]
     ]
