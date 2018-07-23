@@ -18,12 +18,26 @@ return [
             ]
         ],
         'home' => [
-            'children' => [
-                'allowed' => ['section', 'page'],
-                'order'  => 'e.position asc'
-            ],
+            'name' => "Home",
             'editor' => [
-                'content' => [],
+                [
+                    'component' => 'formHeader',
+                    'props' => [ 'text' => 'Contenido', 'level' => 2 ]
+                ],
+                [
+                    'component' => 'titleSummaryContent'
+                ],
+                [
+                    'component' => 'children',
+                    'props' => [
+                        'allowed' => ['section', 'page'],
+                        'order'  => 'e.position asc'
+                    ]
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => [ 'text' => 'Información', 'level' => 4 ]
+                ],
                 'info' => [
                     [
                         'label' => 'Titulo:',
