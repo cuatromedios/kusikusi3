@@ -15,7 +15,7 @@ return [
                 [
                     'component' => 'children',
                     'props' => [
-                        'allowed' => ['section', 'page'],
+                        'allowed' => [],
                         'order'  => 'e.position asc'
                     ]
                 ]
@@ -52,140 +52,137 @@ return [
                 [
                     'component' => 'textInput',
                     'props' => [
-                        'label' => 'Dirección de acceso:',
-                        'field' => 'contents.url',
+                        'label' => 'multilinea',
+                        'field' => 'contents.summary',
                         'params' => [
-                            'type' => 'url'
+                            'rows' => 3
                         ]
                     ]
+                ],
+                [
+                    'component' => 'urlAccess'
                 ],
                 [
                     'component' => 'formHeader',
                     'props' => [ 'text' => 'Publicacion', 'level' => 4 ]
                 ],
                 [
+                    'component' => 'toggleButton',
+                    'props' => [
+                        'label' => 'Boton boleano',
+                        'field' => 'position',
+                        'trueValue' => [
+                            'label' => 'veinte',
+                            'value' => 20
+                        ],
+                        'falseValue' => [
+                            'label' => 'cinco',
+                            'value' => 5
+                        ],
+                    ]
+                ],
+                [
                     'component' => 'publication'
                 ],
                 [
-                    'component' => 'media'
+                    'component' => 'media',
+                    'props' => [
+                        'tags' => ['tag1', 'tag2', 'cover', 'icon', 'ejemplo']
+                    ]
                 ]
             ]
         ],
         'section' => [
-            'children' => [
-                'allowed' => ['page'],
-                'order'  => 'e.position asc'
+            'name' => "Section",
+            'display' => [
+                [
+                    'component' => 'entityCard',
+                    'props' => [
+                        'titleSize' => 3
+                    ]
+                ],
+                [
+                    'component' => 'children',
+                    'props' => [
+                        'allowed' => ['page'],
+                        'order'  => 'e.position asc'
+                    ]
+                ],
             ],
             'editor' => [
-                'content' => [],
-                'info' => [
-                    [
-                        'label' => 'Titulo:',
+                [
+                    'component' => 'formHeader',
+                    'props' => [
                         'field' => 'contents.title',
-                        'component' => 'textInput',
-                    ],
-                    [
-                        'label' => 'Dirección de acceso:',
-                        'field' => 'contents.url',
-                        'component' => 'textInput',
-                        'params' => [
-                            'type' => 'url'
-                        ]
-                    ],
-                    [
-                        'label' => 'Reseña:',
-                        'field' => 'contents.summary',
-                        'component' => 'textInput',
-                        'params' => [
-                            'type' => 'textarea',
-                            'rows' => '3'
-                        ]
-                    ],
-                    [
-                        'label' => 'Descripción:',
-                        'field' => 'contents.description',
-                        'component' => 'wysiwyg'
+                        'level' => 3
                     ]
                 ],
-                'publication' => [
-                    [
-                        'label' => 'Posición:',
-                        'field' => 'position',
-                        'component' => 'textInput',
-                        'params' => [
-                            'type' => 'number',
-                        ]
-                    ],
-                    [
-                        'label' => 'Publicado:',
-                        'field' => 'created_at',
-                        'component' => 'datetime',
-                    ],
-                    [
-                        'label' => 'Actualizado:',
-                        'field' => 'updated_at',
-                        'component' => 'datetime'
-                    ]
+                [
+                    'component' => 'titleSummaryContent',
                 ],
-                'media' => []
+                [
+                    'component' => 'urlAccess'
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => [ 'text' => 'TEST', 'level' => 5 ]
+                ],
+                [
+                    'component' => 'publication'
+                ],
+                [
+                    'component' => 'media',
+                    'props' => [
+                        'tags' => ['tag1', 'tag2', 'tag3', 'tag4']
+                    ]
+                ]
             ]
         ],
         'page' => [
-            'children' => [
-                'allowed' => [],
-                'order'  => 'e.position asc'
-            ],
-            'editor' => [
-                'info' => [
-                    [
-                    'label' => 'Titulo:',
-                    'field' => 'contents.title',
-                    'component' => 'textInput',
-                    ],
-                    [
-                    'label' => 'Dirección de acceso:',
-                    'field' => 'contents.url',
-                    'component' => 'textInput',
-                    'params' => [
-                        'type' => 'url'
-                    ]
-                    ],
-                    [
-                    'label' => 'Reseña:',
-                    'field' => 'contents.summary',
-                    'component' => 'textInput',
-                    'params' => [
-                        'type' => 'textarea',
-                        'rows' => '3'
-                    ]
-                ],
-                    [
-                    'label' => 'Descripción:',
-                    'field' => 'contents.description',
-                    'component' => 'wysiwyg'
-                    ]
-                ],
-                'publication' => [
+            'name' => "Page",
+            'display' => [
                 [
-                    'label' => 'Posición:',
-                    'field' => 'position',
-                    'component' => 'textInput',
-                    'params' => [
-                        'type' => 'number',
+                    'component' => 'entityCard',
+                    'props' => [
+                        'titleSize' => 2
                     ]
-                ],
-                [
-                    'label' => 'Publicado:',
-                    'field' => 'created_at',
-                    'component' => 'datetime',
-                ],
-                [
-                    'label' => 'Actualizado:',
-                    'field' => 'updated_at',
-                    'component' => 'datetime'
                 ]
             ],
-            'media' => []
+            'editor' => [
+                [
+                    'component' => 'formHeader',
+                    'props' => [
+                        'field' => 'contents.title',
+                        'level' => 3
+                    ]
+                ],
+                [
+                    'component' => 'titleSummaryContent'
+                ],
+                [
+                    'component' => 'urlAccess'
+                ],
+                [
+                    'component' => 'media',
+                    'props' => [
+                        'tags' => ['imagen', 'otro']
+                    ]
+                ],
+                [
+                    'component' => 'publication'
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => ['text' => 'H2', 'level' => 2]
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => ['text' => 'H3', 'level' => 3]
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => ['text' => 'H4', 'level' => 4]
+                ],
             ]
         ]
     ]
