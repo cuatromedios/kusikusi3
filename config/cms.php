@@ -9,16 +9,27 @@
  */
 return [
     'models' => [
+        'langs' => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
         'root' => [
             'name' => 'Root',
             'display' => [
                 [
                     'component' => 'children',
                     'props' => [
+                        'label' => 'Hijos',
                         'allowed' => [],
                         'order'  => 'e.position asc'
                     ]
-                ]
+                ],
+                [
+                    'component' => 'children',
+                    'props' => [
+                        'label' => 'Solo contenedores',
+                        'allowed' => ['container'],
+                        'filter' => ['model:container'],
+                        'order'  => 'e.position asc'
+                    ]
+                ],
             ]
         ],
         'home' => [
@@ -33,6 +44,7 @@ return [
                 [
                     'component' => 'children',
                     'props' => [
+                        'label' => 'Hijos',
                         'allowed' => ['section', 'page'],
                         'order'  => 'e.position asc'
                     ]
@@ -45,6 +57,9 @@ return [
                         'field' => 'contents.title',
                         'level' => 3
                     ]
+                ],
+                [
+                    'component' => 'multiLang'
                 ],
                 [
                     'component' => 'titleSummaryContent',
@@ -87,7 +102,16 @@ return [
                 [
                     'component' => 'media',
                     'props' => [
-                        'tags' => ['tag1', 'tag2', 'cover', 'icon', 'ejemplo']
+                        'tags' => ['tag1', 'tag2', 'cover', 'icon', 'ejemplo'],
+                        'filter' => ['.jpg', '.png']
+                    ]
+                ],
+                [
+                    'component' => 'relation',
+                    'props' => [
+                        'kind' => ['follow','ancestor'],
+                        'childrenOf' => 'media',
+                        'tags' => ['example', 'ejemplo', 'exemple', 'beispiel']
                     ]
                 ]
             ]
@@ -104,6 +128,7 @@ return [
                 [
                     'component' => 'children',
                     'props' => [
+                        'label' => 'Hijos',
                         'allowed' => ['page'],
                         'order'  => 'e.position asc'
                     ]
@@ -116,6 +141,9 @@ return [
                         'field' => 'contents.title',
                         'level' => 3
                     ]
+                ],
+                [
+                    'component' => 'multiLang'
                 ],
                 [
                     'component' => 'titleSummaryContent',
@@ -133,7 +161,8 @@ return [
                 [
                     'component' => 'media',
                     'props' => [
-                        'tags' => ['tag1', 'tag2', 'tag3', 'tag4']
+                        'tags' => ['tag1', 'tag2', 'tag3', 'tag4'],
+                        'filter' => ['.gif']
                     ]
                 ]
             ]
@@ -155,6 +184,9 @@ return [
                         'field' => 'contents.title',
                         'level' => 3
                     ]
+                ],
+                [
+                    'component' => 'multiLang'
                 ],
                 [
                     'component' => 'titleSummaryContent'
