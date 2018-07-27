@@ -109,7 +109,8 @@ return [
                 [
                     'component' => 'relation',
                     'props' => [
-                        'kind' => ['follow','ancestor'],
+                        'label' => 'Relaciones de medium',
+                        'kind' => ['medium','ancestor'],
                         'childrenOf' => 'media',
                         'tags' => ['example', 'ejemplo', 'exemple', 'beispiel']
                     ]
