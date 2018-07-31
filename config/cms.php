@@ -8,8 +8,8 @@
  *
  */
 return [
+    'langs' => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
     'models' => [
-        'langs' => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
         'root' => [
             'name' => 'Root',
             'display' => [
