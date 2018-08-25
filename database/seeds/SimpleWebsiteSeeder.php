@@ -132,7 +132,6 @@ class SimpleWebsiteSeeder extends Seeder
                   'write'      => 'any'
               ]);
 
-        // $eAdminUser->relations()->attach($eHome['id'], ['kind' => 'home', 'position' => 0]);
-
+        $eAdminUser->relations()->attach($eHome['id'], ['kind' => 'home', 'position' => 0]);
     }
 }
