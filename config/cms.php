@@ -148,6 +148,9 @@ return [
                 ],
                 [
                     'component' => 'titleSummaryContent',
+                    'props' => [
+                        'multilanguage' => true
+                    ]
                 ],
                 [
                     'component' => 'urlAccess'

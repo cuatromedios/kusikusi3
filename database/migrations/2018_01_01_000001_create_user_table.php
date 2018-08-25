@@ -15,7 +15,7 @@ class CreateUserTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->char('entity_id', 36)->unique()->primary();
+            $table->char('id', 36)->unique()->primary();
             $table->string('name', 100)->index();
             $table->string('email', 100);
             $table->string('password', 255);
@@ -23,7 +23,7 @@ class CreateUserTable extends Migration
         });
         Schema::create('authtokens', function (Blueprint $table) {
             $table->char('token', 128)->unique()->primary();
-            $table->char('entity_id', 36)->index();
+            $table->char('user_id', 36)->index();
             $table->char('created_ip', 45);
             $table->char('updated_ip', 45);
             $table->timestamps();

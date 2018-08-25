@@ -27,7 +27,7 @@ class User extends EntityData implements AuthenticatableContract, AuthorizableCo
      * @var array
      */
     protected $fillable = [
-        'entity_id', 'name', 'email', 'password', 'profile'
+        'name', 'email', 'password', 'profile'
     ];
 
     /**
@@ -56,7 +56,7 @@ class User extends EntityData implements AuthenticatableContract, AuthorizableCo
             ]);
             // TODO: If the user is inactive or deleted don't allow login
             $user->authtokens()->save($token);
-            $entity = Entity::getOne($user->entity_id, ['e.id', 'e.model', 'e.isActive', 'd.name', 'd.email', 'd.profile']);
+            $entity = Entity::getOne($user->id, ['e.id', 'e.model', 'e.isActive', 'd.name', 'd.email', 'd.profile']);
             $relations = Entity::getEntityRelations($user->entity_id, NULL, ['e.id', 'r.kind', 'r.position', 'r.tags', 'e.model']);
             $entity['relations'] = $relations;
             return ([
@@ -73,7 +73,7 @@ class User extends EntityData implements AuthenticatableContract, AuthorizableCo
      */
     public function authtokens()
     {
-        return $this->hasMany('Cuatromedios\Kusikusi\Models\Authtoken', 'entity_id');
+        return $this->hasMany('Cuatromedios\Kusikusi\Models\Authtoken', 'user_id');
     }
 
     /**
