@@ -32,6 +32,71 @@ return [
                 ],
             ]
         ],
+        'container' => [
+            'name' => 'Container',
+            'display' => [
+                [
+                    'component' => 'children',
+                    'props' => [
+                        'label' => 'Contenidos',
+                    ]
+                ]
+            ]
+        ],
+        'user' => [
+            'name' => 'User',
+            'display' => [
+                [
+                    'component' => 'entityCard',
+                ]
+            ],
+            'editor' => [
+                [
+                    'component' => 'formHeader',
+                    'props' => [
+                        'field' => 'name',
+                        'level' => 3
+                    ]
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => [ 'text' => 'User Basic Data', 'level' => 5 ]
+                ],
+                [
+                    'component' => 'userBasicData',
+                ],
+                [
+                    'component' => 'formHeader',
+                    'props' => [ 'text' => '---------------------------------------------------------------------------------', 'level' => 3]
+                ],
+                [
+                    'component' => 'publication'
+                ],
+            ]
+        ],
+        'medium' => [
+            'name' => 'Medium',
+            'display' => [
+                [
+                    'component' => 'entityCard',
+                ]
+            ],
+            'editor' => [
+                [
+                    'component' => 'formHeader',
+                    'props' => [
+                        'field' => 'name',
+                        'level' => 3
+                    ]
+                ],
+                [
+                    'component' => 'displayMedia',
+                ],
+                [
+                    'component' => 'publication'
+                ],
+            ]
+        ],
         'home' => [
             'name' => "Home",
             'display' => [
@@ -46,7 +111,8 @@ return [
                     'props' => [
                         'label' => 'Hijos',
                         'allowed' => ['section', 'page'],
-                        'order'  => 'e.position asc'
+                        'order'  => 'e.position asc',
+                        'tags' => ['example', 'ejemplo', 'exemple', 'beispiel']
                     ]
                 ],
             ],
@@ -70,6 +136,7 @@ return [
                         'label' => 'multilinea',
                         'field' => 'contents.summary',
                         'params' => [
+                            'type' => 'textarea',
                             'rows' => 3
                         ]
                     ]
@@ -156,11 +223,33 @@ return [
                     'component' => 'urlAccess'
                 ],
                 [
+                    'component' => 'selectInput',
+                    'props' => [
+                        'label' => 'Prueba',
+                        'field' => 'contents.summary',
+                        'placeholder' => 'Selecciona algo',
+                        'options' => [
+                            [
+                                'label' => 'Opcion 1',
+                                'value' => 'Elegiste la primer opcion'
+                            ],
+                            [
+                                'label' => 'Opcion 2',
+                                'value' => 'Elegiste la segunda de las opciones'
+                            ]
+                        ]
+                    ]
+                ],
+                [
                     'component' => 'formHeader',
                     'props' => [ 'text' => 'TEST', 'level' => 5 ]
                 ],
                 [
                     'component' => 'publication'
+                ],
+                [
+                    'component' => 'qrCode',
+                    'props' => [ 'prefix' => 'http://kusikusi.com/']
                 ],
                 [
                     'component' => 'media',
@@ -206,6 +295,9 @@ return [
                 ],
                 [
                     'component' => 'publication'
+                ],
+                [
+                    'component' => 'qrCode'
                 ],
                 [
                     'component' => 'formHeader',
