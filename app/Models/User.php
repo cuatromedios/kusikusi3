@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Cuatromedios\Kusikusi\Models\Entity;
+use Cuatromedios\Kusikusi\Models\EntityModel;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Support\Facades\Hash;
-use Cuatromedios\Kusikusi\Models\EntityData;
+use Cuatromedios\Kusikusi\Models\DataModel;
 use Cuatromedios\Kusikusi\Models\Authtoken;
 
-class User extends EntityData implements AuthenticatableContract, AuthorizableContract
+class User extends DataModel implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -56,8 +56,8 @@ class User extends EntityData implements AuthenticatableContract, AuthorizableCo
             ]);
             // TODO: If the user is inactive or deleted don't allow login
             $user->authtokens()->save($token);
-            $entity = Entity::getOne($user->id, ['e.id', 'e.model', 'e.isActive', 'd.name', 'd.email', 'd.profile']);
-            $relations = Entity::getEntityRelations($user->entity_id, NULL, ['e.id', 'r.kind', 'r.position', 'r.tags', 'e.model']);
+            $entity = EntityModel::getOne($user->id, ['e.id', 'e.model', 'e.isActive', 'd.name', 'd.email', 'd.profile']);
+            $relations = EntityModel::getEntityRelations($user->entity_id, NULL, ['e.id', 'r.kind', 'r.position', 'r.tags', 'e.model']);
             $entity['relations'] = $relations;
             return ([
                 "token" => $apikey,
@@ -92,7 +92,7 @@ class User extends EntityData implements AuthenticatableContract, AuthorizableCo
         return $this->hasMany('Cuatromedios\Kusikusi\Models\Activity', 'user_id');
     }
 
-    public static function boot()
+    public static function boot($preset = [])
     {
         parent::boot();
 

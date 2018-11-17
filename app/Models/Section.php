@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Cuatromedios\Kusikusi\Models\EntityData;
+use Cuatromedios\Kusikusi\Models\EntityModel;
 
-class Section extends EntityData
+class Section extends EntityModel
 {
-    public static $contentFields = ['title', 'description'];
-    public static $dataFields = [];
+
+  const modelId = 'home';
+
 }

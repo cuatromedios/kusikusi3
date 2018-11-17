@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Cuatromedios\Kusikusi\Models\Entity;
-use Cuatromedios\Kusikusi\Models\Permission;
-use App\Models\User;
-use Hackzilla\PasswordGenerator\Generator\RequirementPasswordGenerator;
+use \Cuatromedios\Kusikusi\Models\EntityContent;
 
 class SimpleWebsiteSeeder extends Seeder
 {
@@ -15,12 +12,51 @@ class SimpleWebsiteSeeder extends Seeder
      */
     public function run()
     {
-        $eHome = Entity::create([
+      $eHome = \App\Models\Entity::create([
+          "model" => \App\Models\Home::classModelId(),
+          "id" => \App\Models\Home::classModelId(),
+          "name" => ucfirst(\App\Models\Home::classModelId()),
+          "parent_id" => 'root',
+          "contents" => [
+              "title" => "Home"
+          ]
+      ]);
+
+      /*
+      $section = new \App\Models\Section([
+          'parent_id' => $home->id
+      ]);
+      $section->save();
+      \App\Models\Section::create([
+         'parent_id' => $home->id
+      ]);
+      */
+      /*$u1 = new App\Models\User([
+          'name' => 'user'
+      ]);
+      $u1->save();
+      print(" 1: ".$u1->id);
+      $u1->contents()->saveMany([
+         new EntityContent(['lang' => 'es', 'field' => 'title', 'value' => 'Home'])
+      ]);
+      */
+
+      /*$u2 = new App\Models\Entity([
+          'name' => 'user'
+      ]);
+      $u2->save();
+      print(" 2: ".$u2->id);
+      $u2->user()->create(["name" => "hugo"]);
+      */
+
+
+      /*
+        $home = App\Models\Home([
             'id' => 'home',
             'model' => 'home',
             'created_by' => 'seeder',
             'updated_by' => 'seeder',
-            'parent' => 'root',
+            'parent_id' => 'root',
             'contents' => [
                 'title' => 'Website title',
                 'description' => 'The website description',
@@ -29,8 +65,9 @@ class SimpleWebsiteSeeder extends Seeder
                 ['lang' => 'en', 'field' => 'summary', 'value' => 'The other title']
             ]
         ]);
-
-        $eSection = Entity::create([
+      */
+        /*
+        $eSection = EntityBase::create([
             'model' => 'section',
             'parent' => $eHome['id'],
             'created_by' => 'seeder',
@@ -42,7 +79,7 @@ class SimpleWebsiteSeeder extends Seeder
             ]
         ]);
 
-        $ePage = Entity::create([
+        $ePage = EntityBase::create([
             'model' => 'page',
             'parent' => $eSection['id'],
             'created_by' => 'seeder',
@@ -54,7 +91,7 @@ class SimpleWebsiteSeeder extends Seeder
             ]
         ]);
 
-        $eMedia = Entity::create([
+        $eMedia = EntityBase::create([
             'id' => 'media',
             'model' => 'container',
             'parent' => 'root',
@@ -64,7 +101,7 @@ class SimpleWebsiteSeeder extends Seeder
         ]);
 
         for ($i = 0; $i < 5; $i++) {
-            $eMedium = Entity::create([
+            $eMedium = EntityBase::create([
                 'model' => 'medium',
                 'parent' => $eMedia['id'],
                 'position' => $i,
@@ -81,7 +118,7 @@ class SimpleWebsiteSeeder extends Seeder
             $ePage->relations()->attach($eMedium['id'], ['kind' => 'medium', 'position' => $i]);
         }
 
-              $eUsers = Entity::create([
+              $eUsers = EntityBase::create([
                   'id' => 'users',
                   'model' => 'container',
                   'parent' => 'root',
@@ -111,7 +148,7 @@ class SimpleWebsiteSeeder extends Seeder
               print ("* Admin username: ".$adminUsername)."\n";
               print ("* Admin password: ".$adminPassword)."\n";
               print ("***************** \n");
-              $eAdminUser = Entity::create([
+              $eAdminUser = EntityBase::create([
                   'model' => 'user',
                   'name' => 'Admin',
                   'parent' => $eUsers['id'],
@@ -133,5 +170,6 @@ class SimpleWebsiteSeeder extends Seeder
               ]);
 
         $eAdminUser->relations()->attach($eHome['id'], ['kind' => 'home', 'position' => 0]);
+        */
     }
 }
