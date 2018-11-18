@@ -21,4 +21,7 @@ class Entity extends EntityModel
   public function root() {
     return $this->hasOne('App\Models\Root', 'id');
   }
+  public function home() {
+    return $this->hasOne('App\Models\Home', 'id');
+  }
 }

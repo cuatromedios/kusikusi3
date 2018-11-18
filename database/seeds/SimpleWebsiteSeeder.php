@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use \Cuatromedios\Kusikusi\Models\EntityContent;
+use App\Models\Home;
+use App\Models\Entity;
 
 class SimpleWebsiteSeeder extends Seeder
 {
@@ -12,15 +13,15 @@ class SimpleWebsiteSeeder extends Seeder
      */
     public function run()
     {
-      $eHome = \App\Models\Entity::create([
-          "model" => \App\Models\Home::classModelId(),
-          "id" => \App\Models\Home::classModelId(),
-          "name" => ucfirst(\App\Models\Home::classModelId()),
+     Entity::create([
+          "model" => Home::modelId(),
+          "id" => Home::modelId(),
+          "name" => ucfirst(Home::modelId()),
           "parent_id" => 'root',
           "contents" => [
               "title" => "Home"
           ]
-      ]);
+     ]);
 
       /*
       $section = new \App\Models\Section([

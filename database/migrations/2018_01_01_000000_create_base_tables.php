@@ -14,11 +14,11 @@ class CreateBaseTables extends Migration
   public function up()
   {
     Schema::create('entities', function (Blueprint $table) {
-      $table->char('id', 36)->unique();
+      $table->char('id', 36)->unique()->primary();
       $table->string('model', 100)->index();
-      $table->string('name', 255);
+      $table->string('name', 255)->default('');
       $table->char('parent_id', 36)->index()->default('');
-      $table->boolean('isActive')->index()->default(true);
+      $table->boolean('active')->index()->default(true);
       $table->char('created_by', 36)->default('system');
       $table->char('updated_by', 36)->default('system');
       $table->dateTime('publicated_at')->nullable()->default(date("Y-m-d H:i:s"));
@@ -31,14 +31,16 @@ class CreateBaseTables extends Migration
       $table->softDeletes();
     });
     Schema::create('nodata', function (Blueprint $table) {
-      $table->char('id', 36)->unique();
+      $table->char('id', 36)->unique()->primary();
+      $table->char('model', 100)->index()->default('no-model');
     });
     Schema::create('contents', function (Blueprint $table) {
-      $table->char('entity_id', 36)->index();
-      $table->string('lang', 5)->index()->default('');
-      $table->string('field', 100)->index();
+      $table->char('entity_id', 36);
+      $table->string('lang', 5)->default('');
+      $table->string('field', 100);
       $table->mediumText('value', 100);
       $table->primary(['entity_id', 'lang', 'field']);
+      $table->unique(['entity_id', 'lang', 'field']);
     });
     Schema::create('relations', function (Blueprint $table) {
       $table->char('caller_id', 36)->index();
