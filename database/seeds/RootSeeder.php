@@ -48,7 +48,7 @@ class RootSeeder extends Seeder
     $book3->save();
 
     $books = \App\Models\Book::all();
-    var_dump($books->count());
+    var_dump($books->toArray());
 
 
 
