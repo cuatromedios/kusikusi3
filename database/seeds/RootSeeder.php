@@ -26,6 +26,9 @@ class RootSeeder extends Seeder
         "entity" =>  [
             "parent_id" =>  "the-category-id",
             "active" =>  false
+        ],
+        "contents" => [
+            "title" => "Libro 1"
         ]
     ]);
     $book->save();
@@ -36,19 +39,31 @@ class RootSeeder extends Seeder
           "active" =>  false
       ],
       "contents" => [
-          ["field" => "title", "value" => "The Book"]
+        "title" => "Libro 2 T1",
+        "summary" => "Libro 2 S1",
+        "es" => [
+            "title" => "Libro 2 T1 en español"
+        ]
       ]
     ]);
+    $book2->save();
 
-    $book3 = \App\Models\Book::find($book2->id);
-
-    $book3->entity = [
+    $book2->contents = [
+        "title" => "Libro 2 T2",
+        "summary" => "Libro 2 S2",
+        "description" => "Libro 2 D2",
+        "fr" => [
+            "title" => "Libro 2 T2 en francés"
+        ]
+    ];
+    $book2->entity = [
         "parent_id" => "nuevo"
     ];
-    $book3->save();
+    $book2->save();
 
-    $books = \App\Models\Book::all();
-    var_dump($books->toArray());
+    // $books = \App\Models\Book::all();
+
+    // var_dump($books->toArray());
 
 
 

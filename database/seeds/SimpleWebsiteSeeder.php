@@ -23,6 +23,28 @@ class SimpleWebsiteSeeder extends Seeder
           ]
      ]);
 
+     $home = Entity::find('home');
+     $home->contents = [
+         "summary" => "The home summary"
+     ];
+     $home->save();
+
+      $book = Entity::create([
+          "model" => \App\Models\Book::modelId(),
+          "parent_id" => 'root',
+          "contents" => [
+              "title" => "A Book"
+          ]
+      ]);
+
+      $book = Entity::find($book->id);
+      $book->contents = [
+          "summary" => "The book summary"
+      ];
+      $book->save();
+
+      print_r(Entity::find($book->id)->toArray());
+
       /*
       $section = new \App\Models\Section([
           'parent_id' => $home->id

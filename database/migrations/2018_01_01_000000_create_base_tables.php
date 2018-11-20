@@ -35,12 +35,11 @@ class CreateBaseTables extends Migration
       $table->char('model', 100)->index()->default('no-model');
     });
     Schema::create('contents', function (Blueprint $table) {
-      $table->char('entity_id', 36);
-      $table->string('lang', 5)->default('');
-      $table->string('field', 100);
+      $table->string('id', 256)->primary();
+      $table->char('entity_id', 36)->index();
+      $table->char('lang', 5)->default('')->index();
+      $table->string('field', 100)->index();
       $table->mediumText('value', 100);
-      $table->primary(['entity_id', 'lang', 'field']);
-      $table->unique(['entity_id', 'lang', 'field']);
     });
     Schema::create('relations', function (Blueprint $table) {
       $table->char('caller_id', 36)->index();
