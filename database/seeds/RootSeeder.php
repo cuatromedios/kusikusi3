@@ -21,7 +21,7 @@ class RootSeeder extends Seeder
         ]
     ]);
     $root->save();
-
+/*
     $book = new \App\Models\Book([
         "entity" =>  [
             "parent_id" =>  "the-category-id",
@@ -60,6 +60,7 @@ class RootSeeder extends Seeder
         "parent_id" => "nuevo"
     ];
     $book2->save();
+*/
 
     // $books = \App\Models\Book::all();
 
