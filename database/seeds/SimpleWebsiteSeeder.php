@@ -42,9 +42,9 @@ class SimpleWebsiteSeeder extends Seeder
 
     $user = User::with(['relatedEntity', 'relatedContents'])->get();
     $user->each->append('entity', 'contents');
-    var_dump($user->first()->toArray());
+    var_dump($user->toArray());
 
-    $homes = Entity::where(['model' => 'home'])->get();
+    $homes = Entity::with(['relatedContents'])->where(['model' => 'home'])->get();
     $homes->each->append('contents');
     var_dump($homes->toArray());
 
