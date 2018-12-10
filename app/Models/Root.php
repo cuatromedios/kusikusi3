@@ -2,23 +2,9 @@
 
 namespace App\Models;
 
-use Cuatromedios\Kusikusi\Models\EntityData;
+use Cuatromedios\Kusikusi\Models\DataModel;
 
-class Root extends EntityData
+class Root extends DataModel
 {
-    public static $contentFields = [];
-    public static $dataFields = [];
-
-    /**
-     * Events.
-     *
-     * @var bool
-     */
-    public static function beforeSave($model)
-    {
-       $model['id'] = "root";
-       $model['parent'] = "";
-       return $model;
-    }
 
 }

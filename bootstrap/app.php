@@ -124,7 +124,7 @@ $app->register(Intervention\Image\ImageServiceProvider::class);
 |
 | By default api and website routes are binded to KusiKusi Kernel
 | default controllers, but you are free to create your own routes and controllers
-| for example if your App does not need the Entity endpoint exposed,
+| for example if your App does not need the EntityBase endpoint exposed,
 | and call them here with appropiate paths like app/Http/Controllers:
 |
 */

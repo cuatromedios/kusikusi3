@@ -2,16 +2,9 @@
 
 namespace App\Models;
 
-use Cuatromedios\Kusikusi\Models\EntityData;
+use Cuatromedios\Kusikusi\Models\DataModel;
 
-class Home extends EntityData
+class Home extends DataModel
 {
-    public static $contentFields = ['title', 'description'];
-    public static $dataFields = [];
-    public static function beforeSave($model)
-    {
-        // Home is always forced to name home
-        $model['name'] = "Home";
-        return $model;
-    }
+
 }

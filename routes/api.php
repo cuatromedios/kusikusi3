@@ -40,7 +40,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
 
     /*
     |--------------------------------------------------------------------------
-    | Generic API Entity, User and Media Endpoints.
+    | Generic API EntityBase, User and Media Endpoints.
     | Feel free to remove the ones you don't need, maybe all of them?
     |--------------------------------------------------------------------------
     */
