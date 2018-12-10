@@ -15,10 +15,10 @@ class SimpleWebsiteSeeder extends Seeder
   public function run()
   {
     $admin = new User([
-        "name" => "Admin",
-        "email" => "admin",
-        "password" => "admin",
-        "profile" => User::PROFILE_ADMIN,
+      "name" => "Admin",
+      "email" => "admin",
+      "password" => "admin",
+      "profile" => User::PROFILE_ADMIN,
       "contents" => [
           "cv" => "El nombre completo"
       ]
@@ -40,10 +40,13 @@ class SimpleWebsiteSeeder extends Seeder
     ];
     $home->save();
 
-    $user = User::find($admin->id);
+    $user = User::with(['relatedEntity', 'relatedContents'])->get();
+    $user->each->append('entity', 'contents');
     var_dump($user->toArray());
-    $eUser = Entity::find($admin->id);
-    var_dump($eUser->toArray());
+
+    $homes = Entity::with(['relatedContents'])->where(['model' => 'home'])->get();
+    $homes->each->append('contents');
+    var_dump($homes->toArray());
 
 
     /*
