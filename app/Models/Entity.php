@@ -18,4 +18,10 @@ class Entity extends EntityModel
   public function user() {
     return $this->hasOne('App\Models\User', 'id');
   }
+  public function root() {
+    return $this->hasOne('App\Models\Root', 'id');
+  }
+  public function home() {
+    return $this->hasOne('App\Models\Home', 'id');
+  }
 }

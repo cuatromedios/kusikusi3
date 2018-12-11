@@ -16,7 +16,7 @@ class CreateUserTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->char('id', 36)->unique()->primary();
-            $table->string('name', 100)->index()->default('');
+            $table->string('name', 100)->index();
             $table->string('email', 100);
             $table->string('password', 255);
             $table->enum('profile', [User::PROFILE_ADMIN, User::PROFILE_EDITOR, User::PROFILE_USER])->index()->default(User::PROFILE_USER);
