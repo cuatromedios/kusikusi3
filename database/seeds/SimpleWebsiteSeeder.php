@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Home;
 use App\Models\User;
 use App\Models\Entity;
-use Cuatromedios\Kusikusi\Models\Relation;
 
 class SimpleWebsiteSeeder extends Seeder
 {
@@ -16,10 +15,10 @@ class SimpleWebsiteSeeder extends Seeder
   public function run()
   {
     $admin = new User([
-        "name" => "Admin",
-        "email" => "admin",
-        "password" => "admin",
-        "profile" => User::PROFILE_ADMIN,
+      "name" => "Admin",
+      "email" => "admin",
+      "password" => "admin",
+      "profile" => User::PROFILE_ADMIN,
       "contents" => [
           "cv" => "El nombre completo"
       ]
@@ -34,49 +33,20 @@ class SimpleWebsiteSeeder extends Seeder
             "title" => "Home"
         ]
     ]);
-    
-    // $home->relations()->attach('root', ['kind' => 'ancestor', 'position' => '1']);
 
-    $notHome = Entity::create([
-        "model" => Home::modelId(),
-        "id" => 'notHome',
-        "name" => 'Not Home',
-        "parent_id" => $home->id,
-        "contents" => [
-            "title" => "Not Home"
-        ]
-    ]);
-
-    // $notHome->relations()->attach('home', ['kind' => 'ancestor', 'position' => '1']);
-
-    $notHome->addRelation(['id' => 'root']);
-    // $notHome->addRelation(['id' => 'root', 'relation' => ['kind' => 'ancestor']]);
-
-    $admin = new User([
-        "name" => "Admin",
-        "email" => "admin",
-        "password" => "admin",
-        "profile" => User::PROFILE_ADMIN,
-        "entity" => [
-            "parent_id" => 'home'
-        ],
-        "contents" => [
-            "cv" => "El nombre completo"
-        ]
-      ]);
-      $admin->save();
-
-      $notHome->addRelation(['id' => $admin->id]);
     $home = Entity::find('home');
     $home->contents = [
         "summary" => "The home summary"
     ];
     $home->save();
 
-    $user = User::find($admin->id);
+    $user = User::with(['relatedEntity', 'relatedContents'])->get();
+    $user->each->append('entity', 'contents');
     var_dump($user->toArray());
-    $eUser = Entity::find($admin->id);
-    var_dump($eUser->toArray());
+
+    $homes = Entity::with(['relatedContents'])->where(['model' => 'home'])->get();
+    $homes->each->append('contents');
+    var_dump($homes->toArray());
 
 
     /*
