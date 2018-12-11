@@ -36,6 +36,7 @@ class SimpleWebsiteSeeder extends Seeder
     ]);
     $adminEntity->addContents(["cv" => "The user CV", "bio" => "My bio"]);
     $adminEntity->addRelation(['id' => $homeEntity->id, 'kind' => 'home', 'tags' => '1,2,3', 'depth'=>3, 'position'=>4]);
+    $homeEntity->addRelation(['id' => $adminEntity->id, 'kind' => 'like', 'tags' => '4,5,6', 'depth'=>0, 'position'=>0]);
 
     $adminUser = new User([
         "name" => "Admin",
@@ -46,9 +47,18 @@ class SimpleWebsiteSeeder extends Seeder
     $adminEntity->user()->save($adminUser);
     $adminEntity->save();
 
-    $homes = Entity::ofModel('user')->select('id')->with('user')->with(['contents' => function($query) {$query->where('field', '=', 'summary')->orWhere('field', '=', 'cv');}])->get();
+    $homes = Entity::ofModel('home')
+        ->select('id', 'model')
+        ->with(['relations'=>function($query) {
+          $query->select('id', 'model')
+              ->with(['contents' => function($query) {$query->where('field', '=', 'title');}])
+              ->with('user')
+              ->where('kind', '=', 'like');
+          }])
+        ->with(['contents' => function($query) {$query->where('field', '=', 'summary')->orWhere('field', '=', 'cv');}])
+        ->get();
 
     $grouped = array_map("Cuatromedios\Kusikusi\Models\EntityContent::reduce", $homes->toArray());
-    var_dump($grouped);
+    var_dump($grouped[0]['relations'][0]);
   }
 }
