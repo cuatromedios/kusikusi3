@@ -35,7 +35,7 @@ class CreateBaseTables extends Migration
       $table->char('model', 100)->index()->default('no-model');
     });
     Schema::create('contents', function (Blueprint $table) {
-      $table->string('id', 100)->primary();
+      $table->string('id', 256)->primary();
       $table->char('entity_id', 36)->index();
       $table->char('lang', 5)->default('')->index();
       $table->string('field', 100)->index();
@@ -47,7 +47,7 @@ class CreateBaseTables extends Migration
       $table->enum('kind', ['relation', 'ancestor', 'category', 'medium', 'home', 'favorite', 'like', 'follow'])->index()->default('relation');
       $table->integer('position')->default(0);
       $table->integer('depth')->default(0);
-      $table->string('tags', 255)->default('');
+      $table->string('tags', 255);
       $table->primary(['caller_id', 'called_id', 'kind']);
       $table->timestamps();
     });

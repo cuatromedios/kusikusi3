@@ -18,7 +18,7 @@ class CreateActivityTable extends Migration
             $table->char('entity_id', 36)->index();
             $table->string('action', 100)->index();
             $table->boolean('isSuccess')->index();
-            $table->string('subaction', 100)->index()->nullable();
+            $table->string('subaction')->index()->nullable();
             $table->mediumText('metadata')->nullable();
             $table->timestamps();
         });
