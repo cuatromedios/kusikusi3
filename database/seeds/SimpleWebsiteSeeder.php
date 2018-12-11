@@ -73,10 +73,13 @@ class SimpleWebsiteSeeder extends Seeder
     ];
     $home->save();
 
-    $user = User::find($admin->id);
-    var_dump($user->toArray());
-    $eUser = Entity::find($admin->id);
-    var_dump($eUser->toArray());
+    $user = User::with(['relatedEntity', 'relatedContents'])->get();
+    $user->each->append('entity', 'contents');
+    var_dump($user->first()->toArray());
+
+    $homes = Entity::where(['model' => 'home'])->get();
+    $homes->each->append('contents');
+    var_dump($homes->toArray());
 
 
     /*
