@@ -26,12 +26,12 @@ class SimpleWebsiteSeeder extends Seeder
     $homeEntity->contents()->save(new EntityContent(["field" => "title", "value"=>"El home", "lang" => "en"]));
     $homeEntity->contents()->save(new EntityContent(["field" => "summary", "value"=>"Bienvenidos"]));
     $homeEntity->contents()->save(new EntityContent(["footer" => "Teléfono"]));
-    $homeEntity->addContents(["keywords" => "a,b,c"]);
+    $homeEntity->addContents(["keywords" => "a,b,c", "address" => "none"]);
     $homeEntity->save();
 
 
     $adminEntity = new Entity([
-        "model" => "user",
+        "model" => "userx",
         "parent_id" => $homeEntity->id
     ]);
     $adminEntity->addContents(["cv" => "The user CV", "bio" => "My bio"]);
