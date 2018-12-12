@@ -73,6 +73,7 @@ class SimpleWebsiteSeeder extends Seeder
           ]);
           $image->addContents(["title" => "Image {$s}-{$p}-{$i}"]);
           $image->save();
+          $section->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i]);
           $page->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i]);
         }
         $page->addRelation(['id' => $homeEntity->id, 'kind' => 'home', 'tags' => []]);
@@ -88,13 +89,21 @@ class SimpleWebsiteSeeder extends Seeder
             $query->select('id')
                 ->whereModel('image')
                 ->whereKind('medium')
-                ->whereTags('icon1', 'icon2')
+                ->whereTags('icon1')
                 ->withContents('title');
           })
+         ->take(2)
          ->get()
          ->compact();
 
-    print(json_encode($pages, JSON_PRETTY_PRINT));
+    $page = Entity::select('id')
+        ->ancestorOf('page_3_2')
+        ->withContents('title', 'summary')
+        ->get()
+        ->compact();
+
+    print(json_encode($page, JSON_PRETTY_PRINT));
+
 
   }
 }
