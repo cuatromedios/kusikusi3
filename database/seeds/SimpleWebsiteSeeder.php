@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Home;
 use App\Models\User;
 use App\Models\Entity;
-use Cuatromedios\Kusikusi\Models\Relation;
 use Cuatromedios\Kusikusi\Models\EntityContent;
 
 class SimpleWebsiteSeeder extends Seeder
@@ -18,18 +16,13 @@ class SimpleWebsiteSeeder extends Seeder
   {
 
     $homeEntity = new Entity([
-        "model" => Home::modelId(),
-        "id" => Home::modelId(),
-        "name" => ucfirst(Home::modelId()),
+        "model" => 'home',
+        "id" => 'home',
+        "name" => ucfirst('Home'),
         "parent_id" => 'root',
     ]);
-    $homeEntity->contents()->save(new EntityContent(["field" => "title", "value"=>"El home", "lang" => "en"]));
-    $homeEntity->contents()->save(new EntityContent(["field" => "summary", "value"=>"Bienvenidos"]));
-    $homeEntity->contents()->save(new EntityContent(["footer" => "Teléfono"]));
-    $homeEntity->addContents(["keywords" => "a,b,c", "address" => "none"]);
-    $homeEntity->addContents(["keywords" => "fgh", "address" => "none"]);
+    $homeEntity->addContents(["title" => "The home", "summary" => "The home summary"]);
     $homeEntity->save();
-    $homeEntity->deleteContents(['address', 'keywords'], 'en');
 
 
     $adminEntity = new Entity([
@@ -49,31 +42,59 @@ class SimpleWebsiteSeeder extends Seeder
     $adminEntity->user()->save($adminUser);
     $adminEntity->save();
 
-    $homes = Entity::ofModel('home')
-        ->select('id', 'model')
-        ->with(['relations'=>function($query) {
-          $query->select('id', 'model')
-              ->with(['contents' => function($query) {$query->where('field', '=', 'cv');}])
-              ->with('user')
-              ->where('kind', '=', 'like');
-          }])
-        ->with(['contents' => function($query) {$query->where('field', '=', 'summary')->orWhere('field', '=', 'title');}])
-        ->get()
-    ->compact();
+    $section = new Entity([
+        "model" => "media",
+        "id" => "media",
+        "parent_id" => "root"
+    ]);
+    $section->save();
 
-    print_r($homes);
+    for ($s = 1; $s <= 3; $s++) {
+      $section = new Entity([
+          "model" => "section",
+          "id" => "section_".$s,
+          "parent_id" => "home"
+      ]);
+      $section->addContents(["title" => "Section {$s}", "summary" => "The summary of section {$s}"]);
+      $section->save();
+      for ($p = 1; $p <= 3; $p++) {
+        $page = new Entity([
+            "model" => "page",
+            "id" => "page_{$s}_{$p}",
+            "parent_id" => $section->id
+        ]);
+        $page->addContents(["title" => "Page {$s}-{$p}", "summary" => "The summary of page {$p} of section {$s}"]);
+        $page->save();
+        for ($i = 1; $i <= 2; $i++) {
+          $image = new Entity([
+              "model" => "image",
+              "id" => "image_{$s}_{$p}_{$i}",
+              "parent_id" => 'media'
+          ]);
+          $image->addContents(["title" => "Image {$s}-{$p}-{$i}"]);
+          $image->save();
+          $page->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i]);
+        }
+        $page->addRelation(['id' => $homeEntity->id, 'kind' => 'home', 'tags' => []]);
+      }
+    }
+    print("Done creating 110 entities");
 
-    $user = User::with("entity.contents")->first();
-
-     // print(json_encode(EntityContent::compact($user), JSON_PRETTY_PRINT));
-
-     $all = Entity::select('id', 'model')
+     $pages = Entity::select('id', 'model', 'parent_id')
+         ->ofModel('page')
+         ->childOf('section_3')
          ->withContents('title', 'summary')
-         ->with('user')
+         ->withRelations(function($query) {
+            $query->select('id')
+                ->whereModel('image')
+                ->whereKind('medium')
+                ->whereTags('icon1', 'icon2')
+                ->withContents('title');
+          })
          ->get()
          ->compact();
 
-    //print_r($all);
+    print(json_encode($pages, JSON_PRETTY_PRINT));
 
   }
 }

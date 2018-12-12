@@ -41,13 +41,6 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       'password', 'relatedEntity', 'relatedContents'
   ];
 
-  /**
-   * Indicates if the IDs are auto-incrementing.
-   *
-   * @var bool
-   */
-  public $incrementing = false;
-
   public static function authenticate($email, $password, $ip)
   {
     $user = User::where('email', $email)->first();
