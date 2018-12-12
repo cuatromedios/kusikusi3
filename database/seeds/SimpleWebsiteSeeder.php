@@ -27,7 +27,9 @@ class SimpleWebsiteSeeder extends Seeder
     $homeEntity->contents()->save(new EntityContent(["field" => "summary", "value"=>"Bienvenidos"]));
     $homeEntity->contents()->save(new EntityContent(["footer" => "Teléfono"]));
     $homeEntity->addContents(["keywords" => "a,b,c", "address" => "none"]);
+    $homeEntity->addContents(["keywords" => "fgh", "address" => "none"]);
     $homeEntity->save();
+    $homeEntity->deleteContents(['address', 'keywords'], 'en');
 
 
     $adminEntity = new Entity([
