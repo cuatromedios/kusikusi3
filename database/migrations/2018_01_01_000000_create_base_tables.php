@@ -48,7 +48,7 @@ class CreateBaseTables extends Migration
       $table->enum('kind', ['relation', 'ancestor', 'category', 'medium', 'home', 'favorite', 'like', 'follow'])->index()->default('relation');
       $table->integer('position')->default(0);
       $table->integer('depth')->default(0);
-      $table->string('tags', 255)->default('');
+      $table->text('tags');
       $table->primary(['caller_id', 'called_id', 'kind']);
       $table->timestamps();
     });

@@ -61,13 +61,20 @@ class SimpleWebsiteSeeder extends Seeder
         ->get();
 
     $grouped = EntityContent::compact($homes->toArray());
-    // print(json_encode($grouped, JSON_PRETTY_PRINT));
+     print(json_encode($grouped, JSON_PRETTY_PRINT));
 
     $user = User::with("entity.contents")->first();
 
      // print(json_encode(EntityContent::compact($user), JSON_PRETTY_PRINT));
 
-     $all = Entity::withContents('bio')->with('user')->get();
+     $all = Entity::select('id', 'model')
+         ->withContents('bio')
+         ->with('user')
+         ->get();
+
     print(json_encode(EntityContent::compact($all), JSON_PRETTY_PRINT));
+
+    $rels = Relation::get();
+    print(json_encode($rels, JSON_PRETTY_PRINT));
   }
 }
