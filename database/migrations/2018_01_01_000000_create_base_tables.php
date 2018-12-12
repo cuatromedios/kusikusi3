@@ -52,6 +52,9 @@ class CreateBaseTables extends Migration
       $table->primary(['caller_id', 'called_id', 'kind']);
       $table->timestamps();
     });
+
+    DB::statement('ALTER TABLE contents ADD FULLTEXT contents_index (value)');
+    DB::statement('ALTER TABLE relations ADD FULLTEXT tags_index (tags)');
   }
 
   /**
