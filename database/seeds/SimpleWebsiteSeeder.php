@@ -57,24 +57,23 @@ class SimpleWebsiteSeeder extends Seeder
               ->with('user')
               ->where('kind', '=', 'like');
           }])
-        ->with(['contents' => function($query) {$query->where('field', '=', 'summary')->orWhere('field', '=', 'cv');}])
-        ->get();
+        ->with(['contents' => function($query) {$query->where('field', '=', 'summary')->orWhere('field', '=', 'title');}])
+        ->get()
+    ->compact();
 
-    $grouped = EntityContent::compact($homes->toArray());
-     print(json_encode($grouped, JSON_PRETTY_PRINT));
+    print_r($homes);
 
     $user = User::with("entity.contents")->first();
 
      // print(json_encode(EntityContent::compact($user), JSON_PRETTY_PRINT));
 
      $all = Entity::select('id', 'model')
-         ->withContents('bio')
+         ->withContents('title', 'summary')
          ->with('user')
-         ->get();
+         ->get()
+         ->compact();
 
-    print(json_encode(EntityContent::compact($all), JSON_PRETTY_PRINT));
+    //print_r($all);
 
-    $rels = Relation::get();
-    print(json_encode($rels, JSON_PRETTY_PRINT));
   }
 }
