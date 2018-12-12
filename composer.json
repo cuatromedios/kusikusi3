@@ -21,6 +21,9 @@
         "mnabialek/laravel-sql-logger": "^1.1"
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "psr-4": {
             "App\\": "app/"
         }
