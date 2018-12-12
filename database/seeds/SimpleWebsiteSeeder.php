@@ -33,7 +33,7 @@ class SimpleWebsiteSeeder extends Seeder
 
 
     $adminEntity = new Entity([
-        "model" => "userx",
+        "model" => "user",
         "parent_id" => $homeEntity->id
     ]);
     $adminEntity->addContents(["cv" => "The user CV", "bio" => "My bio"]);
@@ -53,14 +53,23 @@ class SimpleWebsiteSeeder extends Seeder
         ->select('id', 'model')
         ->with(['relations'=>function($query) {
           $query->select('id', 'model')
-              ->with(['contents' => function($query) {$query->where('field', '=', 'title');}])
+              ->with(['contents' => function($query) {$query->where('field', '=', 'cv');}])
               ->with('user')
               ->where('kind', '=', 'like');
           }])
         ->with(['contents' => function($query) {$query->where('field', '=', 'summary')->orWhere('field', '=', 'cv');}])
         ->get();
 
-    $grouped = array_map("Cuatromedios\Kusikusi\Models\EntityContent::reduce", $homes->toArray());
-    var_dump($grouped[0]['relations'][0]);
+    $grouped = EntityContent::compact($homes->toArray());
+    print(json_encode($grouped, JSON_PRETTY_PRINT));
+
+     print("*******\n");
+
+    $user = User::with("entity.contents")->first();
+
+     print(json_encode(EntityContent::compact($user), JSON_PRETTY_PRINT));
+
+     $all = Entity::with('contents')->get();
+    print(json_encode(EntityContent::compact($all), JSON_PRETTY_PRINT));
   }
 }
