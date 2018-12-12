@@ -39,6 +39,7 @@ class CreateBaseTables extends Migration
       $table->char('entity_id', 36)->index();
       $table->char('lang', 5)->default('')->index();
       $table->string('field', 100)->index();
+      $table->timestamps();
       $table->mediumText('value', 100);
     });
     Schema::create('relations', function (Blueprint $table) {
