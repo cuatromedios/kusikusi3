@@ -71,7 +71,7 @@ class SimpleWebsiteSeeder extends Seeder
         $page->save();
         for ($i = 1; $i <= 2; $i++) {
           $image = new Entity([
-              "model" => "image",
+              "model" => "medium",
               "id" => "image_{$s}_{$p}_{$i}",
               "parent_id" => 'media'
           ]);
@@ -93,17 +93,7 @@ class SimpleWebsiteSeeder extends Seeder
          ->childOf('section_3')
          ->withContents('title', 'summary')
          ->orderByContents('title' )
-         ->withRelations(function($query) {
-            $query->select('id')
-                ->whereModel('image')
-                ->whereKind('medium')
-                ->whereTags('icon1', 'icon2')
-                ->with(['medium' => function($query) {
-
-                }])
-                ->orderBy('position', 'asc')
-                ->withContents('title');
-          })
+         ->withMedia('icon1')
          ->get()
          ->compact();
 
