@@ -14,7 +14,7 @@ class SimpleWebsiteSeeder extends Seeder
    */
   public function run()
   {
-
+    $faker = Faker\Factory::create();
     $homeEntity = new Entity([
         "model" => 'home',
         "id" => 'home',
@@ -63,7 +63,11 @@ class SimpleWebsiteSeeder extends Seeder
             "id" => "page_{$s}_{$p}",
             "parent_id" => $section->id
         ]);
-        $page->addContents(["title" => "Page {$s}-{$p}", "summary" => "The summary of page {$p} of section {$s}"]);
+        //$page->addContents(["title" => "Page {$s}-{$p}", "summary" => "The summary of page {$p} of section {$s}"]);
+        $page->addContents([
+            "title" => $faker->name,
+            "summary" => $faker->address
+        ]);
         $page->save();
         for ($i = 1; $i <= 2; $i++) {
           $image = new Entity([
@@ -81,20 +85,22 @@ class SimpleWebsiteSeeder extends Seeder
     }
     print("Done creating 110 entities");
 
-     $pages = Entity::select('id', 'model', 'parent_id')
+    $pages = Entity::select('entities.id', 'model', 'parent_id')
          ->ofModel('page')
          ->childOf('section_3')
          ->withContents('title', 'summary')
-         ->withRelations(function($query) {
+         ->orderByContents('title' )
+         /*->withRelations(function($query) {
             $query->select('id')
                 ->whereModel('image')
                 ->whereKind('medium')
                 ->whereTags('icon1')
                 ->withContents('title');
-          })
-         ->take(2)
+          })*/
          ->get()
          ->compact();
+
+    print(json_encode($pages, JSON_PRETTY_PRINT));
 
     $page = Entity::select('id')
         ->ancestorOf('page_3_2')
@@ -102,7 +108,6 @@ class SimpleWebsiteSeeder extends Seeder
         ->get()
         ->compact();
 
-    print(json_encode($page, JSON_PRETTY_PRINT));
 
 
   }
