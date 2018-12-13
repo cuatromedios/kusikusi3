@@ -88,14 +88,15 @@ class SimpleWebsiteSeeder extends Seeder
       }
     }
 
-    $pages = Entity::select('entities.id', 'model', 'parent_id')
-         ->ofModel('page')
-         ->childOf('section_3')
-         ->withContents('title', 'summary')
-         ->orderByContents('title' )
-         ->withMedia('icon1')
-         ->get()
-         ->compact();
+    $pages = Entity::select()
+         //->ofModel('user')
+         //->childOf('section_3')
+             ->with('relations')
+         //->withContents('title', 'summary')
+         //->orderByContents('title' )
+         //->withMedia('icon1')
+         //->paginate(2);
+        ->get();
 
     print(json_encode($pages, JSON_PRETTY_PRINT));
 
