@@ -76,27 +76,34 @@ class SimpleWebsiteSeeder extends Seeder
               "parent_id" => 'media'
           ]);
           $image->addContents(["title" => "Image {$s}-{$p}-{$i}"]);
+          $image->medium()->save(new \App\Models\Medium([
+              "size" => rand(1000,9999),
+              "format" => "jpg"
+          ]));
           $image->save();
-          $section->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i]);
-          $page->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i]);
+          $section->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i, 'position' => $i]);
+          $page->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i, 'position' => $i]);
         }
         $page->addRelation(['id' => $homeEntity->id, 'kind' => 'home', 'tags' => []]);
       }
     }
-    print("Done creating 110 entities");
 
     $pages = Entity::select('entities.id', 'model', 'parent_id')
          ->ofModel('page')
          ->childOf('section_3')
          ->withContents('title', 'summary')
          ->orderByContents('title' )
-         /*->withRelations(function($query) {
+         ->withRelations(function($query) {
             $query->select('id')
                 ->whereModel('image')
                 ->whereKind('medium')
-                ->whereTags('icon1')
+                ->whereTags('icon1', 'icon2')
+                ->with(['medium' => function($query) {
+
+                }])
+                ->orderBy('position', 'asc')
                 ->withContents('title');
-          })*/
+          })
          ->get()
          ->compact();
 
