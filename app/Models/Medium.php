@@ -7,6 +7,8 @@ use Cuatromedios\Kusikusi\Models\DataModel;
 class Medium extends DataModel
 {
     protected $fillable = [
-        'id', 'size', 'format'
+        'id', 'filename', 'size', 'format', 'mimetype', 'url'
     ];
+
+    protected $table = 'media';
 }

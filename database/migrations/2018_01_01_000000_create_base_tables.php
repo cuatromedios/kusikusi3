@@ -30,10 +30,6 @@ class CreateBaseTables extends Migration
       $table->timestamps();
       $table->softDeletes();
     });
-    Schema::create('nodata', function (Blueprint $table) {
-      $table->char('id', 36)->unique()->primary();
-      $table->char('model', 100)->index()->default('no-model');
-    });
     Schema::create('contents', function (Blueprint $table) {
       $table->string('id', 100)->primary();
       $table->char('entity_id', 36)->index();
