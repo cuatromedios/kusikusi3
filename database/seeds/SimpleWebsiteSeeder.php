@@ -92,8 +92,8 @@ class SimpleWebsiteSeeder extends Seeder
         //  ->ofModel('page')
         //  ->childOf('section_3')
         // ->parentOf('page_3_1')
-        ->descendantOf('root', '', 1)
-        // ->ancestorOf('page_3_1')
+        ->descendantOf('home')
+         ->ancestorOf('page_3_1')
         // ->with(['parent' => function($query) {
         //     $query->addSelect('id');
         // }])
