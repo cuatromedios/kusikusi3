@@ -89,10 +89,22 @@ class SimpleWebsiteSeeder extends Seeder
     }
 
     $pages = Entity::select()
-         //->ofModel('user')
-         //->childOf('section_3')
-             ->with('relations')
-         //->withContents('title', 'summary')
+        //  ->ofModel('page')
+        //  ->childOf('section_3')
+        // ->parentOf('page_3_1')
+        ->descendantOf('root', '', 1)
+        // ->ancestorOf('page_3_1')
+        // ->with(['parent' => function($query) {
+        //     $query->addSelect('id');
+        // }])
+        // ->withParent()
+        // ->with(['relations' => function($query) {
+        //     $query->addSelect('id','model')
+        //     ->whereModel('medium')
+        //     ->withContents('Title');
+        // }])
+        // ->withRelations()
+        //  ->withContents('title', 'summary')
          //->orderByContents('title' )
          //->withMedia('icon1')
          //->paginate(2);
