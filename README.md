@@ -43,6 +43,7 @@ $ composer install
 ```
 #### Configure the Environment
 1. Duplicate the `.env.example` file and name it `.env`
+1. Set your application key to a random string. Typically, this string should be 32 characters long. If the application key is not set, your user encrypted data will not be secure!
 1. Edit the `.env` file to specify the database conection information: host, port, database name username, password
 1. Create the database to be used and the database for testing, of course, using the database name used in the `.env` file
 
