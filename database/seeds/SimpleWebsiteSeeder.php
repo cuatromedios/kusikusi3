@@ -90,9 +90,9 @@ class SimpleWebsiteSeeder extends Seeder
     $homeEntity->addContents(["summary" => "The home summary"]);
     $homeEntity->save();
 
-    $pages = Entity::select()
+    $pages = Entity::select('id', 'model')
         //  ->ofModel('page')
-        //  ->childOf('media')
+          ->childOf('section_3')
         // ->parentOf('section_3')
         // ->isPublished()
         // ->with('relationData')
@@ -104,20 +104,22 @@ class SimpleWebsiteSeeder extends Seeder
         // ->with(['parent' => function($query) {
         //     $query->addSelect('id');
         // }])
-        // ->withParent()
+         ->withParent(function($query) {
+           $query->select('id')->withContents();
+        })
         // ->with(['relations' => function($query) {
         //     $query->addSelect('id','model')
         //     ->whereModel('medium')
         //     ->withContents('Title');
         // }])
         // ->withRelations()
-        //  ->withContents('title', 'summary')
+          ->withContents('title', 'summary')
          //->orderByContents('title' )
         //  ->withMedia('icon1')
          //->paginate(2);
-        ->get();
+        ->get()->compact();
 
-    // print(json_encode($pages, JSON_PRETTY_PRINT));
+    print(json_encode($pages, JSON_PRETTY_PRINT));
 
     // $home = Entity::find('home');
     // print(json_encode($home->published, JSON_PRETTY_PRINT));
