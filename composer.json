@@ -17,8 +17,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0",
-        "mnabialek/laravel-sql-logger": "^1.1"
+        "phpunit/phpunit": "~7.0"
     },
     "autoload": {
         "files": [

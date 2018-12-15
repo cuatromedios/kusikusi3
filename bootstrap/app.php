@@ -3,7 +3,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+  (new Dotenv\Dotenv(dirname(__DIR__)))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
@@ -21,7 +21,7 @@ try {
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+    dirname(__DIR__)
 );
 
 /*
@@ -107,7 +107,6 @@ $app->singleton(
 $app->register(Cuatromedios\Kusikusi\Providers\AppServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\CatchAllOptionsRequestsProvider::class);
-$app->register(Mnabialek\LaravelSqlLogger\Providers\ServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(Intervention\Image\ImageServiceProvider::class);
 // $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
