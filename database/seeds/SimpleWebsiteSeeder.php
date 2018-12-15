@@ -19,9 +19,9 @@ class SimpleWebsiteSeeder extends Seeder
         "model" => 'home',
         "id" => 'home',
         "name" => ucfirst('Home'),
-        "parent_id" => 'root',
+        "parent_id" => 'root'
     ]);
-    $homeEntity->addContents(["title" => "The home", "summary" => "The home summary"]);
+    $homeEntity->addContents(["title" => "The home"]);
     $homeEntity->save();
 
 
@@ -87,13 +87,20 @@ class SimpleWebsiteSeeder extends Seeder
         $page->addRelation(['id' => $homeEntity->id, 'kind' => 'home', 'tags' => []]);
       }
     }
+    $homeEntity->addContents(["summary" => "The home summary"]);
+    $homeEntity->save();
 
     $pages = Entity::select()
         //  ->ofModel('page')
-        //  ->childOf('section_3')
-        // ->parentOf('page_3_1')
-        ->descendantOf('home')
-         ->ancestorOf('page_3_1')
+        //  ->childOf('media')
+        // ->parentOf('section_3')
+        // ->isPublished()
+        // ->with('relationData')
+        // ->with('inverseRelations')
+        // ->withInverseRelations()
+        // ->withRelationData()
+        // ->descendantOf('home')
+        //  ->ancestorOf('page_3_1')
         // ->with(['parent' => function($query) {
         //     $query->addSelect('id');
         // }])
@@ -106,11 +113,14 @@ class SimpleWebsiteSeeder extends Seeder
         // ->withRelations()
         //  ->withContents('title', 'summary')
          //->orderByContents('title' )
-         //->withMedia('icon1')
+        //  ->withMedia('icon1')
          //->paginate(2);
         ->get();
 
-    print(json_encode($pages, JSON_PRETTY_PRINT));
+    // print(json_encode($pages, JSON_PRETTY_PRINT));
+
+    // $home = Entity::find('home');
+    // print(json_encode($home->published, JSON_PRETTY_PRINT));
 
     $page = Entity::select('id')
         ->ancestorOf('page_3_2')
