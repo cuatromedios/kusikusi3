@@ -3,27 +3,49 @@
 namespace App\Controllers\Web;
 
 use Cuatromedios\Kusikusi\Http\Controllers\Controller;
-use Cuatromedios\Kusikusi\Models\EntityModel;
+use App\Models\Entity;
 use Illuminate\Http\Request;
 
 class HtmlController extends Controller
 {
 
-    public function home (Request $request, EntityModel $entity) {
-        $children = EntityModel::getChildren($entity['id']);
-        return view('html.home', [
-            'entity' => $entity,
-            'children' => $children
-        ]);
-    }
-    public function section (Request $request, EntityModel $entity) {
-        $children = EntityModel::getChildren($entity['id']);
-        return view('html.section', [
-            'entity' => $entity,
-            'children' => $children
-            ]);
-    }
-    public function page (Request $request, EntityModel $entity) {
-        return view('html.page', ['entity' => $entity]);
-    }
+  private function common(Entity $currentEntity) {
+    $entity =  $entity = Entity::where('id', $currentEntity->id)
+        ->withContents()
+        //->withRelations()
+        ->firstOrFail()
+        ->compact();
+    $media = Entity::mediaOf($currentEntity->id)
+        ->get();
+    return  [
+      "entity" => $entity,
+      "media" => $media
+    ];
+  }
+  private function children($entity) {
+    $children = Entity::childOf($entity->id)
+        ->withContents('title', 'summary', 'url')
+        ->get()->compact();
+    return $children;
+  }
+
+  public function home(Request $request, Entity $entity)
+  {
+    $result = $this->common($entity);
+    $result['children'] = $this->children($entity);
+    return view('html.home', $result);
+  }
+
+  public function section(Request $request, Entity $entity)
+  {
+    $result = $this->common($entity);
+    $result['children'] = $this->children($entity);
+    return view('html.section', $result);
+  }
+
+  public function page(Request $request, Entity $entity)
+  {
+    $result = $this->common($entity);
+    return view('html.page', $result);
+  }
 }

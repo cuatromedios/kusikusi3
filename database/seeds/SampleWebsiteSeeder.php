@@ -14,7 +14,7 @@ class SampleWebsiteSeeder extends Seeder
   public function run()
   {
     $faker = Faker\Factory::create();
-    $sections = 2;
+    $sections = 1;
     $pages_per_section = 2;
     $images_per_page = 2;
     for ($s = 0; $s < $sections; $s++) {
@@ -22,9 +22,12 @@ class SampleWebsiteSeeder extends Seeder
           "model" => "section",
           "parent_id" => "home"
       ]);
+      $section_title = $faker->sentence;
+      $section_url =  "/".str_slug($section_title);
       $section->addContents([
-          "title" => $faker->sentence,
-          "summary" => $faker->paragraph
+          "title" => $section_title,
+          "summary" => $faker->paragraph,
+          "url" => $section_url
       ]);
       $section->save();
       for ($p = 0; $p < $pages_per_section; $p++) {
@@ -32,9 +35,11 @@ class SampleWebsiteSeeder extends Seeder
             "model" => "page",
             "parent_id" => $section->id
         ]);
+        $page_title = $faker->sentence;
         $page->addContents([
             "title" => $faker->sentence,
-            "summary" => join("\n", $faker->paragraphs(5))
+            "summary" => join("\n", $faker->paragraphs(5)),
+            "url" =>  $section_url ."/". str_slug($page_title)
         ]);
         $page->save();
         for ($i = 0; $i < $images_per_page; $i++) {
@@ -55,7 +60,8 @@ class SampleWebsiteSeeder extends Seeder
               "size" => filesize($dest_dir.'/file.'.$image_extension),
               "format" => $image_extension
           ]));
-          $page->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => 'icon'.$i, 'position' => $i]);
+          $tags = $i == 0 ? 'icon' : '';
+          $page->addRelation(['id' => $image->id, 'kind' => 'medium', 'tags' => $tags, 'position' => $i]);
         }
       }
     }

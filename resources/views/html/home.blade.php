@@ -2,7 +2,7 @@
 @section('title', $entity['contents']['title'])
 @section('main')
     <h1>{{ $entity['contents']['title'] }}</h1>
-    <p>{{ $entity['contents']['description'] }}</p>
+    <p>{{ $entity['contents']['summary'] }}</p>
     <ul>
         @forelse ($children as $child)
             <li><a href="{{ $child['contents']['url'] }}">{{ $child['contents']['title'] }}</a></li>
