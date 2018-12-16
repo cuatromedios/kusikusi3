@@ -37,6 +37,7 @@ $app->configure('media');
 $app->configure('general');
 $app->configure('activity');
 $app->configure('cms');
+$app->configure('validator');
 
 
 $app->withFacades();
