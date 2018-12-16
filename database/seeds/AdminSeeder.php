@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Entity;
+use Cuatromedios\Kusikusi\Models\Permission;
 
 class AdminSeeder extends Seeder
 {
@@ -34,5 +35,7 @@ class AdminSeeder extends Seeder
       ]);
     $adminEntity->user()->save($user);
     $adminEntity->save();
+
+    Permission::addPermission($user->id, 'root', Permission::ANY, Permission::ANY);
   }
 }
