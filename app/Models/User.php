@@ -21,7 +21,7 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
 
   protected $table = 'users';
 
-  public static $dataFields = ['name', 'email', 'password', 'profile'];
+  public static $dataFields = ['username', 'name', 'password', 'email', 'profile'];
 
   /**
    * The attributes that are mass assignable.
@@ -29,7 +29,7 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
    * @var array
    */
   protected $fillable = [
-      'name', 'email', 'password', 'profile'
+      'username', 'name', 'email', 'password', 'profile'
   ];
 
   /**
@@ -41,9 +41,9 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       'password', 'relatedEntity', 'relatedContents'
   ];
 
-  public static function authenticate($email, $password, $ip)
+  public static function authenticate($username, $password, $ip)
   {
-    $user = User::where('email', $email)->first();
+    $user = User::where('username', $username)->first();
     if ($user && Hash::check($password, $user->password)) {
       $apikey = base64_encode(str_random(40));
       $token = new Authtoken([

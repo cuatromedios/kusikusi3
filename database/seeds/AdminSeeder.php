@@ -29,7 +29,7 @@ class AdminSeeder extends Seeder
     ]);
     $user = new User([
         "name" => "Admin",
-        "email" => "admin",
+        "username" => "admin",
         "password" => "admin",
         "profile" => User::PROFILE_ADMIN,
       ]);
