@@ -41,7 +41,7 @@ class BaseWebsiteSeeder extends Seeder
     ]);
     $user = new User([
         "name" => "Guest",
-        "email" => "guest",
+        "username" => "guest",
         "profile" => User::PROFILE_USER
     ]);
     $guestEntity->user()->save($user);

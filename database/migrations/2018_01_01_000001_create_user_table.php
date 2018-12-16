@@ -16,16 +16,18 @@ class CreateUserTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->char('id', 36)->unique()->primary();
-            $table->string('name', 100)->index();
-            $table->string('email', 100);
-            $table->string('password', 255);
+            $table->string('username', 100)->index();
+            $table->string('name', 100)->nullable();
+            $table->string('email', 100)->nullable()->index();
+            $table->string('password', 255)->nullable();
             $table->enum('profile', [User::PROFILE_ADMIN, User::PROFILE_EDITOR, User::PROFILE_USER])->index()->default(User::PROFILE_USER);
         });
         Schema::create('authtokens', function (Blueprint $table) {
             $table->char('token', 128)->unique()->primary();
             $table->char('user_id', 36)->index();
-            $table->char('created_ip', 45);
-            $table->char('updated_ip', 45);
+            $table->char('created_ip', 45)->nullable();
+            $table->char('updated_ip', 45)->nullable();
+            $table->dateTime('expire_at')->nullable();
             $table->timestamps();
         });
         Schema::create('permissions', function (Blueprint $table) {
