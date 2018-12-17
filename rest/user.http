@@ -1,0 +1,21 @@
+### Send POST request with json body
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+  "username": 6,
+  "password": "admin"
+}
+> {%
+    client.test("Login status successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+    client.test("Login response successfully", function() {
+        client.assert(response.body.success === true, "Response data success is not true");
+    });
+    client.test("Login has token", function() {
+        client.assert(response.body.data.token, "Response has a token");
+        client.global.set("token", response.body.data.token)
+    });
+%}
+###

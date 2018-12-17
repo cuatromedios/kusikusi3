@@ -1,0 +1,29 @@
+### Get an entity
+GET {{host}}/entity/home?{{xdebug}}
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+> {%
+
+%}
+###
+
+### Get an entity with selected fields
+GET {{host}}/entity/home?fields=id,e.model,contents.title,c.summary&{{xdebug}}
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+> {%
+
+%}
+###
+
+### Get an entity seting the language
+GET {{host}}/entity/home?lang=en
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+> {%
+
+%}
+###
