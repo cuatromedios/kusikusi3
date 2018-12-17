@@ -41,9 +41,13 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       'password', 'relatedEntity', 'relatedContents'
   ];
 
-  public static function authenticate($username, $password, $ip)
+  public static function authenticate($username, $password, $ip = '', $use_email = false)
   {
-    $user = User::where('username', $username)->first();
+    if (!$use_email) {
+      $user = User::where('username', $username)->first();
+    } else {
+      $user = User::where('email', $username)->first();
+    }
     if ($user && Hash::check($password, $user->password)) {
       $apikey = base64_encode(str_random(40));
       $token = new Authtoken([

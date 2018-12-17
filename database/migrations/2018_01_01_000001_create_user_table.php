@@ -18,7 +18,7 @@ class CreateUserTable extends Migration
             $table->char('id', 36)->unique()->primary();
             $table->string('username', 100)->index();
             $table->string('name', 100)->nullable();
-            $table->string('email', 100)->nullable()->index();
+            $table->string('email', 100)->nullable()->index()->unique();
             $table->string('password', 255)->nullable();
             $table->enum('profile', [User::PROFILE_ADMIN, User::PROFILE_EDITOR, User::PROFILE_USER])->index()->default(User::PROFILE_USER);
         });
