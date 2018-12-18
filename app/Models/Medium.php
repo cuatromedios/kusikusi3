@@ -12,6 +12,8 @@ class Medium extends DataModel
         'id', 'filename', 'size', 'format', 'mimetype', 'url'
     ];
 
+    public static $dataFields = ['filename', 'format', 'mimetype', 'size', 'url'];
+
     protected $table = 'media';
 
     public function url($preset = "icon", $lang = NULL) {
