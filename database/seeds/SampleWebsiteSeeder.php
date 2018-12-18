@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\Models\Entity;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use Cuatromedios\Kusikusi\Models\Permission;
 
 class SampleWebsiteSeeder extends Seeder
 {
@@ -14,9 +16,9 @@ class SampleWebsiteSeeder extends Seeder
   public function run()
   {
     $faker = Faker\Factory::create();
-    $sections = 1;
-    $pages_per_section = 1;
-    $images_per_page = 1;
+    $sections = 2;
+    $pages_per_section = 2;
+    $images_per_page = 0;
     for ($s = 0; $s < $sections; $s++) {
       $section = new Entity([
           "model" => "section",
@@ -30,6 +32,22 @@ class SampleWebsiteSeeder extends Seeder
           "url" => $section_url
       ]);
       $section->save();
+
+      $userEntity = new Entity([
+        "model" => "user",
+        "parent_id" => "users"
+      ]);
+      $user = new User([
+          "name" => "user".$s,
+          "username" => "user".$s,
+          "password" => "user".$s,
+          "profile" => User::PROFILE_USER,
+        ]);
+      $userEntity->user()->save($user);
+      $userEntity->save();
+  
+      Permission::addPermission($user->id, $section->id, Permission::ANY, Permission::ANY);
+
       for ($p = 0; $p < $pages_per_section; $p++) {
         $page = new Entity([
             "model" => "page",
@@ -42,6 +60,9 @@ class SampleWebsiteSeeder extends Seeder
             "url" =>  $section_url ."/". str_slug($page_title)
         ]);
         $page->save();
+
+        Permission::addPermission($user->id, $page->id, Permission::ANY, Permission::ANY);
+
         for ($i = 0; $i < $images_per_page; $i++) {
           $image = new Entity([
               "model" => "medium",
