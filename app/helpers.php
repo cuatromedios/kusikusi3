@@ -23,15 +23,15 @@ if (!function_exists('params_as_array')) {
 
   function deserialize_select(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Http\Request $request)
   {
-
-    $select = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
+    $selectedFields = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
+    $selectedFilters = $request['filters'];
 
     $result = [
         "entities" => [],
         "contents" => []
     ];
 
-    $fields = explode(",", $select);
+    $fields = explode(",", $selectedFields);
     foreach ($fields as $field) {
       $fieldParts = explode(".", $field);
       if (count($fieldParts) == 1) {
@@ -50,17 +50,32 @@ if (!function_exists('params_as_array')) {
       $result[$fieldParts[0]][] = $fieldParts[1];
     }
 
-    if ($result['entities'][0] != '*') {
+
+    if (count($result['entities']) > 0 && $result['entities'][0] != '*') {
       $query->select($result['entities']);
     } else {
       $query->select('entities.*');
     }
-    if ($result['contents'][0] != '*') {
+    if (count($result['contents']) > 0 && $result['contents'][0] != '*') {
       $query->withContents($result['contents']);
     } else {
       $query->withContents();
     }
 
+    if ($selectedFilters !== NULL) {
+      $filters = explode(",", $selectedFilters);
+      foreach ($filters as $filter) {
+        $filterParts = explode(":", $filter);
+        if ($filterParts[0] == "model") {
+          $query->ofModel($filterParts[1]);
+        } else if ($filterParts[0] == "published") {
+          $query->isPublished();
+        } else {
+          $query->where($filterParts[0], $filterParts[1]);
+        }
+      }
+    }
+    
     return $query;
   }
 }
