@@ -38,41 +38,41 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
   });
   */
 
-  /*
-  |--------------------------------------------------------------------------
-  | Generic API EntityBase, User and Media Endpoints.
-  | Feel free to remove the ones you don't need, maybe all of them?
-  |--------------------------------------------------------------------------
-  */
-  $router->group(['namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Api'], function ($router) {
-    $router->group(['prefix' => 'entity'], function () use ($router) {
-      $router->get('/', ['uses' => 'EntityController@get']);
-      $router->post('/', ['uses' => 'EntityController@post']);
-      $router->get('/{id}', ['uses' => 'EntityController@getOne']);
-      $router->patch('/{id}', ['uses' => 'EntityController@patch']);
-      $router->delete('/{id}', ['uses' => 'EntityController@softDelete']);
-      $router->delete('/{id}/hard', ['uses' => 'EntityController@hardDelete']);
-      $router->get('/{id}/parent', ['uses' => 'EntityController@getParent']);
-      $router->get('/{id}/children', ['uses' => 'EntityController@getChildren']);
-      $router->get('/{id}/ancestors', ['uses' => 'EntityController@getAncestors']);
-      $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
-      $router->get('/{id}/relations[/{kind}]', ['uses' => 'EntityController@getRelations']);
-      $router->post('/{id}/relations', ['uses' => 'EntityController@postRelation']);
-      $router->delete('/{id}/relations/{called}/{kind}', ['uses' => 'EntityController@deleteRelation']);
-      $router->get('/{id}/inverse-relations[/{kind}]', ['uses' => 'EntityController@getInverseRelations']);
+    /*
+    |--------------------------------------------------------------------------
+    | Generic API EntityBase, User and Media Endpoints.
+    | Feel free to remove the ones you don't need, maybe all of them?
+    |--------------------------------------------------------------------------
+    */
+    $router->group(['namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Api'], function ($router) {
+        $router->group(['prefix' => 'entity'], function () use ($router) {
+        $router->get('/', ['uses' => 'EntityController@get']);
+        $router->post('/', ['uses' => 'EntityController@post']);
+        $router->get('/{id}', ['uses' => 'EntityController@getOne']);
+        $router->patch('/{id}', ['uses' => 'EntityController@patch']);
+        $router->delete('/{id}', ['uses' => 'EntityController@softDelete']);
+        $router->delete('/{id}/hard', ['uses' => 'EntityController@hardDelete']);
+        $router->get('/{id}/parent', ['uses' => 'EntityController@getParent']);
+        $router->get('/{id}/children', ['uses' => 'EntityController@getChildren']);
+        $router->get('/{id}/ancestors', ['uses' => 'EntityController@getAncestors']);
+        $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
+        $router->get('/{id}/relations[/{kind}]', ['uses' => 'EntityController@getRelations']);
+        $router->post('/{id}/relations', ['uses' => 'EntityController@postRelation']);
+        $router->delete('/{id}/relations/{kind}/{called}', ['uses' => 'EntityController@deleteRelation']);
+        $router->get('/{id}/inverse-relations[/{kind}]', ['uses' => 'EntityController@getInverseRelations']);
+        });
+        $router->group(['prefix' => 'user'], function () use ($router) {
+            $router->post   ('/login',  ['uses' => 'UserController@authenticate']);
+            $router->get    ('/permissions/{id}', ['uses' => 'UserController@getPermissions']);
+            $router->post   ('/permissions', ['uses' => 'UserController@postPermissions']);
+            $router->delete   ('/permissions/{id}/{entity}', ['uses' => 'UserController@removePermissions']);
+        });
+        $router->group(['prefix' => 'media'], function () use ($router) {
+            $router->post('/', ['uses' => 'MediaController@post']);
+            $router->post('/{id}/upload', ['uses' => 'MediaController@upload']);
+            $router->delete('/{id}', ['uses' => 'MediaController@delete']);
+        });
     });
-    $router->group(['prefix' => 'user'], function () use ($router) {
-      $router->post('/login', ['uses' => 'UserController@authenticate']);
-      $router->get('/permissions/{id}', ['uses' => 'UserController@getPermissions']);
-      $router->post('/permissions', ['uses' => 'UserController@postPermissions']);
-      $router->patch('/permissions/{id}', ['uses' => 'UserController@patchPermissions']);
-    });
-    $router->group(['prefix' => 'media'], function () use ($router) {
-      $router->post('/', ['uses' => 'MediaController@post']);
-      $router->post('/{id}/upload', ['uses' => 'MediaController@upload']);
-      $router->delete('/{id}', ['uses' => 'MediaController@delete']);
-    });
-  });
 
   /*
   |--------------------------------------------------------------------------
