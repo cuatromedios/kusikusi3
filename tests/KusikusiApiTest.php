@@ -227,7 +227,7 @@ class KusikusiApiTest extends TestCase
         $json = [
             'model' => 'page',
             'name' => 'TEST CREATED ENTITY ',
-            'parent' => 'home'
+            'parent_id' => 'home'
         ];
         $response = $this->json('POST', '/api/entity', $json, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
         $response->seeStatusCode(200);
@@ -244,7 +244,7 @@ class KusikusiApiTest extends TestCase
         $json = [
             'model' => 'medium',
             'name' => 'test',
-            'parent' => 'media'
+            'parent_id' => 'media'
         ];
         $response = $this->json('POST', '/api/entity', $json, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
@@ -287,7 +287,7 @@ class KusikusiApiTest extends TestCase
     public function testPatchEntityWithCorrectToken($authorizationToken, $entity_id)
     {
         $json = [
-            'isActive' => 0
+            'active' => 0
         ];
         $response = $this->json('PATCH', '/api/entity/'.$entity_id, $json, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
         $response->seeStatusCode(200);
@@ -298,7 +298,7 @@ class KusikusiApiTest extends TestCase
     public function testPatchEntityWithIncorrectToken($entity_id)
     {
         $json = [
-            'isActive' => 0
+            'active' => 0
         ];
         $response = $this->json('PATCH', '/api/entity/'.$entity_id, $json, ['HTTP_Authorization' => 'Bearer '.'IncorrectToken']);
         $response->seeStatusCode(401);
