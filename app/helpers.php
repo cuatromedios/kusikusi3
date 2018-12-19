@@ -24,7 +24,7 @@ if (!function_exists('params_as_array')) {
   function deserialize_select(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Http\Request $request)
   {
     $selectedFields = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
-    $selectedFilters = $request['filters'];
+    $selectedFilters = $request->input('filters', $request->input('filter', $request->input('where', null)));
 
     $result = [
         "entities" => [],
@@ -66,8 +66,9 @@ if (!function_exists('params_as_array')) {
     foreach (array_keys($result) as $tableData) {
       if (count($result[$tableData]) > 0 && $result[$tableData][0] != '*') {
         $dataFields = $result[$tableData];
-        $query->with([$tableData => function ($select) {
-          $select->addSelect('format');
+        $query->with([$tableData => function ($select) use ($dataFields, $tableData) {
+          $dataFields[] = 'id';
+          $select->addSelect( $dataFields);
         }]);
       } else {
         $query->with($tableData);
