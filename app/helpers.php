@@ -45,7 +45,7 @@ if (!function_exists('params_as_array')) {
         $fieldParts[0] = "contents";
       }
       if (!isset($result[$fieldParts[0]])) {
-        $result[$fieldParts[0] = []];
+        $result[$fieldParts[0]] = [];
       }
       $result[$fieldParts[0]][] = $fieldParts[1];
     }
@@ -60,6 +60,18 @@ if (!function_exists('params_as_array')) {
       $query->withContents($result['contents']);
     } else {
       $query->withContents();
+    }
+    unset($result['entities']);
+    unset($result['contents']);
+    foreach (array_keys($result) as $tableData) {
+      if (count($result[$tableData]) > 0 && $result[$tableData][0] != '*') {
+        $dataFields = $result[$tableData];
+        $query->with([$tableData => function ($select) {
+          $select->addSelect('format');
+        }]);
+      } else {
+        $query->with($tableData);
+      }
     }
 
     if ($selectedFilters !== NULL) {

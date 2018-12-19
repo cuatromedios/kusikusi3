@@ -58,14 +58,14 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
         $router->get('/{id}/relations[/{kind}]', ['uses' => 'EntityController@getRelations']);
         $router->post('/{id}/relations', ['uses' => 'EntityController@postRelation']);
-        $router->delete('/{id}/relations/{called}/{kind}', ['uses' => 'EntityController@deleteRelation']);
+        $router->delete('/{id}/relations/{kind}/{called}', ['uses' => 'EntityController@deleteRelation']);
         $router->get('/{id}/inverse-relations[/{kind}]', ['uses' => 'EntityController@getInverseRelations']);
         });
         $router->group(['prefix' => 'user'], function () use ($router) {
             $router->post   ('/login',  ['uses' => 'UserController@authenticate']);
             $router->get    ('/permissions/{id}', ['uses' => 'UserController@getPermissions']);
             $router->post   ('/permissions', ['uses' => 'UserController@postPermissions']);
-            $router->patch   ('/permissions/{id}', ['uses' => 'UserController@patchPermissions']);
+            $router->delete   ('/permissions/{id}/{entity}', ['uses' => 'UserController@removePermissions']);
         });
         $router->group(['prefix' => 'media'], function () use ($router) {
             $router->post('/', ['uses' => 'MediaController@post']);
