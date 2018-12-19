@@ -11,7 +11,7 @@ class KusikusiApiTest extends TestCase
     {
         global $argv, $argc;
         $json = [
-            'email' => $argv[4],
+            'username' => $argv[4],
             'password' => $argv[5]
         ];
         $user = $this->POST('/api/user/login', $json)->seeStatusCode(200)->response->getContent();
@@ -38,12 +38,12 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetAllEntitiesWithCorrectToken($authorizationToken)
     {
-        $response = $this->GET('/api/entity/', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
         $response->seeStatusCode(200);
     }
     public function testGetAllEntitiesWithIncorrectToken()
     {
-        $response = $this->GET('/api/entity/', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
