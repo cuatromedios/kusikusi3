@@ -108,6 +108,7 @@ if (!function_exists('params_as_array')) {
         }
       }
     }
+    //$query->take(3)->skip(2);
     return $query;
   }
   function to_full_field_name($field) {
