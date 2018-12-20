@@ -9,7 +9,7 @@ Content-Type: application/json
 ###
 
 ### Get an entity with selected fields
-GET {{host}}/entity/home?fields=id,e.model,contents.title,c.summary&{{xdebug}}
+GET {{host}}/entity/?fields=id,e.model,contents.title,c.summary,user.username&{{xdebug}}
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -20,6 +20,27 @@ Content-Type: application/json
 
 ### Get an entity seting the language
 GET {{host}}/entity/home?lang=en
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+> {%
+
+%}
+###
+
+
+### Get an entties with a filter in entities table
+GET {{host}}/entity/?select=model,entities.parent_id,user.id,user.name&where=user.username:admin&{{xdebug}}
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+> {%
+
+%}
+###
+
+### Get an entties with a filter in related model
+GET {{host}}/entity/?fields=id,e.model,contents.title&where=model:user&{{xdebug}}
 Authorization: bearer {{token}}
 Content-Type: application/json
 

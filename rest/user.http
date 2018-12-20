@@ -3,7 +3,7 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-  "username": 6,
+  "username": "admin",
   "password": "admin"
 }
 > {%

@@ -21,74 +21,104 @@ if (!function_exists('params_as_array')) {
     }
   }
 
-  function deserialize_select(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Http\Request $request)
+  function process_querystring(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Http\Request $request)
   {
-    $selectedFields = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
-    $selectedFilters = $request->input('filters', $request->input('filter', $request->input('where', null)));
+    $querySelect = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
+    $queryWhere = $request->input('filters', $request->input('filter', $request->input('where', null)));
+    $queryOrder = $request->input('order', $request->input('sort',null));
 
-    $result = [
-        "entities" => [],
+    $select = [
+        "entities" => ['entities.id'],
         "contents" => []
     ];
+    $joins = [];
 
-    $fields = explode(",", $selectedFields);
+
+    // Selects: Group selects per type because each one of them needs to be processed differently, the entity fields
+    // are directly selected, the content fields are attached used the withContents special method, and any other
+    // needs to find the related model
+    $fields = explode(",", $querySelect);
     foreach ($fields as $field) {
-      $fieldParts = explode(".", $field);
-      if (count($fieldParts) == 1) {
-        $fieldParts[1] = $fieldParts[0];
-        $fieldParts[0] = "entities";
-      }
-      if ($fieldParts[0] == "e") {
-        $fieldParts[0] = "entities";
-      }
-      if ($fieldParts[0] == "c") {
-        $fieldParts[0] = "contents";
-      }
-      if (!isset($result[$fieldParts[0]])) {
-        $result[$fieldParts[0]] = [];
-      }
-      $result[$fieldParts[0]][] = $fieldParts[1];
+      $fieldParts = to_full_field_name($field);
+      if (!isset( $select[$fieldParts['table']]))  $select[$fieldParts['table']] = [];
+      $select[$fieldParts['table']][] = $fieldParts['field'];
     }
 
-
-    if (count($result['entities']) > 0 && $result['entities'][0] != '*') {
-      $query->select($result['entities']);
+    if (count($select['entities']) > 0 && $select['entities'][0] != '*') {
+      $query->select($select['entities']);
     } else {
       $query->select('entities.*');
     }
-    if (count($result['contents']) > 0 && $result['contents'][0] != '*') {
-      $query->withContents($result['contents']);
-    } else {
+    if (count($select['contents']) > 0 && $select['contents'][0] != '*') {
+      $query->withContents($select['contents']);
+    } else if (isset($select['contents'][0]) && $select['contents'][0] != '*') {
       $query->withContents();
     }
-    unset($result['entities']);
-    unset($result['contents']);
-    foreach (array_keys($result) as $tableData) {
-      if (count($result[$tableData]) > 0 && $result[$tableData][0] != '*') {
-        $dataFields = $result[$tableData];
-        $query->with([$tableData => function ($select) use ($dataFields, $tableData) {
+    unset($select['entities']);
+    unset($select['contents']);
+    foreach (array_keys($select) as $relationName) {
+      $relationName = str_singular($relationName);
+      $tableName = str_plural($relationName);
+      if (count($select[$tableName]) > 0 && $select[$tableName][0] != '*') {
+        $dataFields = $select[$tableName];
+        $query->with([$relationName => function ($select) use ($dataFields, $relationName) {
           $dataFields[] = 'id';
-          $select->addSelect( $dataFields);
+          $select->addSelect($dataFields);
         }]);
       } else {
-        $query->with($tableData);
+        $query->with($relationName);
       }
     }
 
-    if ($selectedFilters !== NULL) {
-      $filters = explode(",", $selectedFilters);
+    // Filters / Wheres
+    if ($queryWhere !== NULL) {
+      $filters = explode(",", $queryWhere);
       foreach ($filters as $filter) {
-        $filterParts = explode(":", $filter);
+        //$filterParts = explode(":", $filter);
+        $filterParts = $chars = preg_split('/(\:|\<|\>|\!:)/i', $filter, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $fieldParts = explode(".", $filterParts[0]);
+        if (count($fieldParts) > 1) {
+          $fieldParts[0] = str_plural($fieldParts[0]);
+          $field = implode(".",  $fieldParts );
+          $query->leftJoin($fieldParts[0], 'entities.id', "{$fieldParts[0]}.id");
+        } else {
+          $field = $filterParts[0];
+        }
         if ($filterParts[0] == "model") {
-          $query->ofModel($filterParts[1]);
+          $query->ofModel($filterParts[2]);
         } else if ($filterParts[0] == "published") {
           $query->isPublished();
         } else {
-          $query->where($filterParts[0], $filterParts[1]);
+          if ($filterParts[1] == ':') {$filterParts[1] = '=';}
+          $query->where($field, $filterParts[1], $filterParts[2]);
         }
       }
     }
     
     return $query;
+  }
+  function to_full_field_name($field) {
+    $fieldParts = explode(".", $field);
+    if (count($fieldParts) == 1) {
+      $fieldParts[1] = $fieldParts[0];
+      $fieldParts[0] = "entities";
+    }
+    if ($fieldParts[0] == "e" || $fieldParts[0] == "entity") {
+      $fieldParts[0] = "entities";
+    }
+    if ($fieldParts[0] == "c" || $fieldParts[0] == "content") {
+      $fieldParts[0] = "contents";
+    }
+    if (!isset($select[$fieldParts[0]])) {
+      $select[str_plural($fieldParts[0])] = [];
+    }
+    if ($fieldParts[0] == "entities") {
+      $fieldParts[1] = "entities.". $fieldParts[1];
+    }
+    return [
+      "field" => $fieldParts[1],
+      "table" => str_plural($fieldParts[0]),
+      "relation" => str_singular($fieldParts[0])
+    ];
   }
 }
