@@ -25,7 +25,7 @@ if (!function_exists('params_as_array')) {
   {
     $querySelect = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
     $queryWhere = $request->input('filters', $request->input('filter', $request->input('where', null)));
-    $queryOrder = $request->input('order', $request->input('sort',null));
+    $queryOrder = $request->input('order', $request->input('sort',$request->input('orderby', null)));
 
     $select = [
         "entities" => ['entities.id'],
@@ -74,27 +74,40 @@ if (!function_exists('params_as_array')) {
     if ($queryWhere !== NULL) {
       $filters = explode(",", $queryWhere);
       foreach ($filters as $filter) {
-        //$filterParts = explode(":", $filter);
-        $filterParts = $chars = preg_split('/(\:|\<|\>|\!:)/i', $filter, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-        $fieldParts = explode(".", $filterParts[0]);
-        if (count($fieldParts) > 1) {
-          $fieldParts[0] = str_plural($fieldParts[0]);
-          $field = implode(".",  $fieldParts );
-          $query->leftJoin($fieldParts[0], 'entities.id', "{$fieldParts[0]}.id");
-        } else {
-          $field = $filterParts[0];
+        $filterParts = preg_split('/(\:|\<|\>|\!:)/i', $filter, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $fieldParts = to_full_field_name($filterParts[0]);
+        if ($fieldParts['table'] != 'entities' && $fieldParts['table'] != 'contents' && !isset($joins[$fieldParts['table']])) {
+          $joins[$fieldParts['table']] = true;
+          $query->leftJoin($fieldParts['table'], 'entities.id', "{$fieldParts['table']}.id");
         }
-        if ($filterParts[0] == "model") {
-          $query->ofModel($filterParts[2]);
-        } else if ($filterParts[0] == "published") {
+        if ($filterParts[0] == "published") {
           $query->isPublished();
         } else {
           if ($filterParts[1] == ':') {$filterParts[1] = '=';}
-          $query->where($field, $filterParts[1], $filterParts[2]);
+          if ($filterParts[1] == '!:') {$filterParts[1] = '!=';}
+          $query->where($fieldParts['field'], $filterParts[1], $filterParts[2]);
         }
       }
     }
-    
+
+    //Order
+    if ($queryOrder !== NULL) {
+      $orders = explode(",", $queryOrder);
+      foreach ($orders as $order) {
+        $orderParts = explode(":", $order);
+        $fieldParts = to_full_field_name($orderParts[0]);
+        $orderParts[1] = (isset($orderParts[1]) && $orderParts[1] == 'desc') ? 'desc' : 'asc';
+        if ($fieldParts['table'] != 'contents') {
+          if ($fieldParts['table'] != 'entities' && !isset($joins[$fieldParts['table']])) {
+            $joins[$fieldParts['table']] = true;
+            $query->leftJoin($fieldParts['table'], 'entities.id', "{$fieldParts['table']}.id");
+          }
+          $query->orderBy($fieldParts['field'], $orderParts[1]);
+        } else {
+          $query->orderByContents($fieldParts['field'], $orderParts[1]);
+        }
+      }
+    }
     return $query;
   }
   function to_full_field_name($field) {
