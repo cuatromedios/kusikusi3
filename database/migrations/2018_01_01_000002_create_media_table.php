@@ -14,7 +14,7 @@ class CreateMediaTable extends Migration
     public function up()
     {
         Schema::create('media', function (Blueprint $table) {
-            $table->char('id', 36)->unique()->primary();
+            $table->uuid('id')->unique()->primary();
             $table->string('filename', 100)->default('');
             $table->string('format', 4)->index()->default('');
             $table->string('mimetype', 50)->index()->default('application/octet-stream');

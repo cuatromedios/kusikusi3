@@ -14,8 +14,8 @@ class CreateActivityTable extends Migration
     public function up()
     {
         Schema::create('activity', function (Blueprint $table) {
-            $table->char('user_id', 36)->index();
-            $table->char('entity_id', 36)->index();
+            $table->uuid('user_id')->index();
+            $table->uuid('entity_id')->index();
             $table->string('action', 100)->index();
             $table->boolean('isSuccess')->index();
             $table->string('subaction', 100)->index()->nullable();

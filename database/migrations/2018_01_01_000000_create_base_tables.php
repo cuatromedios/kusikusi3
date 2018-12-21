@@ -14,7 +14,7 @@ class CreateBaseTables extends Migration
   public function up()
   {
     Schema::create('entities', function (Blueprint $table) {
-      $table->char('id', 36)->unique()->primary();
+      $table->uuid('id')->unique()->primary();
       $table->string('model', 100)->index();
       $table->string('name', 255)->default('');
       $table->char('parent_id', 36)->index()->default('');
@@ -39,8 +39,8 @@ class CreateBaseTables extends Migration
       $table->mediumText('value', 100);
     });
     Schema::create('relations', function (Blueprint $table) {
-      $table->char('caller_id', 36)->index();
-      $table->char('called_id', 36)->index();
+      $table->uuid('caller_id')->index();
+      $table->uuid('called_id')->index();
       $table->enum('kind', ['relation', 'ancestor', 'category', 'medium', 'home', 'favorite', 'like', 'follow'])->index()->default('relation');
       $table->integer('position')->default(0);
       $table->integer('depth')->default(0);

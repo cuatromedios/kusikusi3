@@ -15,7 +15,7 @@ class CreateUserTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->char('id', 36)->unique()->primary();
+            $table->uuid('id')->unique()->primary();
             $table->string('username', 100)->index();
             $table->string('name', 100)->nullable();
             $table->string('email', 100)->nullable()->index()->unique();
@@ -24,15 +24,15 @@ class CreateUserTable extends Migration
         });
         Schema::create('authtokens', function (Blueprint $table) {
             $table->char('token', 128)->unique()->primary();
-            $table->char('user_id', 36)->index();
+            $table->uuid('user_id')->index();
             $table->char('created_ip', 45)->nullable();
             $table->char('updated_ip', 45)->nullable();
             $table->dateTime('expire_at')->nullable();
             $table->timestamps();
         });
         Schema::create('permissions', function (Blueprint $table) {
-            $table->char('user_id', 36)->index();
-            $table->char('entity_id', 36)->index();
+            $table->uuid('user_id')->index();
+            $table->uuid('entity_id')->index();
             $table->enum('read',     ['none', 'own', 'any']);
             $table->enum('write',    ['none', 'own', 'any']);
             $table->primary(['user_id', 'entity_id']);
