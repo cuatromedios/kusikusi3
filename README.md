@@ -6,17 +6,16 @@ KusiKusi _(spider in Quechuan)_ is a boilerplate for creating **API-first applic
 #### Objetive
 
 Kusikusi has three main objectives for three different user profiles:
-* **Developers:** An easy way to construct applications based on hierarchical data, where all models are based on similar field structure.
-* **UX Designers:** To have a CMS with A/B Testing in its core
-* Developers/Designers **Customers** To receive an content manager for his/her web or mobile application easy to understand and use
+* **Developers:** An easy way to construct applications based on hierarchical data, from websites, to mobile app backends and other platforms.
+* Developers/Designers **Customers** To receive a content manager for his/her web or mobile application easy to understand and use
 
 #### Related projects
 
 KusiKusi PHP has other related projects:
 
-* **KusiKusi Front-End:** Generic UI to interact with the API. e.g CMS
-* **KusiKusi JS:** A KusiKusi compatible backend using Node and Mongo
-* **KusiKusi PHP:** This project
+* **[KusiKusi PHP](https://github.com/cuatromedios/kusikusi):** This project,as an starting point for new projects
+* **[KusiKusi PHP Kernel](https://github.com/cuatromedios/kusikusi-php-kernel)** The core engine of KusiKusi
+* **[KusiKusi Front-End](https://github.com/cuatromedios/kusikusi-frontend):** Generic UI to interact with the API. e.g CMS
 
 #### Technical info
 KusiKusi PHP is based on [Lumen](https://lumen.laravel.com)
@@ -234,8 +233,9 @@ KusiKusi is the name we in [Cuatromedios](http://www.cuatromedios.com/) used to 
 For this new version, starting 2018 we decided to use a well know framework, Laravel, and specifically its subproject Lumen in order to let more developers to understand its code.
 
 ## Credits
-**Current version**
-* [Ramses Moreno](https://www.twitter.com/ramsesmoreno) / [Cuatromedios](https://www.cuatromedios.com/)
+**Current version by [Cuatromedios](https://www.cuatromedios.com/)**
+* [Ramses Moreno](https://github.com/ramsesmoreno)
+* [Joshua González](https://github.com/holtzheimer)
 
 **All people have contributed to KusiKusi in past versions**
 * Ramses Moreno
