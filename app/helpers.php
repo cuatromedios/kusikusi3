@@ -26,6 +26,8 @@ if (!function_exists('params_as_array')) {
     $querySelect = $request->input('select', $request->input('fields', 'entities.*,contents.*'));
     $queryWhere = $request->input('filters', $request->input('filter', $request->input('where', null)));
     $queryOrder = $request->input('order', $request->input('sort',$request->input('orderby', null)));
+    $queryTake = $request->input('take', null);
+    $querySkip = $request->input('skip', null);
 
     $select = [
         "entities" => ['entities.id'],
@@ -108,7 +110,12 @@ if (!function_exists('params_as_array')) {
         }
       }
     }
-    //$query->take(3)->skip(2);
+    if ($queryTake) {
+      $query->take($queryTake);
+    }
+    if ($querySkip) {
+      $query->skip($querySkip);
+    }
     return $query;
   }
   function to_full_field_name($field) {
