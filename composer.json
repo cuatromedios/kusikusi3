@@ -10,7 +10,7 @@
         "vlucas/phpdotenv": "~2.2",
         "ramsey/uuid": "^3.7",
         "hackzilla/password-generator": "^1.4",
-        "cuatromedios/kusikusi-php-kernel": "^0.14.0",
+        "cuatromedios/kusikusi-php-kernel": "^0.15.3",
         "league/flysystem": "^1.0",
         "intervention/image": "^2.4"
     },
