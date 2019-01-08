@@ -4,6 +4,7 @@ namespace App\Controllers\Web;
 
 use Cuatromedios\Kusikusi\Http\Controllers\Controller;
 use App\Models\Entity;
+use Cuatromedios\Kusikusi\Models\EntityModel;
 use Illuminate\Http\Request;
 
 class HtmlController extends Controller
@@ -29,7 +30,7 @@ class HtmlController extends Controller
   private function children($entity) {
     $children = Entity::childOf($entity->id)
             ->withContents('title', 'summary', 'url')
-            ->withMedia('icon')
+            ->with(['media' => EntityModel::onlyTags('icon')])
             ->get()->compact();
     return $children;
   }
@@ -45,6 +46,8 @@ class HtmlController extends Controller
   {
     $result = $this->common($entity);
     $result['children'] = $this->children($entity);
+    var_dump($result['children'][0]);
+    die();
     return view('html.section', $result);
   }
 
