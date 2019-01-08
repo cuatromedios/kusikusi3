@@ -46,8 +46,6 @@ class HtmlController extends Controller
   {
     $result = $this->common($entity);
     $result['children'] = $this->children($entity);
-    var_dump($result['children'][0]);
-    die();
     return view('html.section', $result);
   }
 
