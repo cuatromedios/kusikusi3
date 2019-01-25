@@ -48,3 +48,13 @@ Content-Type: application/json
 
 %}
 ###
+
+### Get an entity parent
+GET {{host}}/entity/home/parent
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+> {%
+
+%}
+###
