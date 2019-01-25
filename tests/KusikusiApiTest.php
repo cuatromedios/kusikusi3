@@ -16,7 +16,7 @@ class KusikusiApiTest extends TestCase
         ];
         $user = $this->POST('/api/user/login', $json)->seeStatusCode(200)->response->getContent();
         $auth = json_decode($user, true);
-        $authorizationToken = $auth['data']['token'];
+        $authorizationToken = $auth['result']['token'];
         return $authorizationToken;
     }
 
@@ -233,7 +233,7 @@ class KusikusiApiTest extends TestCase
         $response->seeStatusCode(200);
 
         $auth = json_decode($response->response->getContent(), true);
-        $entity_id = $auth['data']['id'];
+        $entity_id = $auth['result']['id'];
 
         // print ("\nENTITY CREATED: ".$entity_id."\n");
 
