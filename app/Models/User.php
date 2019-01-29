@@ -38,16 +38,22 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
    * @var array
    */
   protected $hidden = [
-      'password', 'relatedEntity', 'relatedContents'
+      'password'
   ];
 
   public static function authenticate($username, $password, $ip = '', $use_email = false)
   {
+    $user = User::with('permissions')
+        ->with(['relations' => function($q) {
+          $q->select('id', 'model')
+              ->where('relations.kind', '!=', 'ancestor');
+        }]);
     if (!$use_email) {
-      $user = User::where('username', $username)->first();
+      $user->where('username', $username);
     } else {
-      $user = User::where('email', $username)->first();
+      $user->where('email', $username);
     }
+    $user = $user->first();
     if ($user && Hash::check($password, $user->password)) {
       $apikey = base64_encode(str_random(40));
       $token = new Authtoken([
@@ -56,15 +62,9 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       ]);
       // TODO: If the user is inactive or deleted don't allow login
       $user->authtokens()->save($token);
-      $entityUser = Entity::select('id', 'model', 'active')
-          ->with(['user' => function($q) { $q->with('permissions'); }])
-          ->with(['relations' => function($q) {
-            $q->select('id', 'model')
-              ->where('relations.kind', '!=', 'ancestor'); }])
-          ->find($user->id);
       return ([
           "token" => $apikey,
-          "entity" => $entityUser
+          "user" => $user
       ]);
     } else {
       return FALSE;
@@ -93,6 +93,19 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
   public function activity()
   {
     return $this->hasMany('Cuatromedios\Kusikusi\Models\Activity', 'user_id');
+  }
+
+  /**
+   * The relations that belong to the entity.
+   */
+  public function relations()
+  {
+    return $this
+        ->belongsToMany('App\Models\Entity', 'relations', 'caller_id', 'called_id')
+        ->using('Cuatromedios\Kusikusi\Models\Relation')
+        ->as('relation')
+        ->withPivot('kind', 'position', 'depth', 'tags')
+        ->withTimestamps();
   }
 
   public static function boot($preset = [])
