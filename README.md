@@ -1,7 +1,7 @@
 # KusiKusi PHP
 
 ## Introduction
-KusiKusi _(spider in Quechuan)_ is a boilerplate for creating **API-first applications based on hierarchical data**, like the data found on most websites (home / section / page). KusiKusi can be used as the backend for web sites, web applications, mobile apps or platforms containing all of them. KusiKusi also has components to build server generated websites.
+KusiKusi _(spider in Quechuan)_ is a framework for creating **API-first applications based on hierarchical data**, like the data found on most websites (home / section / page). KusiKusi can be used as the backend for web sites, web applications, mobile apps or platforms containing all of them. KusiKusi also has components to build server generated websites.
 
 #### Objetive
 
