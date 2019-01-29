@@ -56,11 +56,15 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       ]);
       // TODO: If the user is inactive or deleted don't allow login
       $user->authtokens()->save($token);
-      // $entity = EntityModel::getOne($user->id, ['e.id', 'e.model', 'e.isActive', 'd.name', 'd.email', 'd.profile']);
-      // $relations = EntityModel::getEntityRelations($user->entity_id, NULL, ['e.id', 'r.kind', 'r.position', 'r.tags', 'e.model']);
+      $entityUser = Entity::select('id', 'model', 'active')
+          ->with(['user' => function($q) { $q->with('permissions'); }])
+          ->with(['relations' => function($q) {
+            $q->select('id', 'model')
+              ->where('relations.kind', '!=', 'ancestor'); }])
+          ->find($user->id);
       return ([
           "token" => $apikey,
-          "user" => $user
+          "entity" => $entityUser
       ]);
     } else {
       return FALSE;
