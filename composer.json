@@ -21,7 +21,7 @@
     },
     "autoload": {
         "files": [
-            "app/helpers.php"
+            "vendor/cuatromedios/kusikusi-php-kernel/src/helpers.php"
         ],
         "psr-4": {
             "App\\": "app/"
