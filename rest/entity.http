@@ -1,5 +1,7 @@
+### ?XDEBUG_SESSION_START=PHPSTORM
+
 ### Get an entity
-GET {{host}}/entity/home?{{xdebug}}
+GET {{host}}/entity/home
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -8,7 +10,7 @@ Content-Type: application/json
 
 
 ### Get an entity with selected fields
-GET {{host}}/entity/?fields=id,e.model,contents.title,c.summary,user.username&{{xdebug}}
+GET {{host}}/entity/?fields=id,e.model,contents.title,c.summary,user.username
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -26,7 +28,7 @@ Content-Type: application/json
 
 
 ### Get an entties with a filter in related model
-GET {{host}}/entity/?select=model,entities.parent_id,user.id,user.name&where=user.username:admin&{{xdebug}}
+GET {{host}}/entity/?select=model,entities.parent_id,user.id,user.name&where=user.username:admin
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -35,7 +37,7 @@ Content-Type: application/json
 
 
 ### Get an entties with a filter in entities table
-GET {{host}}/entity/?select=id,e.model,contents.title&where=model:home&{{xdebug}}
+GET {{host}}/entity/?select=id,e.model,contents.title&where=model:home
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -44,8 +46,90 @@ Content-Type: application/json
 
 
 ### Get an entity parent
-GET {{host}}/entity/home/parent
+GET {{host}}/entity/{{entity_id}}/parent
 Authorization: bearer {{token}}
 Content-Type: application/json
 
 
+
+
+
+### Get an entity descendants
+GET {{host}}/entity/home/descendants?select=id,model,tree.depth
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+
+
+
+
+
+### Get an entity ancestors
+GET {{host}}/entity/home/ancestors?select=id,model,tree.depth
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+
+
+
+
+
+### Get an entity tree
+GET {{host}}/entity/root/tree?select=id,model,c.title
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+
+
+
+
+### Create an entity
+POST {{host}}/entity/
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+{
+  "model": "medium",
+  "parent_id": "root",
+  "medium": {
+    "format": "png",
+    "size": 888
+  },
+  "contents": {
+    "title": "Posted media :)"
+  }
+}
+
+> scripts/last-entity-id.js
+
+
+
+
+
+### Update an entity
+PATCH {{host}}/entity/{{entity_id}}
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+{
+  "model": "medium",
+  "medium": {
+    "format": "png",
+    "size": 999
+  },
+  "contents": {
+    "title": "Updated media :)"
+  }
+}
+
+### Move entity from parent
+
+PATCH {{host}}/entity/home?XDEBUG_SESSION_START=PHPSTORM
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+{
+  "parent_id": "media"
+}
+
+###

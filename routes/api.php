@@ -53,6 +53,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
         $router->delete('/{id}', ['uses' => 'EntityController@softDelete']);
         $router->delete('/{id}/hard', ['uses' => 'EntityController@hardDelete']);
         $router->get('/{id}/parent', ['uses' => 'EntityController@getParent']);
+        $router->get('/{id}/tree', ['uses' => 'EntityController@getTree']);
         $router->get('/{id}/children', ['uses' => 'EntityController@getChildren']);
         $router->get('/{id}/ancestors', ['uses' => 'EntityController@getAncestors']);
         $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
