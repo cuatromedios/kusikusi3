@@ -84,7 +84,7 @@ Content-Type: application/json
 
 
 ### Get an entity tree
-GET {{host}}/entity/root/tree?select=id,model,c.title
+GET {{host}}/entity/root/tree?select=id,model,c.title&depth=2
 Authorization: bearer {{token}}
 Content-Type: application/json
 
