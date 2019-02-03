@@ -83,8 +83,8 @@ Content-Type: application/json
 
 
 
-### Get an entity tree
-GET {{host}}/entity/root/tree?select=id,model,c.title&depth=2
+### Get an entity tree, specify fields, max depth an the order of the entities in each branch
+GET {{host}}/entity/root/tree?select=model,c.title&depth=2&order=c.title
 Authorization: bearer {{token}}
 Content-Type: application/json
 
