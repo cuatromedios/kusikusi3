@@ -9,6 +9,15 @@ Content-Type: application/json
 
 
 
+### Get an entity children
+GET {{host}}/entity/home/children?fields=e.id,contents.title&order=contents.title
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+
+
+
+
 ### Get an entity with selected fields
 GET {{host}}/entity/?fields=id,e.model,contents.title,c.summary,user.username
 Authorization: bearer {{token}}
