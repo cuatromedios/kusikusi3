@@ -10,7 +10,6 @@ Content-Type: application/json
 
 
 ### Get an entity children
-GET {{host}}/entity/home/children?fields=e.id,contents.title&order=contents.title
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -46,7 +45,7 @@ Content-Type: application/json
 
 
 ### Get an entties with a filter in entities table
-GET {{host}}/entity/?select=id,e.model,contents.title&where=model:home
+GET {{host}}/entity/?select=id,e.model,contents.title&where=model:medium
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -64,7 +63,7 @@ Content-Type: application/json
 
 
 ### Get an entity descendants
-GET {{host}}/entity/home/descendants?select=id,model,tree.depth
+GET {{host}}/entity/home/descendants?select=id,model,tree.depth&media=icon
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -84,7 +83,7 @@ Content-Type: application/json
 
 
 ### Get an entity tree, specify fields, max depth an the order of the entities in each branch
-GET {{host}}/entity/root/tree?select=model,c.title&depth=2&order=c.title
+GET {{host}}/entity/root/tree?select=model,c.title&depth=3&order=c.title
 Authorization: bearer {{token}}
 Content-Type: application/json
 
