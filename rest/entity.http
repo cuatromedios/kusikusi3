@@ -71,6 +71,15 @@ Content-Type: application/json
 
 
 
+### Get an entity descendants
+GET {{host}}/entity/home/relations/ancestor?select=id,model
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+
+
+
+
 
 ### Get an entity ancestors
 GET {{host}}/entity/home/ancestors?select=id,model,tree.depth
