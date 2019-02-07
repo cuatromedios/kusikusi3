@@ -71,10 +71,33 @@ Content-Type: application/json
 
 
 
-### Get an entity descendants
-GET {{host}}/entity/home/relations/ancestor?select=id,model
+### Get an entities related
+GET {{host}}/entity/home/relations/relation?select=id,model
 Authorization: bearer {{token}}
 Content-Type: application/json
+
+
+
+
+
+### Create an entities relations
+POST {{host}}/entity/home/relations?select=id,mode
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": "root",
+  "kind": "relation"
+}
+
+
+
+
+### Delete a relation
+DELETE {{host}}/entity/home/relations/relation/root
+Authorization: bearer {{token}}
+Content-Type: application/json
+
 
 
 
