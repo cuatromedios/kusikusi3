@@ -71,10 +71,20 @@ Content-Type: application/json
 
 
 
-### Get an entities related
-GET {{host}}/entity/home/relations/relation?select=id,model
+### Get an entities related by
+GET {{host}}/entity/home/relations/medium?select=id,model
 Authorization: bearer {{token}}
 Content-Type: application/json
+
+
+
+
+
+### Get an entities inverse relations
+GET {{host}}/entity/home/inverse-relations/ancestor?select=id,model
+Authorization: bearer {{token}}
+Content-Type: application/json
+
 
 
 
