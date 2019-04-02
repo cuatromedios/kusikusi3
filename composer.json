@@ -1,7 +1,7 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "cuatromedios/kusikusi",
+    "description": "API-first applications based on hierarchical data",
+    "keywords": ["framework", "Cuatromedios", "Api"],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -35,8 +35,9 @@
     },
     "scripts": {
         "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
-        ]
+            "@kusikusiConfig"
+        ],
+        "kusikusiConfig": "@php artisan kusikusi:post-install"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

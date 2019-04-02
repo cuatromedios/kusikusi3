@@ -5,7 +5,7 @@
     <p>{{ $entity['contents']['summary']}}</p>
     <div>
         @forelse ($media as $mediumEntity)
-            <img src="{{ $mediumEntity['medium']['thumb'] }}" alt="" />
+            <img src="{{ $mediumEntity['medium']['thumb'] }}" alt=""/>
         @empty
             <em>No children</em>
         @endforelse

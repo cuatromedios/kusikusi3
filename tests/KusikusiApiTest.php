@@ -1,8 +1,8 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Lumen\Testing\DatabaseTransactions;
-
+/**
+ * Class KusikusiApiTest
+ */
 class KusikusiApiTest extends TestCase
 {
 
@@ -12,35 +12,40 @@ class KusikusiApiTest extends TestCase
         global $argv, $argc;
         $json = [
             'username' => $argv[4],
-            'password' => $argv[5]
+            'password' => $argv[5],
         ];
         $user = $this->POST('/api/user/login', $json)->seeStatusCode(200)->response->getContent();
         $auth = json_decode($user, true);
         $authorizationToken = $auth['result']['token'];
+
         return $authorizationToken;
     }
 
+    /**
+     *
+     */
     public function testLoginWithIncorrectData()
     {
         $json = [
-            'email' => 'kusikusi',
-            'password' => 'IncorrectPassword'
+            'email'    => 'kusikusi',
+            'password' => 'IncorrectPassword',
         ];
         $this->POST('/api/user/login', $json)->seeStatusCode(401);
-
     }
 
-
-
-    /** GET */
-    /**
+    /** GET
+     *
      * @depends testLoginWithCorrectData
      */
     public function testGetAllEntitiesWithCorrectToken($authorizationToken)
     {
-        $response = $this->GET('/api/entity', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity', ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
     }
+
+    /**
+     *
+     */
     public function testGetAllEntitiesWithIncorrectToken()
     {
         $response = $this->GET('/api/entity', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
@@ -52,13 +57,14 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider IdProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityWithCorrectToken($id, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id, ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      * @param int $status Expected status code
@@ -67,7 +73,7 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityWithIncorrectToken($id)
     {
-        $response = $this->GET('/api/entity/'.$id, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -76,13 +82,15 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider ParentDataProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityParentWithCorrectToken($id, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id.'/parent', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id . '/parent',
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      * @param int $status Expected status code
@@ -91,7 +99,8 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityParentWithIncorrectToken($id)
     {
-        $response = $this->GET('/api/entity/'.$id.'/parent', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id . '/parent',
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -100,13 +109,15 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider IdProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityChildrenWithCorrectToken($id, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id.'/children', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id . '/children',
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      * @param int $status Expected status code
@@ -115,7 +126,8 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityChildrenWithIncorrectToken($id)
     {
-        $response = $this->GET('/api/entity/'.$id.'/children', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id . '/children',
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -124,13 +136,15 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider IdProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityAncestorsWithCorrectToken($id, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id.'/ancestors', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id . '/ancestors',
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      * @param int $status Expected status code
@@ -139,7 +153,8 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityAncestorsWithIncorrectToken($id)
     {
-        $response = $this->GET('/api/entity/'.$id.'/ancestors', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id . '/ancestors',
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -148,13 +163,15 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider IdProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityDescendantsWithCorrectToken($id, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id.'/descendants', ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id . '/descendants',
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      *
@@ -162,7 +179,8 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityDescendantsWithIncorrectToken($id)
     {
-        $response = $this->GET('/api/entity/'.$id.'/descendants', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id . '/descendants',
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -172,13 +190,15 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider RelationDataProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityRelationsWithCorrectToken($id, $kind, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id.'/relations/'.$kind, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id . '/relations/' . $kind,
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      * @param string $kind The specific type of relations
@@ -187,7 +207,8 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityRelationsWithIncorrectToken($id, $kind)
     {
-        $response = $this->GET('/api/entity/'.$id.'/relations/'.$kind, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id . '/relations/' . $kind,
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -197,13 +218,15 @@ class KusikusiApiTest extends TestCase
      * @param int $status Expected status code
      *
      * @dataProvider RelationDataProvider
-     * @depends testLoginWithCorrectData
+     * @depends      testLoginWithCorrectData
      */
     public function testGetEntityInverseRelationsWithCorrectToken($id, $kind, $status, $authorizationToken)
     {
-        $response = $this->GET('/api/entity/'.$id.'/inverse-relations/'.$kind, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->GET('/api/entity/' . $id . '/inverse-relations/' . $kind,
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode($status);
     }
+
     /**
      * @param string $id Id to test
      * @param string $kind The specific type of relations
@@ -212,39 +235,41 @@ class KusikusiApiTest extends TestCase
      */
     public function testGetEntityInverseRelationsWithIncorrectToken($id, $kind)
     {
-        $response = $this->GET('/api/entity/'.$id.'/inverse-relations/'.$kind, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->GET('/api/entity/' . $id . '/inverse-relations/' . $kind,
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
-
-
-    /** POST */
-    /**
+    /** POST
+     *
      * @depends testLoginWithCorrectData
      */
     public function testPostEntityWithCorrectToken($authorizationToken)
     {
         $json = [
-            'model' => 'page',
-            'name' => 'TEST CREATED ENTITY ',
-            'parent_id' => 'home'
+            'model'     => 'page',
+            'name'      => 'TEST CREATED ENTITY ',
+            'parent_id' => 'home',
         ];
-        $response = $this->json('POST', '/api/entity', $json, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->json('POST', '/api/entity', $json,
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
-
         $auth = json_decode($response->response->getContent(), true);
         $entity_id = $auth['result']['id'];
 
         // print ("\nENTITY CREATED: ".$entity_id."\n");
-
         return $entity_id;
     }
+
+    /**
+     *
+     */
     public function testPostEntityWithIncorrectToken()
     {
         $json = [
-            'model' => 'medium',
-            'name' => 'test',
-            'parent_id' => 'media'
+            'model'     => 'medium',
+            'name'      => 'test',
+            'parent_id' => 'media',
         ];
         $response = $this->json('POST', '/api/entity', $json, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
@@ -257,10 +282,11 @@ class KusikusiApiTest extends TestCase
     public function testPostRelationWithCorrectToken($authorizationToken, $entity_id)
     {
         $json = [
-            'id' => 'home',
-            'kind' => 'relation'
+            'id'   => 'home',
+            'kind' => 'relation',
         ];
-        $response = $this->json('POST', '/api/entity/'.$entity_id.'/relations', $json, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->json('POST', '/api/entity/' . $entity_id . '/relations', $json,
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
     }
 
@@ -270,16 +296,15 @@ class KusikusiApiTest extends TestCase
     public function testPostRelationWithIncorrectToken($entity_id)
     {
         $json = [
-            'id' => 'home',
-            'kind' => 'relation'
+            'id'   => 'home',
+            'kind' => 'relation',
         ];
-        $response = $this->json('POST', '/api/entity/'.$entity_id.'/relations', $json, ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
+        $response = $this->json('POST', '/api/entity/' . $entity_id . '/relations', $json,
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
-
-    /** PATCH */
-    /**
+    /** PATCH
      *
      * @depends testLoginWithCorrectData
      * @depends testPostEntityWithCorrectToken
@@ -287,20 +312,23 @@ class KusikusiApiTest extends TestCase
     public function testPatchEntityWithCorrectToken($authorizationToken, $entity_id)
     {
         $json = [
-            'active' => 0
+            'active' => 0,
         ];
-        $response = $this->json('PATCH', '/api/entity/'.$entity_id, $json, ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->json('PATCH', '/api/entity/' . $entity_id, $json,
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
     }
+
     /**
      * @depends testPostEntityWithCorrectToken
      */
     public function testPatchEntityWithIncorrectToken($entity_id)
     {
         $json = [
-            'active' => 0
+            'active' => 0,
         ];
-        $response = $this->json('PATCH', '/api/entity/'.$entity_id, $json, ['HTTP_Authorization' => 'Bearer '.'IncorrectToken']);
+        $response = $this->json('PATCH', '/api/entity/' . $entity_id, $json,
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
 
@@ -309,61 +337,72 @@ class KusikusiApiTest extends TestCase
      */
     public function testDeleteRelationWithIncorrectToken($entity_id)
     {
-        $response = $this->json('DELETE', '/api/entity/'.$entity_id.'/relations/home/relation', [], ['HTTP_Authorization' => 'Bearer '.'IncorrectToken']);
+        $response = $this->json('DELETE', '/api/entity/' . $entity_id . '/relations/home/relation', [],
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
+
     /**
      * @depends testLoginWithCorrectData
      * @depends testPostEntityWithCorrectToken
      */
     public function testDeleteRelationWithCorrectToken($authorizationToken, $entity_id)
     {
-        $response = $this->json('DELETE', '/api/entity/'.$entity_id.'/relations/home/relation', [], ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->json('DELETE', '/api/entity/' . $entity_id . '/relations/home/relation', [],
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
     }
 
 
 
     /** DELETE */
-
     /**
      * @depends testPostEntityWithCorrectToken
      */
     public function testSoftDeleteEntityWithIncorrectToken($entity_id)
     {
-        $response = $this->json('DELETE', '/api/entity/'.$entity_id, [], ['HTTP_Authorization' => 'Bearer '.'IncorrectToken']);
+        $response = $this->json('DELETE', '/api/entity/' . $entity_id, [],
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
+
     /**
      * @depends testLoginWithCorrectData
      * @depends testPostEntityWithCorrectToken
      */
     public function testSoftDeleteEntityWithCorrectToken($authorizationToken, $entity_id)
     {
-        $response = $this->json('DELETE', '/api/entity/'.$entity_id, [], ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->json('DELETE', '/api/entity/' . $entity_id, [],
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
     }
-
 
     /**
      * @depends testPostEntityWithCorrectToken
      */
     public function testHardDeleteEntityWithIncorrectToken($entity_id)
     {
-        $response = $this->json('DELETE', '/api/entity/'.$entity_id.'/hard', [], ['HTTP_Authorization' => 'Bearer '.'IncorrectToken']);
+        $response = $this->json('DELETE', '/api/entity/' . $entity_id . '/hard', [],
+            ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
         $response->seeStatusCode(401);
     }
+
     /**
      * @depends testLoginWithCorrectData
      * @depends testPostEntityWithCorrectToken
      */
     public function testHardDeleteEntityWithCorrectToken($authorizationToken, $entity_id)
     {
-        $response = $this->json('DELETE', '/api/entity/'.$entity_id.'/hard', [], ['HTTP_Authorization' => 'Bearer '.$authorizationToken]);
+        $response = $this->json('DELETE', '/api/entity/' . $entity_id . '/hard', [],
+            ['HTTP_Authorization' => 'Bearer ' . $authorizationToken]);
         $response->seeStatusCode(200);
     }
 
-    /** DATA PROVIDERS */
+    /**
+     * DATA PROVIDERS
+     *
+     * @return array
+     */
     public function IdProvider()
     {
         return [
@@ -371,10 +410,13 @@ class KusikusiApiTest extends TestCase
             ['home', 200],
             ['media', 200],
             ['users', 200],
-            ['IncorrectID', 404]
+            ['IncorrectID', 404],
         ];
     }
 
+    /**
+     * @return array
+     */
     public function ParentDataProvider()
     {
         return [
@@ -382,10 +424,13 @@ class KusikusiApiTest extends TestCase
             ['home', 200],
             ['media', 200],
             ['users', 200],
-            ['IncorrectID', 404]
+            ['IncorrectID', 404],
         ];
     }
 
+    /**
+     * @return array
+     */
     public function RelationDataProvider()
     {
         return [
@@ -398,7 +443,7 @@ class KusikusiApiTest extends TestCase
             ['users', 'ancestor', 200],
             ['users', 'medium', 200],
             ['IncorrectID', 'ancestors', 404],
-            ['IncorrectID', 'medium', 404]
+            ['IncorrectID', 'medium', 404],
         ];
     }
 }

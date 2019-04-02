@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -10,10 +9,9 @@
 | database. Just tell the factory how a default model should look.
 |
 */
-
 $factory->define(Cuatromedios\Kusikusi\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email
+        'name'  => $faker->name,
+        'email' => $faker->email,
     ];
 });
