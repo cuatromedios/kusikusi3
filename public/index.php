@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -10,14 +9,11 @@
 | is ready to receive HTTP / Console requests from the environment.
 |
 */
-
-$app = require __DIR__.'/../bootstrap/app.php';
-
+$app = require __DIR__ . '/../bootstrap/app.php';
 // set the public path to this directory
-$app->bind('path.public', function() {
+$app->bind('path.public', function () {
     return __DIR__;
 });
-
 /*
 |--------------------------------------------------------------------------
 | Run The Application
@@ -29,5 +25,4 @@ $app->bind('path.public', function() {
 | and wonderful application we have prepared for them.
 |
 */
-
 $app->run();

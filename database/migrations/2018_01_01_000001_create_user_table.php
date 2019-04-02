@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use App\Models\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUserTable extends Migration
 {
@@ -20,7 +20,10 @@ class CreateUserTable extends Migration
             $table->string('name', 100)->nullable();
             $table->string('email', 100)->nullable()->index()->unique();
             $table->string('password', 255)->nullable();
-            $table->enum('profile', [User::PROFILE_ADMIN, User::PROFILE_EDITOR, User::PROFILE_USER])->index()->default(User::PROFILE_USER);
+            $table->enum('profile', [User::PROFILE_ADMIN, User::PROFILE_EDITOR, User::PROFILE_USER])
+                  ->index()
+                  ->default(User::PROFILE_USER)
+            ;
         });
         Schema::create('authtokens', function (Blueprint $table) {
             $table->char('token', 128)->unique()->primary();
@@ -33,8 +36,8 @@ class CreateUserTable extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->uuid('user_id')->index();
             $table->uuid('entity_id')->index();
-            $table->enum('read',     ['none', 'own', 'any']);
-            $table->enum('write',    ['none', 'own', 'any']);
+            $table->enum('read', ['none', 'own', 'any']);
+            $table->enum('write', ['none', 'own', 'any']);
             $table->primary(['user_id', 'entity_id']);
         });
     }

@@ -8,310 +8,312 @@
  *
  */
 return [
-    'langs' => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
+    'langs'  => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
     'models' => [
-        'root' => [
-            'name' => 'Root',
+        'root'      => [
+            'name'    => 'Root',
             'display' => [
                 [
                     'component' => 'children',
-                    'props' => [
-                        'label' => 'Hijos',
+                    'props'     => [
+                        'label'   => 'Hijos',
                         'allowed' => [],
-                        'order'  => 'e.position asc'
-                    ]
+                        'order'   => 'e.position asc',
+                    ],
                 ],
                 [
                     'component' => 'children',
-                    'props' => [
-                        'label' => 'Solo contenedores',
+                    'props'     => [
+                        'label'   => 'Solo contenedores',
                         'allowed' => ['container'],
-                        'filter' => ['model:container'],
-                        'order'  => 'e.position asc'
-                    ]
+                        'filter'  => ['model:container'],
+                        'order'   => 'e.position asc',
+                    ],
                 ],
-            ]
+            ],
         ],
         'container' => [
-            'name' => 'Container',
+            'name'    => 'Container',
             'display' => [
                 [
                     'component' => 'children',
-                    'props' => [
+                    'props'     => [
                         'label' => 'Contenidos',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ],
-        'user' => [
-            'name' => 'User',
+        'user'      => [
+            'name'    => 'User',
             'display' => [
                 [
                     'component' => 'entityCard',
-                ]
+                ],
             ],
-            'editor' => [
+            'editor'  => [
                 [
                     'component' => 'formHeader',
-                    'props' => [
+                    'props'     => [
                         'field' => 'name',
-                        'level' => 3
-                    ]
+                        'level' => 3,
+                    ],
                 ],
                 [
                     'component' => 'formHeader',
-                    'props' => [ 'text' => 'User Basic Data', 'level' => 5 ]
+                    'props'     => ['text' => 'User Basic Data', 'level' => 5],
                 ],
                 [
                     'component' => 'userBasicData',
                 ],
                 [
                     'component' => 'formHeader',
-                    'props' => [ 'text' => '---------------------------------------------------------------------------------', 'level' => 3]
+                    'props'     => ['text'  => '---------------------------------------------------------------------------------',
+                                    'level' => 3,
+                    ],
                 ],
                 [
-                    'component' => 'publication'
+                    'component' => 'publication',
                 ],
-            ]
+            ],
         ],
-        'medium' => [
-            'name' => 'Medium',
+        'medium'    => [
+            'name'    => 'Medium',
             'display' => [
                 [
                     'component' => 'entityCard',
-                ]
+                ],
             ],
-            'editor' => [
+            'editor'  => [
                 [
                     'component' => 'formHeader',
-                    'props' => [
+                    'props'     => [
                         'field' => 'name',
-                        'level' => 3
-                    ]
+                        'level' => 3,
+                    ],
                 ],
                 [
                     'component' => 'displayMedia',
                 ],
                 [
-                    'component' => 'publication'
+                    'component' => 'publication',
                 ],
-            ]
+            ],
         ],
-        'home' => [
-            'name' => "Home",
+        'home'      => [
+            'name'    => "Home",
             'display' => [
                 [
                     'component' => 'entityCard',
-                    'props' => [
-                        'titleSize' => 3
-                    ]
+                    'props'     => [
+                        'titleSize' => 3,
+                    ],
                 ],
                 [
                     'component' => 'children',
-                    'props' => [
-                        'label' => 'Hijos',
+                    'props'     => [
+                        'label'   => 'Hijos',
                         'allowed' => ['section', 'page'],
-                        'order'  => 'e.position asc',
-                        'tags' => ['example', 'ejemplo', 'exemple', 'beispiel']
-                    ]
+                        'order'   => 'e.position asc',
+                        'tags'    => ['example', 'ejemplo', 'exemple', 'beispiel'],
+                    ],
                 ],
             ],
-            'editor' => [
+            'editor'  => [
                 [
                     'component' => 'formHeader',
-                    'props' => [
+                    'props'     => [
                         'field' => 'contents.title',
-                        'level' => 3
-                    ]
+                        'level' => 3,
+                    ],
                 ],
                 [
-                    'component' => 'multiLang'
+                    'component' => 'multiLang',
                 ],
                 [
                     'component' => 'titleSummaryContent',
                 ],
                 [
                     'component' => 'textInput',
-                    'props' => [
-                        'label' => 'multilinea',
-                        'field' => 'contents.summary',
+                    'props'     => [
+                        'label'  => 'multilinea',
+                        'field'  => 'contents.summary',
                         'params' => [
                             'type' => 'textarea',
-                            'rows' => 3
-                        ]
-                    ]
+                            'rows' => 3,
+                        ],
+                    ],
                 ],
                 [
-                    'component' => 'urlAccess'
+                    'component' => 'urlAccess',
                 ],
                 [
                     'component' => 'formHeader',
-                    'props' => [ 'text' => 'Publicacion', 'level' => 4 ]
+                    'props'     => ['text' => 'Publicacion', 'level' => 4],
                 ],
                 [
                     'component' => 'toggleButton',
-                    'props' => [
-                        'label' => 'Boton boleano',
-                        'field' => 'position',
-                        'trueValue' => [
+                    'props'     => [
+                        'label'      => 'Boton boleano',
+                        'field'      => 'position',
+                        'trueValue'  => [
                             'label' => 'veinte',
-                            'value' => 20
+                            'value' => 20,
                         ],
                         'falseValue' => [
                             'label' => 'cinco',
-                            'value' => 5
+                            'value' => 5,
                         ],
-                    ]
+                    ],
                 ],
                 [
-                    'component' => 'publication'
+                    'component' => 'publication',
                 ],
                 [
                     'component' => 'media',
-                    'props' => [
-                        'tags' => ['tag1', 'tag2', 'cover', 'icon', 'ejemplo'],
-                        'filter' => ['.jpg', '.png']
-                    ]
+                    'props'     => [
+                        'tags'   => ['tag1', 'tag2', 'cover', 'icon', 'ejemplo'],
+                        'filter' => ['.jpg', '.png'],
+                    ],
                 ],
                 [
                     'component' => 'relation',
-                    'props' => [
-                        'label' => 'Relaciones de medium',
-                        'kind' => ['medium','ancestor'],
+                    'props'     => [
+                        'label'      => 'Relaciones de medium',
+                        'kind'       => ['medium', 'ancestor'],
                         'childrenOf' => 'media',
-                        'tags' => ['example', 'ejemplo', 'exemple', 'beispiel']
-                    ]
-                ]
-            ]
+                        'tags'       => ['example', 'ejemplo', 'exemple', 'beispiel'],
+                    ],
+                ],
+            ],
         ],
-        'section' => [
-            'name' => "Section",
+        'section'   => [
+            'name'    => "Section",
             'display' => [
                 [
                     'component' => 'entityCard',
-                    'props' => [
-                        'titleSize' => 3
-                    ]
+                    'props'     => [
+                        'titleSize' => 3,
+                    ],
                 ],
                 [
                     'component' => 'children',
-                    'props' => [
-                        'label' => 'Hijos',
+                    'props'     => [
+                        'label'   => 'Hijos',
                         'allowed' => ['page'],
-                        'order'  => 'e.position asc'
-                    ]
+                        'order'   => 'e.position asc',
+                    ],
                 ],
             ],
-            'editor' => [
+            'editor'  => [
                 [
                     'component' => 'formHeader',
-                    'props' => [
+                    'props'     => [
                         'field' => 'contents.title',
-                        'level' => 3
-                    ]
+                        'level' => 3,
+                    ],
                 ],
                 [
-                    'component' => 'multiLang'
+                    'component' => 'multiLang',
                 ],
                 [
                     'component' => 'titleSummaryContent',
-                    'props' => [
-                        'multilanguage' => true
-                    ]
+                    'props'     => [
+                        'multilanguage' => true,
+                    ],
                 ],
                 [
-                    'component' => 'urlAccess'
+                    'component' => 'urlAccess',
                 ],
                 [
                     'component' => 'selectInput',
-                    'props' => [
-                        'label' => 'Prueba',
-                        'field' => 'contents.summary',
+                    'props'     => [
+                        'label'       => 'Prueba',
+                        'field'       => 'contents.summary',
                         'placeholder' => 'Selecciona algo',
-                        'options' => [
+                        'options'     => [
                             [
                                 'label' => 'Opcion 1',
-                                'value' => 'Elegiste la primer opcion'
+                                'value' => 'Elegiste la primer opcion',
                             ],
                             [
                                 'label' => 'Opcion 2',
-                                'value' => 'Elegiste la segunda de las opciones'
-                            ]
-                        ]
-                    ]
+                                'value' => 'Elegiste la segunda de las opciones',
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'component' => 'formHeader',
-                    'props' => [ 'text' => 'TEST', 'level' => 5 ]
+                    'props'     => ['text' => 'TEST', 'level' => 5],
                 ],
                 [
-                    'component' => 'publication'
+                    'component' => 'publication',
                 ],
                 [
                     'component' => 'qrCode',
-                    'props' => [ 'prefix' => 'http://kusikusi.com/']
+                    'props'     => ['prefix' => 'http://kusikusi.com/'],
                 ],
                 [
                     'component' => 'media',
-                    'props' => [
-                        'tags' => ['tag1', 'tag2', 'tag3', 'tag4'],
-                        'filter' => ['.gif']
-                    ]
-                ]
-            ]
+                    'props'     => [
+                        'tags'   => ['tag1', 'tag2', 'tag3', 'tag4'],
+                        'filter' => ['.gif'],
+                    ],
+                ],
+            ],
         ],
-        'page' => [
-            'name' => "Page",
+        'page'      => [
+            'name'    => "Page",
             'display' => [
                 [
                     'component' => 'entityCard',
-                    'props' => [
-                        'titleSize' => 2
-                    ]
-                ]
+                    'props'     => [
+                        'titleSize' => 2,
+                    ],
+                ],
             ],
-            'editor' => [
+            'editor'  => [
                 [
                     'component' => 'formHeader',
-                    'props' => [
+                    'props'     => [
                         'field' => 'contents.title',
-                        'level' => 3
-                    ]
+                        'level' => 3,
+                    ],
                 ],
                 [
-                    'component' => 'multiLang'
+                    'component' => 'multiLang',
                 ],
                 [
-                    'component' => 'titleSummaryContent'
+                    'component' => 'titleSummaryContent',
                 ],
                 [
-                    'component' => 'urlAccess'
+                    'component' => 'urlAccess',
                 ],
                 [
                     'component' => 'media',
-                    'props' => [
-                        'tags' => ['imagen', 'otro']
-                    ]
+                    'props'     => [
+                        'tags' => ['imagen', 'otro'],
+                    ],
                 ],
                 [
-                    'component' => 'publication'
+                    'component' => 'publication',
                 ],
                 [
-                    'component' => 'qrCode'
-                ],
-                [
-                    'component' => 'formHeader',
-                    'props' => ['text' => 'H2', 'level' => 2]
+                    'component' => 'qrCode',
                 ],
                 [
                     'component' => 'formHeader',
-                    'props' => ['text' => 'H3', 'level' => 3]
+                    'props'     => ['text' => 'H2', 'level' => 2],
                 ],
                 [
                     'component' => 'formHeader',
-                    'props' => ['text' => 'H4', 'level' => 4]
+                    'props'     => ['text' => 'H3', 'level' => 3],
                 ],
-            ]
-        ]
-    ]
+                [
+                    'component' => 'formHeader',
+                    'props'     => ['text' => 'H4', 'level' => 4],
+                ],
+            ],
+        ],
+    ],
 ];

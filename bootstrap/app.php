@@ -1,14 +1,10 @@
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
+require_once __DIR__ . '/../vendor/autoload.php';
 try {
-  (new Dotenv\Dotenv(dirname(__DIR__)))->load();
+    (new Dotenv\Dotenv(dirname(__DIR__)))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
-
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -19,11 +15,9 @@ try {
 | application as an "IoC" container and router for this framework.
 |
 */
-
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
-
 /*
 |--------------------------------------------------------------------------
 | Load The Application Configuration
@@ -38,21 +32,14 @@ $app->configure('general');
 $app->configure('activity');
 $app->configure('cms');
 $app->configure('validator');
-
-
 $app->withFacades();
-if(!class_exists('Storage')) {
+if (!class_exists('Storage')) {
     class_alias('Illuminate\Support\Facades\Storage', 'Storage');
 }
-if(!class_exists('Image')) {
+if (!class_exists('Image')) {
     class_alias('Intervention\Image\ImageServiceProvider', 'Image');
 }
-
-
 $app->withEloquent();
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -63,17 +50,14 @@ $app->withEloquent();
 | Kernel. You may add your own bindings here.
 |
 */
-
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     Cuatromedios\Kusikusi\Exceptions\Handler::class
 );
-
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     Cuatromedios\Kusikusi\Console\Kernel::class
 );
-
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -86,13 +70,10 @@ $app->singleton(
 | in app/Http/Middleware and registing them here
 |
 */
-
-
- $app->routeMiddleware([
-     'auth' => Cuatromedios\Kusikusi\Http\Middleware\Authenticate::class,
-     'cors' => Cuatromedios\Kusikusi\Http\Middleware\CorsMiddleware::class,
- ]);
-
+$app->routeMiddleware([
+    'auth' => Cuatromedios\Kusikusi\Http\Middleware\Authenticate::class,
+    'cors' => Cuatromedios\Kusikusi\Http\Middleware\CorsMiddleware::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -104,15 +85,12 @@ $app->singleton(
 | in app/Providers and register them here.
 |
 */
-
 $app->register(Cuatromedios\Kusikusi\Providers\AppServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(Intervention\Image\ImageServiceProvider::class);
 // $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
-
-
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -128,11 +106,10 @@ $app->register(Intervention\Image\ImageServiceProvider::class);
 | and call them here with appropiate paths like app/Http/Controllers:
 |
 */
-
 $app->router->group([], function ($router) {
-  require __DIR__.'/../routes/api.php';
-  require __DIR__.'/../routes/media.php';
-  require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/api.php';
+    require __DIR__ . '/../routes/media.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;

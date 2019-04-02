@@ -1,5 +1,4 @@
 <?php
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -38,15 +37,15 @@ return [
     | Supported Drivers: "local", "ftp", "s3", "rackspace"
     |
     */
-    'disks' => [
-        'media_original' => [
+    'disks'   => [
+        'media_original'  => [
             'driver' => 'local',
-            'root' => storage_path('/media/original'),
+            'root'   => storage_path('/media/original'),
         ],
         'media_processed' => [
-            'driver' => 'local',
-            'root' => storage_path('/media/processed'),
-            'url' => env('APP_URL').'/media',
+            'driver'     => 'local',
+            'root'       => storage_path('/media/processed'),
+            'url'        => env('APP_URL') . '/media',
             'visibility' => 'public',
         ],
         /* 's3' => [
