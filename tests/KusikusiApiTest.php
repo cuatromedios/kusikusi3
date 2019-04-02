@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class KusikusiApiTest
+ */
 class KusikusiApiTest extends TestCase
 {
 
@@ -18,6 +21,9 @@ class KusikusiApiTest extends TestCase
         return $authorizationToken;
     }
 
+    /**
+     *
+     */
     public function testLoginWithIncorrectData()
     {
         $json = [
@@ -27,10 +33,8 @@ class KusikusiApiTest extends TestCase
         $this->POST('/api/user/login', $json)->seeStatusCode(401);
     }
 
-
-
-    /** GET */
-    /**
+    /** GET
+     *
      * @depends testLoginWithCorrectData
      */
     public function testGetAllEntitiesWithCorrectToken($authorizationToken)
@@ -39,6 +43,9 @@ class KusikusiApiTest extends TestCase
         $response->seeStatusCode(200);
     }
 
+    /**
+     *
+     */
     public function testGetAllEntitiesWithIncorrectToken()
     {
         $response = $this->GET('/api/entity', ['HTTP_Authorization' => 'Bearer ' . 'IncorrectToken']);
@@ -233,10 +240,8 @@ class KusikusiApiTest extends TestCase
         $response->seeStatusCode(401);
     }
 
-
-
-    /** POST */
-    /**
+    /** POST
+     *
      * @depends testLoginWithCorrectData
      */
     public function testPostEntityWithCorrectToken($authorizationToken)
@@ -256,6 +261,9 @@ class KusikusiApiTest extends TestCase
         return $entity_id;
     }
 
+    /**
+     *
+     */
     public function testPostEntityWithIncorrectToken()
     {
         $json = [
@@ -296,9 +304,7 @@ class KusikusiApiTest extends TestCase
         $response->seeStatusCode(401);
     }
 
-
-    /** PATCH */
-    /**
+    /** PATCH
      *
      * @depends testLoginWithCorrectData
      * @depends testPostEntityWithCorrectToken
@@ -392,7 +398,11 @@ class KusikusiApiTest extends TestCase
         $response->seeStatusCode(200);
     }
 
-    /** DATA PROVIDERS */
+    /**
+     * DATA PROVIDERS
+     *
+     * @return array
+     */
     public function IdProvider()
     {
         return [
@@ -404,6 +414,9 @@ class KusikusiApiTest extends TestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     public function ParentDataProvider()
     {
         return [
@@ -415,6 +428,9 @@ class KusikusiApiTest extends TestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     public function RelationDataProvider()
     {
         return [

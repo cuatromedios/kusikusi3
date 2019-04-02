@@ -5,6 +5,9 @@ use App\Models\User;
 use Cuatromedios\Kusikusi\Models\Permission;
 use Illuminate\Database\Seeder;
 
+/**
+ * Class BaseWebsiteSeeder
+ */
 class BaseWebsiteSeeder extends Seeder
 {
     /**

@@ -6,9 +6,20 @@ use Cuatromedios\Kusikusi\Http\Controllers\Controller;
 use Cuatromedios\Kusikusi\Models\EntityModel;
 use Illuminate\Http\Request;
 
+/**
+ * Class HtmlController
+ *
+ * @package App\Controllers\Web
+ */
 class HtmlController extends Controller
 {
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Entity $entity
+     *
+     * @return \Illuminate\View\View
+     */
     public function home(Request $request, Entity $entity)
     {
         $result = $this->common($entity);
@@ -17,6 +28,11 @@ class HtmlController extends Controller
         return view('html.home', $result);
     }
 
+    /**
+     * @param \App\Models\Entity $currentEntity
+     *
+     * @return array
+     */
     private function common(Entity $currentEntity)
     {
         return [
@@ -36,6 +52,11 @@ class HtmlController extends Controller
         ];
     }
 
+    /**
+     * @param $entity
+     *
+     * @return mixed
+     */
     private function children($entity)
     {
         $children = Entity::childOf($entity->id)
@@ -47,6 +68,12 @@ class HtmlController extends Controller
         return $children;
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Entity $entity
+     *
+     * @return \Illuminate\View\View
+     */
     public function section(Request $request, Entity $entity)
     {
         $result = $this->common($entity);
@@ -55,6 +82,12 @@ class HtmlController extends Controller
         return view('html.section', $result);
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Entity $entity
+     *
+     * @return \Illuminate\View\View
+     */
     public function page(Request $request, Entity $entity)
     {
         $result = $this->common($entity);

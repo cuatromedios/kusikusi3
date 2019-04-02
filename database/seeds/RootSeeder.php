@@ -3,6 +3,9 @@
 use App\Models\Entity;
 use Illuminate\Database\Seeder;
 
+/**
+ * Class RootSeeder
+ */
 class RootSeeder extends Seeder
 {
     /**

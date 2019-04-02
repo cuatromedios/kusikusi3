@@ -3,6 +3,11 @@ namespace App\Models;
 
 use Cuatromedios\Kusikusi\Models\EntityModel;
 
+/**
+ * Class Entity
+ *
+ * @package App\Models
+ */
 class Entity extends EntityModel
 {
 
@@ -14,6 +19,9 @@ class Entity extends EntityModel
         return $this->hasOne('App\Models\User', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function medium()
     {
         return $this->hasOne('App\Models\Medium', 'id');
