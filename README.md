@@ -41,10 +41,20 @@ In your project directory:
 $ composer install
 ```
 #### Configure the Environment
-1. Duplicate the `.env.example` file and name it `.env`
-1. Set your application key to a random string. Typically, this string should be 32 characters long. If the application key is not set, your user encrypted data will not be secure!
-1. Edit the `.env` file to specify the database conection information: host, port, database name username, password
-1. Create the database to be used and the database for testing, of course, using the database name used in the `.env` file
+```
+$ php artisan kusikusi:post-install
+```
+
+1. What is the name of the application? _Blog KusiKusi_
+1. Enviroment? _production_
+1. Debug? _(yes/no)_
+1. Site URL? _http://localhost_
+1. Database? _mysql_
+1. Database host? _127.0.0.1_
+1. Database port? _3306_
+1. Database user? _homestead_
+1. Database password?
+1. Database name? _homestead_
 
 #### Migrations and Seed
 Run the Artisan migrate command with seed:
@@ -239,9 +249,9 @@ For this new version, starting 2018 we decided to use a well know framework, Lar
 
 **All people have contributed to KusiKusi in past versions**
 * Ramses Moreno
-* Hector Padilla
+* [Hector Padilla](https://github.com/hpadilla64)
 * Erick Olvera
-* Henry Galvez
+* [Henry Galvez](https://github.com/alograg)
 * Adolfo Tavizon ✝
 * Fernando Pintado
 
