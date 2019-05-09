@@ -18,7 +18,7 @@ class SampleWebsiteSeeder extends Seeder
     $faker = Faker\Factory::create();
     $sections = 2;
     $pages_per_section = 2;
-    $images_per_page = 0;
+    $images_per_page = 2;
     for ($s = 0; $s < $sections; $s++) {
       $section = new Entity([
           "model" => "section",
