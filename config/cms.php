@@ -9,7 +9,6 @@
  */
 return [
     'langs' => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
-    'frontentlang',
     'models' => [
         'root' => [
             'name' => 'Root',
