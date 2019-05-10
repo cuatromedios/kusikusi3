@@ -59,12 +59,11 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       $user->where('email', $username);
     }
     $user = $user->first();
-    $user->permissions->each(function ($p) {
-      $p->entity->append('published');
-      $p->entity['distance_to_home'] = $p->entity->getDistanceTo('home');
-    });
-
     if ($user && Hash::check($password, $user->password)) {
+      $user->permissions->each(function ($p) {
+        $p->entity->append('published');
+        $p->entity['distance_to_home'] = $p->entity->getDistanceTo('home');
+      });
       $apikey = base64_encode(str_random(40));
       $token = new Authtoken([
           'token' => $apikey,
