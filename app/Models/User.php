@@ -43,7 +43,12 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
 
   public static function authenticate($username, $password, $ip = '', $use_email = false)
   {
-    $user = User::with('permissions')
+    $user = User::with(['permissions' => function($q) {
+         $q->select('*')
+         ->with(['entity' => function($q) {
+           $q->select('id', 'model', 'name', 'active', 'publicated_at', 'unpublicated_at', 'deleted_at');
+         }]);
+        }])
         ->with(['relations' => function($q) {
           $q->select('id', 'model')
               ->where('relations.kind', '!=', 'ancestor');
@@ -54,6 +59,11 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
       $user->where('email', $username);
     }
     $user = $user->first();
+    $user->permissions->each(function ($p) {
+      $p->entity->append('published');
+      $p->entity['distance_to_home'] = $p->entity->getDistanceTo('home');
+    });
+
     if ($user && Hash::check($password, $user->password)) {
       $apikey = base64_encode(str_random(40));
       $token = new Authtoken([
