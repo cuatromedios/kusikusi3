@@ -46,21 +46,21 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
     */
     $router->group(['namespace' => 'Cuatromedios\Kusikusi\Http\Controllers\Api'], function ($router) {
         $router->group(['prefix' => 'entity'], function () use ($router) {
-        $router->get('/', ['uses' => 'EntityController@get']);
-        $router->post('/', ['uses' => 'EntityController@post']);
-        $router->get('/{id}', ['uses' => 'EntityController@getOne']);
-        $router->patch('/{id}', ['uses' => 'EntityController@patch']);
-        $router->delete('/{id}', ['uses' => 'EntityController@softDelete']);
-        $router->delete('/{id}/hard', ['uses' => 'EntityController@hardDelete']);
-        $router->get('/{id}/parent', ['uses' => 'EntityController@getParent']);
-        $router->get('/{id}/tree', ['uses' => 'EntityController@getTree']);
-        $router->get('/{id}/children', ['uses' => 'EntityController@getChildren']);
-        $router->get('/{id}/ancestors', ['uses' => 'EntityController@getAncestors']);
-        $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
-        $router->get('/{id}/relations[/{kind}]', ['uses' => 'EntityController@getRelations']);
-        $router->post('/{id}/relations', ['uses' => 'EntityController@postRelation']);
-        $router->delete('/{id}/relations/{kind}/{called}', ['uses' => 'EntityController@deleteRelation']);
-        $router->get('/{id}/inverse-relations[/{kind}]', ['uses' => 'EntityController@getInverseRelations']);
+            $router->get('/', ['uses' => 'EntityController@get']);
+            $router->post('/', ['uses' => 'EntityController@post']);
+            $router->get('/{id}', ['uses' => 'EntityController@getOne']);
+            $router->patch('/{id}', ['uses' => 'EntityController@patch']);
+            $router->delete('/{id}', ['uses' => 'EntityController@softDelete']);
+            $router->delete('/{id}/hard', ['uses' => 'EntityController@hardDelete']);
+            $router->get('/{id}/parent', ['uses' => 'EntityController@getParent']);
+            $router->get('/{id}/tree', ['uses' => 'EntityController@getTree']);
+            $router->get('/{id}/children', ['uses' => 'EntityController@getChildren']);
+            $router->get('/{id}/ancestors', ['uses' => 'EntityController@getAncestors']);
+            $router->get('/{id}/descendants', ['uses' => 'EntityController@getDescendants']);
+            $router->get('/{id}/relations[/{kind}]', ['uses' => 'EntityController@getRelations']);
+            $router->post('/{id}/relations', ['uses' => 'EntityController@postRelation']);
+            $router->delete('/{id}/relations/{kind}/{called}', ['uses' => 'EntityController@deleteRelation']);
+            $router->get('/{id}/inverse-relations[/{kind}]', ['uses' => 'EntityController@getInverseRelations']);
         });
         $router->group(['prefix' => 'user'], function () use ($router) {
             $router->post   ('/login',  ['uses' => 'UserController@authenticate']);
