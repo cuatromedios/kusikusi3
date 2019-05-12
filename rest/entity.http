@@ -18,11 +18,17 @@ Content-Type: application/json
 
 
 ### Get an entity with selected fields
-GET {{host}}/entity/?fields=id,e.model,contents.title,c.summary,user.username
+GET {{host}}/entity/home?fields=id,e.model,contents.title,c.summary,user.username
 Authorization: bearer {{token}}
 Content-Type: application/json
 
 
+
+
+### Get an entity with all information
+GET {{host}}/entity/79f22534-8ec9-42fb-a9ca-149c0c0d809a?select=e.*,contents.*,data.*
+Authorization: bearer {{token}}
+Content-Type: application/json
 
 
 
