@@ -26,7 +26,7 @@ Content-Type: application/json
 
 
 ### Get an entity with all information
-GET {{host}}/entity/home?select=e.*,contents.*,data.*
+GET {{host}}/entity/53f22c41-05cd-428c-912a-430081c3abd2?select=e.*,contents.*,data.*&relations
 Authorization: bearer {{token}}
 Content-Type: application/json
 
