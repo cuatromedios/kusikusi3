@@ -99,6 +99,7 @@ return [
         ],
         'home' => [
             'name' => "Home",
+            'icon' => "home",
             'display' => [
                 [
                     'component' => 'entityCard',
@@ -109,7 +110,7 @@ return [
                 [
                     'component' => 'children',
                     'props' => [
-                        'label' => 'Hijos',
+                        'label' => 'In this section',
                         'allowed' => ['section', 'page'],
                         'order'  => 'e.position asc',
                         'tags' => ['example', 'ejemplo', 'exemple', 'beispiel']
