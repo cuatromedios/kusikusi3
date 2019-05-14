@@ -49,6 +49,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function () use ($ro
             $router->get('/', ['uses' => 'EntityController@get']);
             $router->post('/', ['uses' => 'EntityController@post']);
             $router->get('/{id}', ['uses' => 'EntityController@getOne']);
+            $router->get('/{id}/forEdit', ['uses' => 'EntityController@getOneForEdit']);
             $router->patch('/{id}', ['uses' => 'EntityController@patch']);
             $router->delete('/{id}', ['uses' => 'EntityController@softDelete']);
             $router->delete('/{id}/hard', ['uses' => 'EntityController@hardDelete']);
