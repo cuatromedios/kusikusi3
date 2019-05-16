@@ -35,19 +35,25 @@ return [
                             'label' => 'content.editor.name',
                             'component' => 'TextField',
                             'field' => 'name',
-                            'props' => [ ]
+                            'settings' => null
                         ],
                         [
                             'label' => 'content.editor.title',
                             'component' => 'TextField',
                             'field' => 'contents.title',
-                            'props' => [ 'size' => 2 ]
+                            'settings' => [ 'autogrow' => true ]
                         ],
                         [
                             'label' => 'content.editor.summary',
                             'component' => 'TextField',
                             'field' => 'contents.summary',
-                            'props' => [ 'lines' => 3 ]
+                            'settings' => [ 'autogrow' => true ]
+                        ],
+                        [
+                            'label' => 'content.editor.contents',
+                            'component' => 'TextField',
+                            'field' => 'contents.content',
+                            'settings' => [ 'type' => 'textarea' ]
                         ]/*,
                         [
                             'label' => 'content.editor.content',
