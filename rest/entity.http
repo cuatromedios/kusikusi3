@@ -33,7 +33,7 @@ Content-Type: application/json
 
 
 ### Get an entity seting the language
-GET {{host}}/entity/home?lang=en
+GET {{host}}/entity/9c58def5-8867-4201-bf0f-86ff04e90bd9?lang=en
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -152,7 +152,13 @@ Content-Type: application/json
     "size": 888
   },
   "contents": {
-    "title": "Posted media :)"
+    "title": "Posted media :)",
+    "en": {
+      "summary": "The summary"
+    },
+    "es": {
+      "summary": "La reseña"
+    }
   }
 }
 
