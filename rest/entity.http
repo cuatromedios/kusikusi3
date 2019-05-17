@@ -180,7 +180,13 @@ Content-Type: application/json
     "size": 999
   },
   "contents": {
-    "title": "Updated media :)"
+    "title": "Updated media :)",
+    "en": {
+      "summary": "The summary 2"
+    },
+    "es": {
+      "summary": "La reseña 3"
+    }
   }
 }
 
