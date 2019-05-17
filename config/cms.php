@@ -19,7 +19,7 @@ return [
                 ],
                 [
                     'component' => 'Children',
-                    'props' => [
+                    'settings' => [
                         'label' => 'In home:',
                         'allowed' => ['section', 'page'],
                         'order' => 'e.position asc',
