@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class HtmlController extends Controller
 {
 
-  private function common(Entity $currentEntity) {
-    return  [
+  private function common(Request $request, Entity $currentEntity) {
+    $result = [
       "entity" =>
               Entity::where('id', $currentEntity->id)
-              ->withContents()
+              ->withContents(null, $request->lang)
               ->firstOrFail()
               ->compact(),
       "media" =>
@@ -23,13 +23,14 @@ class HtmlController extends Controller
       "ancestors" =>
               Entity::ancestorOf($currentEntity->id)
               ->descendantOf('root')
-              ->withContents('title', 'url')
+              ->withContents(['title', 'url'], $request->lang)
               ->get()->compact()
       ];
+      return $result;
   }
-  private function children($entity) {
+  private function children(Request $request, Entity $entity) {
     $children = Entity::childOf($entity->id)
-            ->withContents('title', 'summary', 'url')
+            ->withContents(['title', 'summary', 'url'], $request->lang)
             ->with(['media' => EntityModel::onlyTags('icon')])
             ->get()->compact();
     return $children;
@@ -37,21 +38,21 @@ class HtmlController extends Controller
 
   public function home(Request $request, Entity $entity)
   {
-    $result = $this->common($entity);
-    $result['children'] = $this->children($entity);
+    $result = $this->common($request, $entity);
+    $result['children'] = $this->children($request, $entity);
     return view('html.home', $result);
   }
 
   public function section(Request $request, Entity $entity)
   {
-    $result = $this->common($entity);
-    $result['children'] = $this->children($entity);
+    $result = $this->common($request, $entity);
+    $result['children'] = $this->children($request, $entity);
     return view('html.section', $result);
   }
 
   public function page(Request $request, Entity $entity)
   {
-    $result = $this->common($entity);
+    $result = $this->common($request, $entity);
     return view('html.page', $result);
   }
 }

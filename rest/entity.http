@@ -18,7 +18,7 @@ Content-Type: application/json
 
 
 ### Get an entity with selected fields
-GET {{host}}/entity/home?fields=id,e.model,contents.title,c.summary,user.username
+GET {{host}}/entity/home?fields=id,e.model,contents.*,user.username&lang=es
 Authorization: bearer {{token}}
 Content-Type: application/json
 
