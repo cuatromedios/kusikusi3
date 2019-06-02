@@ -75,6 +75,40 @@ return [
                     ]
                 ]*/
             ]
+        ],
+        'page' => [
+            'name' => "Page",
+            'icon' => "home",
+            'display' => [
+                [
+                    'component' => 'EntityCard'
+                ],
+            ],
+            'editor' => [
+                [
+                    'groupName' => 'content.editor.contents',
+                    'fields' => [
+                        [
+                            'label' => 'content.editor.title',
+                            'component' => 'TextField',
+                            'field' => 'contents.title',
+                            'settings' => [ 'autogrow' => true ]
+                        ],
+                        [
+                            'label' => 'content.editor.summary',
+                            'component' => 'TextField',
+                            'field' => 'contents.summary',
+                            'settings' => [ 'autogrow' => true ]
+                        ],
+                        [
+                            'label' => 'content.editor.contents',
+                            'component' => 'TextField',
+                            'field' => 'contents.content',
+                            'settings' => [ 'type' => 'textarea' ]
+                        ]
+                    ]
+                ]
+            ]
         ]
     ]
 ];
