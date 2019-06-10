@@ -190,6 +190,21 @@ Content-Type: application/json
   }
 }
 
+
+
+
+### Update an entity 2
+PATCH {{host}}/entity/home
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+{
+  "unpublicated_at": "2020-12-12 12:12:12"
+}
+
+
+
+
 ### Move entity from parent
 
 PATCH {{host}}/entity/home?XDEBUG_SESSION_START=PHPSTORM
