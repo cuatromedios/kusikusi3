@@ -15,7 +15,7 @@ return [
             'icon' => "home",
             'display' => [
                 [
-                    'component' => 'EntityCard'
+                    'component' => 'EntityHeader'
                 ],
                 [
                     'component' => 'Children',
@@ -81,7 +81,7 @@ return [
             'icon' => "home",
             'display' => [
                 [
-                    'component' => 'EntityCard'
+                    'component' => 'EntityHeader'
                 ],
             ],
             'editor' => [
