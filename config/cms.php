@@ -18,6 +18,9 @@ return [
                     'component' => 'EntityHeader'
                 ],
                 [
+                    'component' => 'MediaStrip',
+                ],
+                [
                     'component' => 'Children',
                     'settings' => [
                         'label' => 'In home:',
