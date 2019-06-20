@@ -53,9 +53,9 @@ return [
                         ],
                         [
                             'label' => 'content.editor.contents',
-                            'component' => 'TextField',
+                            'component' => 'HtmlField',
                             'field' => 'contents.content',
-                            'props' => [ 'type' => 'textarea' ]
+                            'props' => [ 'autogrow' => true ]
                         ]
                     ]
                 ]
@@ -77,19 +77,19 @@ return [
                             'label' => 'content.editor.title',
                             'component' => 'TextField',
                             'field' => 'contents.title',
-                            'settings' => [ 'autogrow' => true ]
+                            'props' => [ 'autogrow' => true ]
                         ],
                         [
                             'label' => 'content.editor.summary',
                             'component' => 'TextField',
                             'field' => 'contents.summary',
-                            'settings' => [ 'autogrow' => true ]
+                            'props' => [ 'autogrow' => true ]
                         ],
                         [
                             'label' => 'content.editor.contents',
                             'component' => 'TextField',
                             'field' => 'contents.content',
-                            'settings' => [ 'type' => 'textarea' ]
+                            'props' => [ 'autogrow' => true ]
                         ]
                     ]
                 ]
