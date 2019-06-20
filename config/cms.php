@@ -18,11 +18,11 @@ return [
                     'component' => 'EntityHeader'
                 ],
                 [
-                    'component' => 'MediaStrip',
+                    'component' => 'MediaGrid',
                 ],
                 [
                     'component' => 'Children',
-                    'settings' => [
+                    'props' => [
                         'label' => 'In home:',
                         'allowed' => ['section', 'page'],
                         'order' => 'e.position asc',
@@ -35,17 +35,16 @@ return [
                     'groupName' => 'content.editor.contents',
                     'fields' => [
                         [
-                            'label' => 'content.editor.name',
-                            'component' => 'TextField',
-                            'field' => 'name',
-                            'settings' => null
-                        ],
-                        [
                             'label' => 'content.editor.title',
                             'component' => 'TextField',
                             'field' => 'contents.title',
                             'settings' => [ 'autogrow' => true ]
-                        ],
+                        ]
+                    ]
+                ],
+                [
+                    'groupName' => 'content.editor.contents',
+                    'fields' => [
                         [
                             'label' => 'content.editor.summary',
                             'component' => 'TextField',
