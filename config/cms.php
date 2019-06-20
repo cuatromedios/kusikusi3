@@ -21,6 +21,9 @@ return [
                     ]
                 ],[
                     'component' => 'MediaGrid',
+                    'props' => [
+                        'tags' => ['hero', 'slider', 'background']
+                    ]
                 ],
                 [
                     'component' => 'Children',
