@@ -8,17 +8,19 @@
  *
  */
 return [
-    'langs' => ['en', 'es', 'fr', 'de'], // The first lang will be the default each time the entity is loaded
+    'langs' => ['en'], // The first lang will be the default each time the entity is loaded
     'models' => [
         'home' => [
             'name' => "Home",
             'icon' => "home",
             'display' => [
                 [
-                    'component' => 'EntityHeader'
-                ],
-                [
-                    'component' => 'MediaGrid',
+                    'component' => 'EntityHeader',
+                    'props' => [
+                        'summary_field' => 'contents.subtitle'
+                    ]
+                ],[
+                    'component' => 'MediaStrip',
                 ],
                 [
                     'component' => 'Children',
@@ -28,7 +30,7 @@ return [
                         'order' => 'e.position asc',
                         'tags' => ['menu']
                     ]
-                ],
+                ]
             ],
             'editor' => [
                 [
@@ -38,19 +40,19 @@ return [
                             'label' => 'content.editor.title',
                             'component' => 'TextField',
                             'field' => 'contents.title',
-                            'settings' => [ 'autogrow' => true ]
+                            'props' => [ 'autogrow' => true ]
                         ],
                         [
                             'label' => 'content.editor.summary',
                             'component' => 'TextField',
                             'field' => 'contents.summary',
-                            'settings' => [ 'autogrow' => true ]
+                            'props' => [ 'autogrow' => true ]
                         ],
                         [
                             'label' => 'content.editor.contents',
                             'component' => 'TextField',
                             'field' => 'contents.content',
-                            'settings' => [ 'type' => 'textarea' ]
+                            'props' => [ 'type' => 'textarea' ]
                         ]
                     ]
                 ]
