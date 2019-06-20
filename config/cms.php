@@ -20,7 +20,7 @@ return [
                         'summary_field' => 'contents.subtitle'
                     ]
                 ],[
-                    'component' => 'MediaStrip',
+                    'component' => 'MediaGrid',
                 ],
                 [
                     'component' => 'Children',
