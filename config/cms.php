@@ -39,12 +39,7 @@ return [
                             'component' => 'TextField',
                             'field' => 'contents.title',
                             'settings' => [ 'autogrow' => true ]
-                        ]
-                    ]
-                ],
-                [
-                    'groupName' => 'content.editor.contents',
-                    'fields' => [
+                        ],
                         [
                             'label' => 'content.editor.summary',
                             'component' => 'TextField',
@@ -56,26 +51,9 @@ return [
                             'component' => 'TextField',
                             'field' => 'contents.content',
                             'settings' => [ 'type' => 'textarea' ]
-                        ]/*,
-                        [
-                            'label' => 'content.editor.content',
-                            'component' => 'MultilangWysiwyg',
-                            'field' => 'contents.content',
-                            'props' => [ 'lines' => 15 ]
-                        ]*/
-                    ]
-                ]/*,
-                [
-                    'groupName' => 'content.editor.url',
-                    'fields' => [
-                        [
-                            'label' => 'content.editor.url',
-                            'component' => 'url',
-                            'field' => 'contents.url',
-                            'props' => [ ]
                         ]
                     ]
-                ]*/
+                ]
             ]
         ],
         'page' => [
