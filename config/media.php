@@ -4,9 +4,9 @@ return [
     'presets' => [
         'thumb' => [
             'quality' => 85,
-            'width' => 256,
-            'height' =>  256,
-            'background' => 'crop',
+            'width' => 512,
+            'height' =>  512,
+            'background' => '#ffffff',
             'alignment' => 'center',
             'scale' => 'contain',
             'format' => 'jpg',
@@ -14,8 +14,8 @@ return [
         ],
         'icon' => [
             'quality' => 85,
-            'width' => 32,
-            'height' =>  32,
+            'width' => 128,
+            'height' =>  128,
             'background' => 'crop',
             'alignment' => 'center',
             'scale' => 'cover',
