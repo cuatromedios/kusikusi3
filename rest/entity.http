@@ -10,6 +10,7 @@ Content-Type: application/json
 
 
 ### Get an entity children
+GET {{host}}/entity/home/children
 Authorization: bearer {{token}}
 Content-Type: application/json
 
@@ -56,6 +57,11 @@ Authorization: bearer {{token}}
 Content-Type: application/json
 
 
+
+### Get an entity, its relations, ancestors (useful for editing)
+GET {{host}}/entity/home/forEdit
+Authorization: bearer {{token}}
+Content-Type: application/json
 
 
 
