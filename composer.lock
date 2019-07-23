@@ -4,31 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "21ee29b66e9600506b6e831c743a32aa",
+    "content-hash": "ccacd7bfa13a78a17380c42f6654f118",
     "packages": [
         {
             "name": "cuatromedios/kusikusi-php-kernel",
-            "version": "v0.22.1",
+            "version": "v0.22.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cuatromedios/kusikusi-php-kernel.git",
-                "reference": "06a29d8776fe4b0da9b08df778903378b347127c"
+                "reference": "ddd84f4f33dbcb687bb691d2340f8de4cc1a7a22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/06a29d8776fe4b0da9b08df778903378b347127c",
-                "reference": "06a29d8776fe4b0da9b08df778903378b347127c",
+                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/ddd84f4f33dbcb687bb691d2340f8de4cc1a7a22",
+                "reference": "ddd84f4f33dbcb687bb691d2340f8de4cc1a7a22",
                 "shasum": ""
             },
             "require": {
                 "intervention/image": "^2.5",
-                "laravel/lumen-framework": "^5.8",
+                "laravel/lumen-framework": "5.8.*",
                 "league/flysystem": "^1.0",
-                "php": ">=7.2",
+                "php": ">=7.1.3",
                 "ramsey/uuid": "^3.8"
             },
             "require-dev": {
-                "phpunit/phpunit": "~8.2"
+                "phpunit/phpunit": "^7.0"
             },
             "type": "project",
             "autoload": {
@@ -49,7 +49,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2019-07-23T03:49:08+00:00"
+            "time": "2019-07-23T04:05:37+00:00"
         },
         {
             "name": "doctrine/inflector",

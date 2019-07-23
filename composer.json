@@ -9,7 +9,7 @@
         "laravel/lumen-framework": "5.8.*",
         "ramsey/uuid": "^3.8",
         "hackzilla/password-generator": "^1.4",
-        "cuatromedios/kusikusi-php-kernel": "^0.22.1",
+        "cuatromedios/kusikusi-php-kernel": "^0.22.2",
         "league/flysystem": "^1.0",
         "intervention/image": "^2.5"
     },
