@@ -11,8 +11,8 @@ class KusikusiApiTest extends TestCase
     {
         global $argv, $argc;
         $json = [
-            'email' => $argv[4],
-            'password' => $argv[5]
+            'email' => 'admin@example.com',
+            'password' => 'admin'
         ];
         $user = $this->POST('/api/user/login', $json)->seeStatusCode(200)->response->getContent();
         $auth = json_decode($user, true);
