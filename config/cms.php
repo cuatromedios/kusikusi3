@@ -101,7 +101,7 @@ $booleanField = function($label='Active', $field='active') {
         'field' => $field
     ];
 };
-$datetimeField = function($label='Date', $field='publicated_at') {
+$datetimeField = function($label='Date', $field='published_at') {
     return [
         'label' => $label,
         'component' => 'DatetimeField',
@@ -117,7 +117,7 @@ $summary = $textField('content.editor.summary', 'contents.summary', true);
 $content = $htmlField('content.editor.contents', 'contents.content', true);
 $footer = $htmlField('content.editor.footer', 'contents.footer', true);
 $active = $booleanField('content.editor.active', 'active');
-$publicated_at = $datetimeField('content.editor.published_at', 'publicated_at');
+$published_at = $datetimeField('content.editor.published_at', 'published_at');
 
 /*
  * Groups of fields to be used
@@ -132,7 +132,7 @@ $homeContentGroup = [
 ];
 $publicationGroup = [
     'groupName' => 'content.editor.publication',
-    'fields' => [$publicated_at, $active]
+    'fields' => [$published_at, $active]
 ];
 
 

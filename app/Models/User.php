@@ -46,7 +46,7 @@ class User extends DataModel implements AuthenticatableContract, AuthorizableCon
     $user = User::with(['permissions' => function($q) {
          $q->select('*')
          ->with(['entity' => function($q) {
-           $q->select('id', 'model', 'name', 'active', 'publicated_at', 'unpublicated_at', 'deleted_at');
+           $q->select('id', 'model', 'name', 'active', 'published_at', 'unpublished_at', 'deleted_at');
          }]);
         }])
         ->with(['relations' => function($q) {

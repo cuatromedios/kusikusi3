@@ -205,7 +205,7 @@ Authorization: bearer {{token}}
 Content-Type: application/json
 
 {
-  "unpublicated_at": "2020-12-12 12:12:12"
+  "unpublished_at": "2020-12-12 12:12:12"
 }
 
 
