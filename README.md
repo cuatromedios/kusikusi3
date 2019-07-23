@@ -209,9 +209,11 @@ You get an array of entities.
 Full documentation coming soon!
 
 ## Testings
-Testings are an important part of developing any kind of project. To run the Kusikusi testings all you have to do is run the next command in your project directory, please use quotes in login and password specially if using special characters:
+To run the Kusikusi testings all you have to do is run the next command in your project directory, please use quotes in login and password specially if using special characters:
+
+> WARNING! The tests are destructive, don't run on any project!
 ```
-./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'username' 'password'
+./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'email' 'password'
 ```
 Where:
 * **username:** is the user "admin" that was given to you after running the artisan migrate command.
@@ -219,10 +221,10 @@ Where:
 
 Depending on your setup the command for running the test may change. If the past one doesn't work try one of these:
 ```
-vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'username' 'password'
+vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'email' 'password'
 ```
 ```
-vendor\bin\phpunit --bootstrap vendor/autoload.php tests/ 'username' 'password'
+vendor\bin\phpunit --bootstrap vendor/autoload.php tests/ 'email' 'password'
 ```
 ## Contributing
 Contributions, questions and comments are all welcome and encouraged. For code contributions submit a pull request.
