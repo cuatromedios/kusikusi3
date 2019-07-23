@@ -115,6 +115,7 @@ $datetimeField = function($label='Date', $field='publicated_at') {
 $title = $textField('content.editor.title', 'contents.title', true);
 $summary = $textField('content.editor.summary', 'contents.summary', true);
 $content = $htmlField('content.editor.contents', 'contents.content', true);
+$footer = $htmlField('content.editor.footer', 'contents.footer', true);
 $active = $booleanField('content.editor.active', 'active');
 $publicated_at = $datetimeField('content.editor.published_at', 'publicated_at');
 
@@ -124,6 +125,10 @@ $publicated_at = $datetimeField('content.editor.published_at', 'publicated_at');
 $contentGroup = [
     'groupName' => 'content.editor.contents',
     'fields' => [$title, $summary, $content]
+];
+$homeContentGroup = [
+    'groupName' => 'content.editor.contents',
+    'fields' => [$title, $summary, $content, $footer]
 ];
 $publicationGroup = [
     'groupName' => 'content.editor.publication',
@@ -148,7 +153,7 @@ return [
                 $mediaGrid('Home images', ['hero', 'slider', 'background'])
             ],
             'editor' => [
-                $contentGroup
+                $homeContentGroup
             ]
         ],
         'page' => [
@@ -176,9 +181,9 @@ return [
                 $publicationGroup
             ]
         ],
-        'default' => [
+        'undefined' => [
             'name' => "Container",
-            'icon' => "inbox",
+            'icon' => "blur_on",
             'display' => [
                 $children('Stored here', [], [])
             ]
