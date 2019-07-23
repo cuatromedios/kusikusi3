@@ -143,6 +143,18 @@ $publicationGroup = [
 
 return [
     'langs' => ['en'], // The first lang will be the default each time the entity is loaded
+    'menu' => [
+        'admin' => [
+            [
+                'label' => 'Website',
+                'icon' => 'home',
+                'name' => 'contentDisplay',
+                'params' => [
+                    'entity_id' => 'home'
+                ]
+            ]
+        ]
+    ],
     'models' => [
         'home' => [
             'name' => "Home",
