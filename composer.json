@@ -1,7 +1,7 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "cuatromedios/kusikusi",
+    "description": "Kusikusi boilerplate",
+    "keywords": ["website", "cms", "framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
     "require": {
