@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RootSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(BaseWebsiteSeeder::class);
-        $this->call(SampleWebsiteSeeder::class);
+        // $this->call(SampleWebsiteSeeder::class);
     }
 }
