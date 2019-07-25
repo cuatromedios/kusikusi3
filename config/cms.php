@@ -59,6 +59,23 @@ $children = function($label='In this section', $allowed=[], $tags=[], $order='e.
     ];
 };
 
+/**
+ * @param  string  $label The label to show in the component as a header
+ * @param  string  $prefix String to add before the ID
+ * @param  string  $sufix String to add after the ID
+ * @return array
+ */
+$qr = function($label='QR Code', $prefix='', $sufix='') {
+    return [
+      'component' => 'QR',
+      'props' => [
+          'label' => $label,
+          'prefix' => $prefix,
+          'sufix' => $sufix
+      ]
+    ];
+};
+
 
 /*
  * Defining field types to be used when editing, related to fields supported by the front end:
