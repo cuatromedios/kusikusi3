@@ -159,7 +159,7 @@ $publicationGroup = [
  */
 
 return [
-    'langs' => ['en'], // The first lang will be the default each time the entity is loaded
+    'langs' => ['en', 'es'], // The first lang will be the default each time the entity is loaded
     'menu' => [
         'admin' => [
             [
