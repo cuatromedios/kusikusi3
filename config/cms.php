@@ -143,6 +143,10 @@ $contentGroup = [
     'groupName' => 'content.editor.contents',
     'fields' => [$title, $summary, $content]
 ];
+$summaryGroup = [
+    'groupName' => 'content.editor.contents',
+    'fields' => [$title, $summary]
+];
 $homeContentGroup = [
     'groupName' => 'content.editor.contents',
     'fields' => [$title, $summary, $content, $footer]
