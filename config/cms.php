@@ -125,6 +125,16 @@ $datetimeField = function($label='Date', $field='published_at') {
         'field' => $field
     ];
 };
+$selectField = function($label='Select', $field, $options) {
+    return [
+        'label' => $label,
+        'component' => 'SelectField',
+        'field' => $field,
+        'props' => [
+            'options' => $options
+        ]
+    ];
+};
 
 /*
  * Use previous editor fields to define how to use them to edit entity's properties
@@ -228,22 +238,8 @@ return [
                 [
                     'groupName' => 'media.details',
                     'fields' => [
-                        [
-                            'label' => 'media.url',
-                            'component' => 'TextField',
-                            'field' => 'medium.url',
-                            'props' => [
-                                'autogrow' => false
-                            ]
-                        ],
-                        [
-                            'label' => 'media.lang',
-                            'component' => 'TextField',
-                            'field' => 'medium.lang',
-                            'props' => [
-                                'autogrow' => false
-                            ]
-                        ]
+                        $textField('media.url', 'medium.url', false),
+                        $textField('media.lang', 'medium.lang', false)
                     ]
                 ]
             ]
