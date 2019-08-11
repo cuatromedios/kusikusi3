@@ -214,6 +214,40 @@ return [
                 $publicationGroup
             ]
         ],
+        'medium' => [
+            'name' => "Medio",
+            'icon' => "photo",
+            'display' => [
+                $header(),
+                [
+                    'component' => 'MediumDetails'
+                ]
+            ],
+            'editor' => [
+                $summaryGroup,
+                [
+                    'groupName' => 'media.details',
+                    'fields' => [
+                        [
+                            'label' => 'media.url',
+                            'component' => 'TextField',
+                            'field' => 'medium.url',
+                            'props' => [
+                                'autogrow' => false
+                            ]
+                        ],
+                        [
+                            'label' => 'media.lang',
+                            'component' => 'TextField',
+                            'field' => 'medium.lang',
+                            'props' => [
+                                'autogrow' => false
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ],
         'undefined' => [
             'name' => "Container",
             'icon' => "blur_on",

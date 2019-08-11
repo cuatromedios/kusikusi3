@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Config;
 class Medium extends DataModel
 {
     protected $fillable = [
-        'id', 'filename', 'size', 'format', 'mimetype', 'url'
+        'id', 'filename', 'size', 'format', 'mimetype', 'url', 'lang'
     ];
 
-    public static $dataFields = ['filename', 'format', 'mimetype', 'size', 'url'];
+    public static $dataFields = ['filename', 'format', 'mimetype', 'size', 'url', 'lang'];
 
     protected $table = 'media';
 
