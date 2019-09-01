@@ -6,7 +6,12 @@
  */
 
 chdir(__DIR__);
-$filePath = realpath(ltrim($_SERVER["REQUEST_URI"], '/'));
+$filePath = ltrim($_SERVER["REQUEST_URI"], '/');
+$foundQueryString = strpos($filePath, '?');
+if ($foundQueryString !== FALSE) {
+    $filePath = substr($filePath, 0, $foundQueryString - strlen($filePath));
+}
+$filePath = realpath($filePath);
 if ($filePath && is_dir($filePath)){
     // attempt to find an index file
     foreach (['index.php', 'index.html'] as $indexFile){
@@ -20,7 +25,7 @@ if ($filePath && is_file($filePath)) {
     // 2. check for circular reference to router.php
     // 3. don't serve dotfiles
     if (strpos($filePath, __DIR__ . DIRECTORY_SEPARATOR) === 0 &&
-        $filePath != __DIR__ . DIRECTORY_SEPARATOR . 'router.php' &&
+        $filePath != __DIR__ . DIRECTORY_SEPARATOR . 'phprouter.php' &&
         substr(basename($filePath), 0, 1) != '.'
     ) {
         if (strtolower(substr($filePath, -4)) == '.php') {

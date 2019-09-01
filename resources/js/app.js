@@ -1,0 +1,1 @@
+console.log('Kusikusi based website https://github.com/cuatromedios/kusikusi')

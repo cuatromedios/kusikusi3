@@ -11,7 +11,8 @@
         "hackzilla/password-generator": "^1.4",
         "cuatromedios/kusikusi-php-kernel": "^0.23.1",
         "league/flysystem": "^1.0",
-        "intervention/image": "^2.5"
+        "intervention/image": "^2.5",
+        "albertcht/lumen-helpers": "^0.7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",

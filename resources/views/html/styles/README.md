@@ -1,1 +1,0 @@
-You can place here source style files like .less or .scss but they **will not** be automatically compiled. You need to use an standalone compiler, maybe command line, maybe integrated with your IDE and generate the result CSS file to ```/public/styles/main.css```

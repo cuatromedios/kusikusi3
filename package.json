@@ -1,0 +1,35 @@
+{
+  "name": "KusiKusi-2018-PHP",
+  "version": "1.0.0",
+  "description": "## Introduction KusiKusi _(spider in Quechuan)_ is a framework for creating **API-first applications based on hierarchical data**, like the data found on most websites (home / section / page). KusiKusi can be used as the backend for web sites, web applications, mobile apps or platforms containing all of them. KusiKusi also has components to build server generated websites.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuatromedios/kusikusi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cuatromedios/kusikusi/issues"
+  },
+  "homepage": "https://github.com/cuatromedios/kusikusi#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "2.0.1",
+    "laravel-mix": "^4.1.2",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

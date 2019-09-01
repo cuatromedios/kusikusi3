@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "acc511c996543428123eb530588c1923",
+    "content-hash": "b3a71d5fdd2a9c7752d149891e4231e9",
     "packages": [
+        {
+            "name": "albertcht/lumen-helpers",
+            "version": "v0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/albertcht/lumen-helpers.git",
+                "reference": "f247213820623784a72533327fe9e5f0f3494a26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/albertcht/lumen-helpers/zipball/f247213820623784a72533327fe9e5f0f3494a26",
+                "reference": "f247213820623784a72533327fe9e5f0f3494a26",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/lumen-framework": "^5.1",
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AlbertCht\\Lumen\\Helpers\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Albert Chen",
+                    "email": "albert.cht@gmail.com"
+                }
+            ],
+            "description": "To support Laravel 's unsupported features in Lumen.",
+            "keywords": [
+                "heplers",
+                "laravel",
+                "lumen"
+            ],
+            "time": "2019-06-13T12:31:28+00:00"
+        },
         {
             "name": "cuatromedios/kusikusi-php-kernel",
             "version": "v0.23.1",
