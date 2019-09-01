@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3a71d5fdd2a9c7752d149891e4231e9",
+    "content-hash": "075f7bd58e6efe3dc0c49026490c4731",
     "packages": [
         {
             "name": "albertcht/lumen-helpers",
@@ -57,16 +57,16 @@
         },
         {
             "name": "cuatromedios/kusikusi-php-kernel",
-            "version": "v0.23.1",
+            "version": "v0.23.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cuatromedios/kusikusi-php-kernel.git",
-                "reference": "33d1d4bf87c96a85dda198c10cffb38720e07237"
+                "reference": "2c1c9e3c7fb4fe90dd95dd633e2d26e006a4f0ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/33d1d4bf87c96a85dda198c10cffb38720e07237",
-                "reference": "33d1d4bf87c96a85dda198c10cffb38720e07237",
+                "url": "https://api.github.com/repos/cuatromedios/kusikusi-php-kernel/zipball/2c1c9e3c7fb4fe90dd95dd633e2d26e006a4f0ce",
+                "reference": "2c1c9e3c7fb4fe90dd95dd633e2d26e006a4f0ce",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2019-08-08T03:28:21+00:00"
+            "time": "2019-09-01T18:20:17+00:00"
         },
         {
             "name": "doctrine/inflector",
