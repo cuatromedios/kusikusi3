@@ -69,7 +69,7 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    Cuatromedios\Kusikusi\Console\Kernel::class
+    App\Console\Kernel::class
 );
 
 /*
@@ -108,6 +108,7 @@ $app->register(Cuatromedios\Kusikusi\Providers\AuthServiceProvider::class);
 $app->register(Cuatromedios\Kusikusi\Providers\CatchAllOptionsRequestsProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->register(Intervention\Image\ImageServiceProvider::class);
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // $app->register(Cuatromedios\Kusikusi\Providers\EventServiceProvider::class);
 
 
