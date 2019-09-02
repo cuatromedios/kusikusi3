@@ -42,7 +42,7 @@ if ($filePath && is_file($filePath)) {
     }
 } else {
     // rewrite to our index file
-    if (substr($path, 0, 4) === 'cms/') {
+    if (substr($path, 0, 4) === 'cms') {
         readfile(__DIR__ . DIRECTORY_SEPARATOR . 'cms/index.html');
     } else {
         include __DIR__ . DIRECTORY_SEPARATOR . 'index.php';

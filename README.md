@@ -83,8 +83,7 @@ $ php -S 127.0.0.1:8000 -t public /full/path/to/phprouter.php
 
 If your project is a website (instead of just an API for example), you may need to implement views and css files. For a better development experience you can use Laravel Mix (https://laravel.com/docs/master/mix). The use of Mix may vary depending on the CSS framework used or not used:
 
-##### Not using any css framework
-If you are not going to use any css framework you can still use the CSS preprocessor of your choice: Sass, Less or Stylus. By default Kusikusi is configured to use Stylus but can be changed easily.
+Even if you are not going to use any css framework you can still use the CSS preprocessor of your choice: Sass, Less or Stylus. By default Kusikusi is configured to use Stylus but can be changed easily.
 
 1. Install node dependencies
    ```shell script
