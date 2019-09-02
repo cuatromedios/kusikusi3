@@ -33,12 +33,11 @@ The basic piece of information in KusiKusi is named an **Entity**, an entity can
 
 ## Installation
 
-Use composer to create-project command in your terminal and install dependencies:
+Use composer to create-project command in your terminal to download and install dependencies:
 
 ```shell script
 $ composer create-project cuatromedios/kusikusi your-app-name -s dev
 $ cd your-app-name
-$ composer install
 ```
 
 #### Create your database 
@@ -257,7 +256,7 @@ To run the Kusikusi testings all you have to do is run the next command in your 
 
 > WARNING! The tests are destructive, don't run on any project!
 ```
-./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ 'email' 'password'
+./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/
 ```
 Where:
 * **username:** is the user "admin" that was given to you after running the artisan migrate command.
