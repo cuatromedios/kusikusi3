@@ -7,7 +7,7 @@
     <script src="{{ mix('/js/app.js') }}"></script>
     <link href="{{ mix('/styles/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="model-{{ $entity['model'] }} entity-{{ $entity['id'] }}">
     <nav>
         @foreach ($ancestors as $ancestor)
             &raquo; <a href="{{ $ancestor['contents']['url'] ?? '' }}">{{ $ancestor['contents']['title'] ??'' }}</a>
