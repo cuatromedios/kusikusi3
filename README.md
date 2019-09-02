@@ -94,14 +94,24 @@ If you are not going to use any css framework you can still use the CSS preproce
    ```shell script
    $ npm run watch
    ``` 
-1. You can edit any file in `resources/` directory like `resources/view/html/home.blade.php` or `resources/styles/app.styl` and watch the changes in the browser instantaneity.
+1. You can edit any file in `resources/` directory like `resources/views/html/home.blade.php` or `resources/styles/app.styl` and watch the changes in the browser instantaneity.
 1. Run `$npm run production` to process and minify files for production
 
 You can also use other Frameworks like Bootstrap, Foundation, Bulma, UIKit, SemanticUI, but they may need special configurations to run alongsite Laravel Mix.
 
+##### Capturing content
+
+Kusikusi comes with a generic CMS UI that in most cases will satisfy all content management needs, the compiled version is found in public/cms directory. If for any readon you need to create an special content editor you can take the [source code](https://github.com/cuatromedios/kusikusi-frontend) as a base.
+
+With the server running you can access for example to to `http://127.0.0.1:8000/public/cms` and use your admin credentials to log in. The default seed comes with three basic models you can use for a basic structure: `home`, `section` and `page`. Usimg the CMS UI you can, for example, add sections and pages to home and also nest other sections and pages to already created sections. For more information about creating your own models and configure the editor for them consult the documentation.
+
+For every model there is a view in `resources/views/html/` you can customize. Also, you can edit `resources/views/html.blade.php` as the main template.
+
+Enjoy! 
+
 ## Kusikusi API
 
-Once all configuration is set, you can call the API. All calls to the API should be authenticated, so the first thing you have to do is login. Use the HTTP client you prefer, like [CURL](https://curl.haxx.se/), a [PHP script](http://php.net/manual/es/function.file-get-contents.php) or [POSTMAN](https://www.getpostman.com/)
+Kusikusi can also be use via a REST API, both for websites projects but also as a headless CMS. All calls to the API should be authenticated, so the first thing you have to do is login. Use the HTTP client you prefer, like [CURL](https://curl.haxx.se/), a [PHP script](http://php.net/manual/es/function.file-get-contents.php) or [POSTMAN](https://www.getpostman.com/)
 
 ###### Login
 
