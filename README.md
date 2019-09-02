@@ -51,7 +51,7 @@ Copy or rename the included `.env.example` file to `.env`
 1. Set the APP_NAME of your application
 1. APP_ENV variable is set to local, should be changed to production once the project is in production mode
 1. APP_DEBUG is set by default to true, it also should be set to false once in production mode
-1. It is very important to set APP_KEY to a random 32 characters string. You can use the command to automatically add it to .env file `php artisan key:generate`
+1. It is very important to set APP_KEY to a random 32 characters string. You can use the command to automatically add it to .env file `php artisan key:generate` (if using this command, please be sure to have saved and closed the `.env` file before if you made editions)
 1. Use one of the defined time zones where the server is going to be running according to the table in https://www.php.net/manual/en/timezones.php
 2. Set APP_URL where the app will be running
 1. Set the variables DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD in order to your application to connect to the database server.
