@@ -6,12 +6,12 @@
  */
 
 chdir(__DIR__);
-$filePath = ltrim($_SERVER["REQUEST_URI"], '/');
-$foundQueryString = strpos($filePath, '?');
+$path = ltrim($_SERVER["REQUEST_URI"], '/');
+$foundQueryString = strpos($path, '?');
 if ($foundQueryString !== FALSE) {
-    $filePath = substr($filePath, 0, $foundQueryString - strlen($filePath));
+    $path = substr($path, 0, $foundQueryString - strlen($path));
 }
-$filePath = realpath($filePath);
+$filePath = realpath($path);
 if ($filePath && is_dir($filePath)){
     // attempt to find an index file
     foreach (['index.php', 'index.html'] as $indexFile){
@@ -38,9 +38,13 @@ if ($filePath && is_file($filePath)) {
     } else {
         // disallowed file
         header("HTTP/1.1 404 Not Found");
-        echo "404 Not Found";
+        echo "404 Not Found r";
     }
 } else {
     // rewrite to our index file
-    include __DIR__ . DIRECTORY_SEPARATOR . 'index.php';
+    if (substr($path, 0, 4) === 'cms/') {
+        readfile(__DIR__ . DIRECTORY_SEPARATOR . 'cms/index.html');
+    } else {
+        include __DIR__ . DIRECTORY_SEPARATOR . 'index.php';
+    }
 }

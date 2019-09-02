@@ -16,5 +16,8 @@
     <main>
         @yield('main')
     </main>
+    <footer>
+        A <a href="https://github.com/cuatromedios/kusikusi">Kusikusi</a> website
+    </footer>
 </body>
 </html>

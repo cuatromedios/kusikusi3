@@ -24,48 +24,82 @@ KusiKusi PHP is based on [Lumen](https://lumen.laravel.com)
  * [PHP 7+](https://www.php.net)
  * [MySQL 5.6](https://www.mysql.com/) or [MariaDB 10.0.5](https://mariadb.com/).
  * [Composer](https://getcomposer.org/download/)
+ * [Node and NPM](https://nodejs.org) To speed up frontend developemnt using Webpack's watch functionality, css preprocessors and other goodies. 
 
 
 ## The KusiKusi way
 
-The basic piece of information in KusiKusi is named an **Entity**. One Entity can be based in a certain model (e.g Home, Page, Post, Comment). Each entity is part of a hierarchical structure, a tree: One parent and zero or any number of children.
+The basic piece of information in KusiKusi is named an **Entity**, an entity can represent any piece of information in the app or website, from a page, section or home, to a user or image. Each entity is part of a hierarchical structure or the content tree: May have one parent and zero or any number of children.
 
-## Getting Started
+## Installation
 
-#### Clone the repository
-Download or clone the repository to your development environment
+Use composer to create-project command in your terminal and install dependencies:
 
-#### Install dependencies
-In your project directory:
-```
+```shell script
+$ composer create-project cuatromedios/kusikusi your-app-name -s dev
+$ cd your-app-name
 $ composer install
 ```
+
+#### Create your database 
+
+Create a database in your MySQL or MariaDB server, and setup user credentials to use.
+
 #### Configure the Environment
-1. Duplicate the `.env.example` file and name it `.env`
-1. Set your application key to a random string. Typically, this string should be 32 characters long. If the application key is not set, your user encrypted data will not be secure!
-1. Edit the `.env` file to specify the database conection information: host, port, database name username, password
-1. Create the database to be used and the database for testing, of course, using the database name used in the `.env` file
+1. Set the APP_NAME of your application
+1. APP_ENV variable is set to local, should be changed to production once the project is in production mode
+1. APP_DEBUG is set by default to true, it also should be set to false once in production mode
+1. It is very important to set APP_KEY to a random 32 characters string. You can use the command to automatically add it to .env file `php artisan key:generate`
+1. Use one of the defined time zones where the server is going to be running according to the table in https://www.php.net/manual/en/timezones.php
+2. Set APP_URL where the app will be running
+1. Set the variables DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD in order to your application to connect to the database server.
+
 
 #### Migrations and Seed
-Run the Artisan migrate command with seed:
-```
-php artisan migrate --seed
-```
-
-If you are debuging, you may need to reset the database **Warning! will erase all your data**:
-```
-php artisan migrate:fresh --seed
+Kusikusi as a Lumen application comes with migrations to set up the database and seeds to populate the tables with a default user and base nodes.
+```shell script
+$ php artisan migrate --seed
 ```
 
-The `--seed` parameter is used to populate the database with initial data, incluiding the admin user. You may need to use `composer dumpautoload` before if any migration files are added or changed.
+The base seeder will create an admin user, with admin@example.com as email and admin as password. You can change the password using 
 
-Once the migration and seed finished, you will get in the console the password for "admin" user.
+```shell script
+$ php artisan kk:set-password admin@example.com theNewPassword
+```
 
 #### Run the server
 
-Run the server as any other PHP Script, the home directory should be `public/` so the `public/index.php` file gets executed. Your web server may have different configurations, like the port. Let's assume its running in localhost, port 8080 in the next examples: 
+You can use any webserver/PHP installation to run your application, for example MAMP, WAMP, or a production ready LAMP / LEMP environment. Just be sure the public folder is set to the public/ folder of the app. 
 
-#### Calling the API
+Kusikusi needs to rewrite all calls to to not found files to either index.php or com/index.html, this way it can send the correct information to the user. Webservers like Apache may use the included `.htaccess`. Ngingx server needs a special configuration, you can use the included `nginx-site-example.conf` as a reference to compliment that configuration. but others like the PHP built-in  webserver may need a router. In this case you can also use the phprouter.php script:
+
+```shell script
+$ php -S 127.0.0.1:8000 -t public /full/path/to/phprouter.php
+```
+
+#### Website development
+
+If your project is a website (instead of just an API for example), you may need to implement views and css files. For a better development experience you can use Laravel Mix (https://laravel.com/docs/master/mix). The use of Mix may vary depending on the CSS framework used or not used:
+
+##### Not using any css framework
+If you are not going to use any css framework you can still use the CSS preprocessor of your choice: Sass, Less or Stylus. By default Kusikusi is configured to use Stylus but can be changed easily.
+
+1. Install node dependencies
+   ```shell script
+   $ npm install
+   ``` 
+1. Be sure the server is running
+1. Look at the file `webpack.mix.js` or edit it if needed: the `mix.browserSync()` line should point to the address the webserver is running, for example `127.0.0.1:8000` Other functions you can find there is resources/img files are copied to public path, Javascript files are packed and Stylus files are transpiled to css. Here you can, for example, change Stylus for Sass files if you want.
+1. To develop and watch for file changes in javascript, css and views files run Laravel Mix script using npm
+   ```shell script
+   $ npm run watch
+   ``` 
+1. You can edit any file in `resources/` directory like `resources/view/html/home.blade.php` or `resources/styles/app.styl` and watch the changes in the browser instantaneity.
+1. Run `$npm run production` to process and minify files for production
+
+You can also use other Frameworks like Bootstrap, Foundation, Bulma, UIKit, SemanticUI, but they may need special configurations to run alongsite Laravel Mix.
+
+## Kusikusi API
 
 Once all configuration is set, you can call the API. All calls to the API should be authenticated, so the first thing you have to do is login. Use the HTTP client you prefer, like [CURL](https://curl.haxx.se/), a [PHP script](http://php.net/manual/es/function.file-get-contents.php) or [POSTMAN](https://www.getpostman.com/)
 
@@ -73,7 +107,7 @@ Once all configuration is set, you can call the API. All calls to the API should
 
 *Call*
 ```
-POST http://localhost:8080/api/user/login
+POST http://localhost:8000/api/user/login
 {
   "email": "admin",
   "password": "THE-GNERATED-PASSWORD"
@@ -116,7 +150,7 @@ Let's get the 'home' entity, please note you have to set the `Authorization` hea
 
 *Call*
 ```
-GET http://localhost:8080/api/entity/home
+GET http://localhost:8000/api/entity/home
 Authorization: TheTokenYouGotWhenUsingTheLoginEndPoint
 
 ```
@@ -160,7 +194,7 @@ Want to get the home's children?
 
 *Call*
 ```
-GET http://localhost:8080/api/entity/home/children
+GET http://localhost:8000/api/entity/home/children
 Authorization: TheTokenYouGotWhenUsingTheLoginEndPoint
 
 ```
