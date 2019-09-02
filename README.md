@@ -46,7 +46,7 @@ Create a database in your MySQL or MariaDB server, and setup user credentials to
 
 #### Configure the Environment
 
-Copy or rename the included `.env.example` file to `.env`
+Open for edit the `.env` file
 
 1. Set the APP_NAME of your application
 1. APP_ENV variable is set to local, should be changed to production once the project is in production mode
