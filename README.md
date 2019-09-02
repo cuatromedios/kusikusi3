@@ -95,7 +95,7 @@ Even if you are not going to use any css framework you can still use the CSS pre
    ```shell script
    $ npm run watch
    ``` 
-1. You can edit any file in `resources/` directory like `resources/views/html/home.blade.php` or `resources/styles/app.styl` and watch the changes in the browser instantaneity.
+1. You can edit any file in `resources/` directory like `resources/views/html/home.blade.php` or `resources/styles/app.styl` and watch the changes in the browser instantaneity. As it is using BrowserSync, you can even navigate ans scroll simultaniously in more than one browser! for example to test desktop and mobile version.
 1. Run `$npm run production` to process and minify files for production
 
 You can also use other Frameworks like Bootstrap, Foundation, Bulma, UIKit, SemanticUI, but they may need special configurations to run alongsite Laravel Mix.
